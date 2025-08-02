@@ -8,7 +8,7 @@ const Header = () => {
   const isResumePage = location.pathname === '/resume';
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-lg">
-      <div className="container mx-auto px-6 py-4">
+      <div className="container mx-auto px-4 sm:px-6 py-4">
         <nav className="flex items-center justify-between">
           <div className="text-2xl font-bold text-foreground" style={{ fontFamily: 'Kaushan Script, cursive' }}>
             {isResumePage ? (
@@ -49,7 +49,7 @@ const Header = () => {
             </div>
           )}
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 sm:space-x-2">
             <ThemeToggle />
             <Button variant="ghost" size="icon" asChild>
               <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer">
@@ -71,7 +71,7 @@ const Header = () => {
                 <PenTool className="h-5 w-5" />
               </a>
             </Button>
-            <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-4" asChild>
+            <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-2 sm:ml-4" asChild>
               <a href={isResumePage ? "/#/" : "/#/resume"}>
                 <FileText className="h-4 w-4 mr-2" />
                 {isResumePage ? "Portfolio" : "Resume"}

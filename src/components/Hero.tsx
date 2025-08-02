@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar } from "lucide-react";
 import { useState, useEffect } from "react";
+import ParticleBackground from "./ParticleBackground";
 
 const Hero = () => {
   const [currentTitle, setCurrentTitle] = useState(0);
@@ -20,13 +21,16 @@ const Hero = () => {
 
   return (
     <section className="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden">
-      {/* Elegant background */}
+      {/* Elegant background - theme adaptive */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20"></div>
-      <div className="absolute inset-0 bg-grid-white/[0.02] bg-grid"></div>
+      <div className="absolute inset-0 bg-grid-pattern"></div>
       
-      {/* Floating shapes */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-highlight/5 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      {/* Interactive particle background */}
+      <ParticleBackground />
+      
+      {/* Floating shapes - theme adaptive */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-highlight/[0.03] dark:bg-highlight/5 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/[0.03] dark:bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-highlight/15 text-highlight border border-highlight/30 mb-8">

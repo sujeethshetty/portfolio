@@ -126,12 +126,23 @@ All colors MUST be HSL.
   }
 }
 
-/* Custom background grid pattern */
-.bg-grid {
+/* Custom background grid pattern - theme adaptive */
+.bg-grid-pattern {
+  background-size: 50px 50px;
+}
+
+/* Light mode grid */
+.bg-grid-pattern {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+}
+
+/* Dark mode grid */
+.dark .bg-grid-pattern {
   background-image: 
     linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 50px 50px;
 }
 
 /* Animation delays */
