@@ -1,15 +1,16 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Database, Brain, Cloud, Code } from "lucide-react";
+import { SiApachespark, SiOpenai, SiPython } from "react-icons/si";
+import { Brain, Cloud } from "lucide-react";
 
 const About = () => {
   const expertise = [
     {
-      icon: Database,
+      icon: SiApachespark,
       title: "Data Engineering",
-      description: "Building robust ETL pipelines and scalable data architectures"
+      description: "Building robust ETL pipelines, data modeling, and data warehouse migration"
     },
     {
-      icon: Brain,
+      icon: SiOpenai,
       title: "AI Integration",
       description: "Implementing cutting-edge AI solutions with LLMs and ML models"
     },
@@ -19,9 +20,9 @@ const About = () => {
       description: "AWS, Kubernetes, and Terraform for scalable cloud solutions"
     },
     {
-      icon: Code,
+      icon: SiPython,
       title: "Backend Systems",
-      description: "Python, SQL, and distributed systems architecture"
+      description: "Python, RESTful APIs, MCP Server, and distributed systems architecture"
     }
   ];
 
@@ -40,7 +41,7 @@ const About = () => {
             <Card key={index} className="group hover:shadow-lg transition-all duration-300 border-border/50">
               <CardContent className="p-6 text-center">
                 <div className="w-12 h-12 bg-highlight/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-highlight/20 transition-colors">
-                  <item.icon className="h-6 w-6 text-highlight" />
+                  <item.icon className="h-6 w-6 text-highlight" style={{ color: 'currentColor' }} />
                 </div>
                 <h3 className="font-semibold mb-2">{item.title}</h3>
                 <p className="text-sm text-muted-foreground">{item.description}</p>
@@ -50,10 +51,13 @@ const About = () => {
         </div>
 
         <div className="mt-16 text-center">
-          <Card className="max-w-3xl mx-auto border-border/50">
-            <CardContent className="p-8">
-              <h3 className="text-xl font-semibold mb-4">Continuous Learning Journey</h3>
-              <p className="text-muted-foreground leading-relaxed">
+          <Card className="max-w-3xl mx-auto group hover:shadow-lg transition-all duration-300 border-border/50">
+            <CardContent className="p-6 text-center">
+              <div className="w-12 h-12 bg-highlight/10 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:bg-highlight/20 transition-colors">
+                <Brain className="h-6 w-6 text-highlight" />
+              </div>
+              <h3 className="font-semibold mb-2">Continuous Learning Journey</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 I embrace the mindset of a perpetual learner in the rapidly evolving field of AI and data engineering. 
                 Every project is an opportunity to explore new technologies, implement innovative solutions, and push 
                 the boundaries of what's possible with modern data stacks and AI technologies.

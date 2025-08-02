@@ -1,30 +1,30 @@
 import { 
-  Code, 
-  Database, 
-  Cloud, 
-  Brain, 
-  Cog, 
-  Hammer, 
-  BarChart3, 
-  Package, 
-  Terminal, 
-  Warehouse,
-  Zap
-} from "lucide-react";
+  SiPython,
+  SiPostgresql,
+  SiAmazon,
+  SiOpenai,
+  SiKubernetes,
+  SiTerraform,
+  SiApachespark,
+  SiDocker,
+  SiLinux,
+  SiSnowflake
+} from "react-icons/si";
+import { Database, Zap } from "lucide-react";
 
 const TechStack = () => {
   const technologies = [
-    { name: "Python", icon: Code },
+    { name: "Python", icon: SiPython },
     { name: "SQL", icon: Database },
-    { name: "AWS", icon: Cloud },
-    { name: "OpenAI", icon: Brain },
-    { name: "Kubernetes", icon: Cog },
-    { name: "Terraform", icon: Hammer },
-    { name: "Apache Spark", icon: BarChart3 },
-    { name: "Docker", icon: Package },
-    { name: "Unix/Linux", icon: Terminal },
-    { name: "Snowflake", icon: Warehouse },
-    { name: "PostgreSQL", icon: Database },
+    { name: "AWS", icon: SiAmazon },
+    { name: "OpenAI", icon: SiOpenai },
+    { name: "Kubernetes", icon: SiKubernetes },
+    { name: "Terraform", icon: SiTerraform },
+    { name: "Apache Spark", icon: SiApachespark },
+    { name: "Docker", icon: SiDocker },
+    { name: "Unix/Linux", icon: SiLinux },
+    { name: "Snowflake", icon: SiSnowflake },
+    { name: "PostgreSQL", icon: SiPostgresql },
     { name: "ETL Pipelines", icon: Zap }
   ];
 
@@ -46,7 +46,7 @@ const TechStack = () => {
                 key={index}
                 className="flex flex-col items-center p-6 bg-card rounded-lg border hover:shadow-lg transition-all duration-300 hover:scale-105"
               >
-                <IconComponent className="h-8 w-8 mb-3 text-foreground" />
+                <IconComponent className="h-8 w-8 mb-3 text-foreground" style={{ color: 'currentColor' }} />
                 <span className="text-sm font-medium text-center">{tech.name}</span>
               </div>
             );

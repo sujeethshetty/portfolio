@@ -17,7 +17,7 @@ const Projects = () => {
     {
       title: "pyaibridge",
       description: "A high-performance unified API library providing a consistent interface for interacting with multiple Large Language Model (LLM) providers. Simplifies AI integration across different platforms.",
-      technologies: ["Python", "LLM", "ChatGPT", "Open-source"],
+      technologies: ["python", "async", "api-client", "ai/ml", "gemini", "openai", "claude", "xai", "llm"],
       demoLink: null,
       githubLink: "https://github.com/sixteen-dev/pyaibridge",
       icon: Zap,
@@ -49,7 +49,7 @@ const Projects = () => {
                         {project.title}
                       </CardTitle>
                       {project.featured && (
-                        <Badge variant="secondary" className="mt-1 bg-highlight/10 text-highlight-foreground">
+                        <Badge variant="secondary" className="mt-1 bg-highlight/15 text-highlight border border-highlight/30">
                           Featured
                         </Badge>
                       )}

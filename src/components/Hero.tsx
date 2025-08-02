@@ -5,7 +5,7 @@ const Hero = () => {
   return (
     <section className="min-h-screen flex items-center justify-center px-6 pt-20">
       <div className="max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-highlight/10 text-highlight-foreground border border-highlight/20 mb-8">
+        <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-highlight/15 text-highlight border border-highlight/30 mb-8">
           <span className="w-2 h-2 bg-highlight rounded-full mr-2"></span>
           Available for opportunities
         </div>
@@ -18,9 +18,9 @@ const Hero = () => {
         </h1>
         
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
-          Passionate about building intelligent data solutions that drive impact. 
-          Experienced in AI, machine learning, and scalable data engineering with 
-          cutting-edge technologies like AWS, OpenAI, and modern data stacks.
+          AWS-certified Solutions Architect who applies systems thinking to transform petabyte-scale 
+          streaming data into actionable ML features and real-time dashboards. Builds AI agents and 
+          retrieval-augmented generation pipelines that unlock seven-figure revenue channels.
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
