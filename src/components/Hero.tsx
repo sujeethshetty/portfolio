@@ -30,7 +30,7 @@ const Hero = () => {
       
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-highlight/15 text-highlight border border-highlight/30 mb-8">
-          <span className="w-2 h-2 bg-highlight rounded-full mr-2"></span>
+          <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" style={{ backgroundColor: '#00FF41' }}></span>
           Available for opportunities
         </div>
         
