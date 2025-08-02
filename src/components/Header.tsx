@@ -22,16 +22,28 @@ const Header = () => {
           
           {!isResumePage && (
             <div className="hidden md:flex items-center space-x-8">
-              <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/#/#about" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+              }}>
                 About
               </a>
-              <a href="#tech-stack" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/#/#tech-stack" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('tech-stack')?.scrollIntoView({ behavior: 'smooth' });
+              }}>
                 Tech Stack
               </a>
-              <a href="#projects" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/#/#projects" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+              }}>
                 Projects
               </a>
-              <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">
+              <a href="/#/#contact" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}>
                 Contact
               </a>
             </div>

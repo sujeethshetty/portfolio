@@ -58,11 +58,11 @@ const Hero = () => {
             <Calendar className="h-5 w-5 mr-2" />
             Schedule a meet
           </Button>
-          <Button variant="outline" size="lg" asChild>
-            <a href="#projects" className="flex items-center">
-              View Projects
-              <ArrowRight className="h-5 w-5 ml-2" />
-            </a>
+          <Button variant="outline" size="lg" onClick={() => {
+            document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+          }}>
+            View Projects
+            <ArrowRight className="h-5 w-5 ml-2" />
           </Button>
         </div>
       </div>
