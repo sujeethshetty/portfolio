@@ -12,7 +12,7 @@ const Header = () => {
         <nav className="flex items-center justify-between">
           <div className="text-2xl font-bold text-foreground" style={{ fontFamily: 'Kaushan Script, cursive' }}>
             {isResumePage ? (
-              <a href="/" className="hover:text-highlight transition-colors">
+              <a href="/#/" className="hover:text-highlight transition-colors">
                 Sujeeth
               </a>
             ) : (
@@ -60,7 +60,7 @@ const Header = () => {
               </a>
             </Button>
             <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-4" asChild>
-              <a href={isResumePage ? "/" : "/resume"}>
+              <a href={isResumePage ? "/#/" : "/#/resume"}>
                 <FileText className="h-4 w-4 mr-2" />
                 {isResumePage ? "Portfolio" : "Resume"}
               </a>

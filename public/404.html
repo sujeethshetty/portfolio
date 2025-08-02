@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Sujeeth Shetty - Portfolio</title>
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // https://github.com/rafgraph/spa-github-pages
+      // Start single page app as normal, but add a redirect to 404.html for paths that don't exist
+      var pathSegments = location.pathname.split('/').slice(1);
+      
+      // Remove the repo name from the path if it exists
+      if (pathSegments[0] === 'portfolio') {
+        pathSegments.shift();
+      }
+      
+      location.replace(
+        location.protocol + '//' + location.hostname + 
+        (location.port ? ':' + location.port : '') +
+        '/#/' + pathSegments.join('/')
+      );
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
