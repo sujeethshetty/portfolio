@@ -130,7 +130,7 @@ const Resume = () => {
             <p className="text-xl text-muted-foreground">AI & Data Engineering</p>
           </div>
           <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90" asChild>
-            <a href="https://drive.google.com/file/d/1jlzVu5NV55bmGLpMURoaZykOEHqoPWxe/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+            <a href="https://drive.google.com/file/d/1X8lzgvyw7bSvIDrfODHPD3-IWidBrJDe/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
               <Download className="h-4 w-4 mr-2" />
               Download PDF
             </a>
