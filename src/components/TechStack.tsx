@@ -1,39 +1,32 @@
-import { Badge } from "@/components/ui/badge";
+import { 
+  Code, 
+  Database, 
+  Cloud, 
+  Brain, 
+  Cog, 
+  Hammer, 
+  BarChart3, 
+  Package, 
+  Terminal, 
+  Warehouse,
+  Zap
+} from "lucide-react";
 
 const TechStack = () => {
   const technologies = [
-    { name: "Python", category: "Languages" },
-    { name: "SQL", category: "Databases" },
-    { name: "AWS", category: "Cloud" },
-    { name: "OpenAI", category: "AI/ML" },
-    { name: "Kubernetes", category: "DevOps" },
-    { name: "Terraform", category: "Infrastructure" },
-    { name: "Apache Spark", category: "Big Data" },
-    { name: "Docker", category: "Containerization" },
-    { name: "Unix/Linux", category: "Systems" },
-    { name: "Snowflake", category: "Data Warehouse" },
-    { name: "PostgreSQL", category: "Databases" },
-    { name: "ETL Pipelines", category: "Data Engineering" }
+    { name: "Python", icon: Code },
+    { name: "SQL", icon: Database },
+    { name: "AWS", icon: Cloud },
+    { name: "OpenAI", icon: Brain },
+    { name: "Kubernetes", icon: Cog },
+    { name: "Terraform", icon: Hammer },
+    { name: "Apache Spark", icon: BarChart3 },
+    { name: "Docker", icon: Package },
+    { name: "Unix/Linux", icon: Terminal },
+    { name: "Snowflake", icon: Warehouse },
+    { name: "PostgreSQL", icon: Database },
+    { name: "ETL Pipelines", icon: Zap }
   ];
-
-  const categories = [
-    { name: "Languages", color: "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-300" },
-    { name: "Databases", color: "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-300" },
-    { name: "Cloud", color: "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-300" },
-    { name: "AI/ML", color: "bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-300" },
-    { name: "DevOps", color: "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-300" },
-    { name: "Infrastructure", color: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-300" },
-    { name: "Big Data", color: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/20 dark:text-indigo-300" },
-    { name: "Containerization", color: "bg-teal-100 text-teal-800 dark:bg-teal-900/20 dark:text-teal-300" },
-    { name: "Systems", color: "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300" },
-    { name: "Data Warehouse", color: "bg-pink-100 text-pink-800 dark:bg-pink-900/20 dark:text-pink-300" },
-    { name: "Data Engineering", color: "bg-cyan-100 text-cyan-800 dark:bg-cyan-900/20 dark:text-cyan-300" }
-  ];
-
-  const getCategoryColor = (category: string) => {
-    const cat = categories.find(c => c.name === category);
-    return cat ? cat.color : "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300";
-  };
 
   return (
     <section id="tech-stack" className="py-20 px-6 bg-muted/30">
@@ -45,16 +38,19 @@ const TechStack = () => {
           </p>
         </div>
 
-        <div className="flex flex-wrap gap-3 justify-center">
-          {technologies.map((tech, index) => (
-            <Badge 
-              key={index} 
-              variant="secondary" 
-              className={`text-sm px-4 py-2 ${getCategoryColor(tech.category)} border-0 hover:scale-105 transition-transform`}
-            >
-              {tech.name}
-            </Badge>
-          ))}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-4xl mx-auto">
+          {technologies.map((tech, index) => {
+            const IconComponent = tech.icon;
+            return (
+              <div 
+                key={index}
+                className="flex flex-col items-center p-6 bg-card rounded-lg border hover:shadow-lg transition-all duration-300 hover:scale-105"
+              >
+                <IconComponent className="h-8 w-8 mb-3 text-foreground" />
+                <span className="text-sm font-medium text-center">{tech.name}</span>
+              </div>
+            );
+          })}
         </div>
 
         <div className="mt-12 text-center">

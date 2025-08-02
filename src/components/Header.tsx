@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, FileText } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
   return (
@@ -26,6 +27,7 @@ const Header = () => {
           </div>
 
           <div className="flex items-center space-x-2">
+            <ThemeToggle />
             <Button variant="ghost" size="icon" asChild>
               <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer">
                 <Github className="h-5 w-5" />
@@ -41,9 +43,11 @@ const Header = () => {
                 <Mail className="h-5 w-5" />
               </a>
             </Button>
-            <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-4">
-              <FileText className="h-4 w-4 mr-2" />
-              Resume
+            <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-4" asChild>
+              <a href="https://drive.google.com/file/d/1jlzVu5NV55bmGLpMURoaZykOEHqoPWxe/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+                <FileText className="h-4 w-4 mr-2" />
+                Resume
+              </a>
             </Button>
           </div>
         </nav>

@@ -38,9 +38,9 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
-    /* Custom portfolio colors */
-    --highlight: 47 96% 53%; /* Yellow accent */
-    --highlight-foreground: 0 0% 9%;
+    /* Custom portfolio colors - Pure black/white theme */
+    --highlight: 0 0% 9%; /* Black accent */
+    --highlight-foreground: 0 0% 98%;
     --gray-50: 0 0% 98%;
     --gray-100: 0 0% 96.1%;
     --gray-200: 0 0% 89.8%;
@@ -91,8 +91,8 @@ All colors MUST be HSL.
     --input: 0 0% 14.9%;
     --ring: 0 0% 83.1%;
 
-    /* Custom portfolio colors for dark mode */
-    --highlight: 47 96% 53%; /* Yellow accent stays same */
+    /* Custom portfolio colors for dark mode - Pure black/white theme */
+    --highlight: 0 0% 98%; /* White accent in dark mode */
     --highlight-foreground: 0 0% 9%;
     --gray-50: 0 0% 9%;
     --gray-100: 0 0% 14.9%;
