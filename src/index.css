@@ -125,3 +125,41 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom background grid pattern */
+.bg-grid {
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+/* Animation delays */
+.delay-1000 {
+  animation-delay: 1s;
+}
+
+/* Smooth word slide animation */
+@keyframes word-slide {
+  0% {
+    transform: translateY(0%) rotateX(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-20%) rotateX(90deg);
+    opacity: 0;
+  }
+  75% {
+    transform: translateY(20%) rotateX(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0%) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+.animate-word-slide {
+  animation: word-slide 0.6s ease-in-out;
+  transform-style: preserve-3d;
+}
