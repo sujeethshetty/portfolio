@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, FileText, PenTool } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 const Header = () => {
   const location = useLocation();
@@ -72,10 +72,10 @@ const Header = () => {
               </a>
             </Button>
             <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-2 sm:ml-4" asChild>
-              <a href={isResumePage ? "/" : "/resume"}>
+              <Link to={isResumePage ? "/" : "/resume"}>
                 <FileText className="h-4 w-4 mr-2" />
                 {isResumePage ? "Portfolio" : "Resume"}
-              </a>
+              </Link>
             </Button>
           </div>
         </nav>
