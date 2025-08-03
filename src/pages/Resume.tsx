@@ -97,7 +97,7 @@ const Resume = () => {
   };
 
   const certifications = [
-    { name: "AWS Certified Solutions Architect", issuer: "AWS" },
+    { name: "AWS Certified Solutions Architect - Associate", issuer: "AWS" },
     { name: "AWS Certified Machine Learning - Specialty", issuer: "AWS" },
     { name: "Oracle SQL & PL/SQL Certified Developer", issuer: "Oracle" },
     { name: "DevOps", issuer: "University of Chicago" }
