@@ -123,6 +123,24 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    /* Mobile touch optimizations */
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+
+  /* Optimize touch interactions */
+  button, [role="button"], a {
+    touch-action: manipulation;
+  }
+
+  /* Prevent text selection on touch */
+  .no-touch-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 }
 

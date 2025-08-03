@@ -45,7 +45,10 @@ const ParticleBackground: React.FC = () => {
     // Initialize particles
     const initParticles = () => {
       const particles: Particle[] = [];
-      const numParticles = Math.floor((canvas.width * canvas.height) / 8000); // More visible particles
+      // Mobile optimization: reduce particle count significantly on mobile devices
+      const isMobile = window.innerWidth < 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const densityFactor = isMobile ? 20000 : 8000; // Much fewer particles on mobile
+      const numParticles = Math.floor((canvas.width * canvas.height) / densityFactor);
 
       for (let i = 0; i < numParticles; i++) {
         const baseOpacity = Math.random() * 0.4 + 0.2; // More visible
@@ -73,7 +76,7 @@ const ParticleBackground: React.FC = () => {
       };
     };
 
-    // Touch move handler
+    // Touch move handler with passive listener for better performance
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         mouseRef.current = {
@@ -84,10 +87,21 @@ const ParticleBackground: React.FC = () => {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
-    // Animation loop
-    const animate = () => {
+    // Animation loop with mobile optimization
+    let lastTime = 0;
+    const targetFPS = window.innerWidth < 768 ? 30 : 60; // Lower FPS on mobile
+    const frameInterval = 1000 / targetFPS;
+    
+    const animate = (currentTime: number = 0) => {
+      // Throttle animation on mobile devices
+      if (currentTime - lastTime < frameInterval) {
+        animationRef.current = requestAnimationFrame(animate);
+        return;
+      }
+      lastTime = currentTime;
+      
       // Update theme detection on each frame
       isDarkMode = getIsDarkMode();
       
