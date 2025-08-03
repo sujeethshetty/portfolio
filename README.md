@@ -8,11 +8,12 @@ A modern, responsive portfolio website showcasing my work as an AI & Data Engine
 
 - 🌗 Dark/Light theme toggle
 - 🎨 Interactive particle background system
-- 📱 Fully responsive design
+- 📱 Fully responsive design with mobile optimizations
 - ⚡ Fast loading with Vite
 - 🎯 Clean, professional layout
 - 📄 Integrated resume page
-- 🚀 Deployed on GitHub Pages
+- 🌍 Global CDN deployment on Cloudflare Pages
+- 🚀 Automatic deployments via GitHub Actions
 
 ## Development
 
@@ -40,10 +41,11 @@ npm run build
 - **Frontend**: React 18 + TypeScript
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS + shadcn/ui components
-- **Routing**: React Router (Hash routing for GitHub Pages)
+- **Routing**: React Router
 - **Animations**: Custom CSS animations + Canvas API
 - **Icons**: Lucide React + Simple Icons
-- **Deployment**: GitHub Pages with GitHub Actions
+- **Deployment**: Cloudflare Pages with GitHub Actions
+- **Performance**: Mobile-optimized with reduced particle density and frame rate limiting
 
 ## Project Structure
 
@@ -65,9 +67,21 @@ src/
 
 ## Deployment
 
-Automatically deployed to GitHub Pages via GitHub Actions on every push to main branch.
+Automatically deployed to **Cloudflare Pages** via GitHub Actions on every push to main branch.
 
-The workflow builds the project and deploys to `gh-pages` branch, accessible at [sujeeth.dev](https://sujeeth.dev).
+### Setup Requirements:
+- Cloudflare account with Pages enabled
+- Repository secrets configured:
+  - `CLOUDFLARE_API_TOKEN`: API token with Pages:Edit permissions
+  - `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare account ID
+
+### Benefits:
+- **Global CDN**: 200+ edge locations worldwide
+- **Better Performance**: Faster loading for international users
+- **Free SSL**: Automatic HTTPS certificates
+- **Unlimited Bandwidth**: No usage limits
+
+The workflow builds the project and deploys to Cloudflare's global network, accessible at [sujeeth.dev](https://sujeeth.dev).
 
 ## License
 
