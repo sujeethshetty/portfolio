@@ -72,7 +72,7 @@ const Header = () => {
               </a>
             </Button>
             <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-2 sm:ml-4" asChild>
-              <a href={isResumePage ? "/#/" : "/#/resume"}>
+              <a href={isResumePage ? "/" : "/resume"}>
                 <FileText className="h-4 w-4 mr-2" />
                 {isResumePage ? "Portfolio" : "Resume"}
               </a>
