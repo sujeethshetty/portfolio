@@ -122,17 +122,18 @@ const Resume = () => {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="container mx-auto px-6 py-24 max-w-4xl">
+      <main className="container mx-auto px-4 sm:px-6 py-20 sm:py-24 max-w-4xl">
         {/* Header with download button */}
-        <div className="flex justify-between items-start mb-8">
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
           <div>
-            <h1 className="text-4xl font-bold text-foreground mb-2">Sujeeth Shetty</h1>
-            <p className="text-xl text-muted-foreground">AI & Data Engineering</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Sujeeth Shetty</h1>
+            <p className="text-lg sm:text-xl text-muted-foreground">AI & Data Engineering</p>
           </div>
-          <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90" asChild>
+          <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 w-fit" asChild>
             <a href="https://drive.google.com/file/d/1X8lzgvyw7bSvIDrfODHPD3-IWidBrJDe/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
               <Download className="h-4 w-4 mr-2" />
-              Download PDF
+              <span className="hidden sm:inline">Download PDF</span>
+              <span className="sm:hidden">PDF</span>
             </a>
           </Button>
         </div>
@@ -140,7 +141,7 @@ const Resume = () => {
         {/* Contact Information */}
         <Card className="mb-8">
           <CardContent className="pt-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-muted-foreground" />
                 <a href="mailto:sujeeth.data@gmail.com" className="text-sm hover:text-highlight">
@@ -189,14 +190,14 @@ const Resume = () => {
           <CardContent className="space-y-6">
             {experience.map((job, index) => (
               <div key={index}>
-                <div className="flex justify-between items-start mb-2">
-                  <div>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-2">
+                  <div className="flex-1">
                     <h3 className="font-semibold text-lg">{job.position}</h3>
                     <p className="text-highlight font-medium">{job.company}</p>
                   </div>
-                  <div className="text-right text-sm text-muted-foreground">
+                  <div className="sm:text-right text-sm text-muted-foreground sm:flex-shrink-0">
                     <p>{job.duration}</p>
-                    <p>{job.location}</p>
+                    <p className="hidden sm:block">{job.location}</p>
                   </div>
                 </div>
                 <ul className="list-disc list-inside space-y-1 text-muted-foreground">
@@ -239,16 +240,14 @@ const Resume = () => {
           <CardContent className="space-y-6">
             {projects.map((project, index) => (
               <div key={index}>
-                <div className="flex justify-between items-start mb-2">
-                  <div>
-                    <h3 className="font-semibold text-lg flex items-center space-x-2">
-                      <span>{project.name}</span>
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-highlight hover:text-highlight/80">
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    </h3>
-                    <p className="text-muted-foreground text-sm">{project.description}</p>
-                  </div>
+                <div className="mb-2">
+                  <h3 className="font-semibold text-lg flex items-center space-x-2">
+                    <span>{project.name}</span>
+                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-highlight hover:text-highlight/80">
+                      <ExternalLink className="h-4 w-4" />
+                    </a>
+                  </h3>
+                  <p className="text-muted-foreground text-sm mt-1">{project.description}</p>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {project.technologies.map((tech) => (

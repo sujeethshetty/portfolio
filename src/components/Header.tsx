@@ -12,9 +12,9 @@ const Header = () => {
         <nav className="flex items-center justify-between">
           <div className="text-2xl font-bold text-foreground" style={{ fontFamily: 'Kaushan Script, cursive' }}>
             {isResumePage ? (
-              <a href="/#/" className="hover:text-highlight transition-colors">
+              <Link to="/" className="hover:text-highlight transition-colors">
                 Sujeeth
-              </a>
+              </Link>
             ) : (
               "Sujeeth"
             )}
@@ -51,32 +51,60 @@ const Header = () => {
 
           <div className="flex items-center space-x-1 sm:space-x-2">
             <ThemeToggle />
-            <Button variant="ghost" size="icon" asChild>
-              <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer">
-                <Github className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button variant="ghost" size="icon" asChild>
-              <a href="https://www.linkedin.com/in/isujith/" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button variant="ghost" size="icon" asChild>
-              <a href="mailto:sujeeth.data@gmail.com">
-                <Mail className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button variant="ghost" size="icon" asChild>
-              <a href="https://medium.com/@datadelight" target="_blank" rel="noopener noreferrer">
-                <PenTool className="h-5 w-5" />
-              </a>
-            </Button>
-            <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-2 sm:ml-4" asChild>
-              <Link to={isResumePage ? "/" : "/resume"}>
-                <FileText className="h-4 w-4 mr-2" />
-                {isResumePage ? "Portfolio" : "Resume"}
-              </Link>
-            </Button>
+            
+            {/* Desktop: Show all social icons + resume button */}
+            <div className="hidden sm:flex items-center space-x-2">
+              <Button variant="ghost" size="icon" asChild>
+                <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer">
+                  <Github className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <a href="https://www.linkedin.com/in/isujith/" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <a href="mailto:sujeeth.data@gmail.com">
+                  <Mail className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <a href="https://medium.com/@datadelight" target="_blank" rel="noopener noreferrer">
+                  <PenTool className="h-5 w-5" />
+                </a>
+              </Button>
+              <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-2" asChild>
+                <Link to={isResumePage ? "/" : "/resume"}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  {isResumePage ? "Portfolio" : "Resume"}
+                </Link>
+              </Button>
+            </div>
+
+            {/* Mobile: Show essential social links + resume button */}
+            <div className="flex sm:hidden items-center space-x-1">
+              <Button variant="ghost" size="icon" asChild>
+                <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer">
+                  <Github className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <a href="https://www.linkedin.com/in/isujith/" target="_blank" rel="noopener noreferrer">
+                  <Linkedin className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <a href="mailto:sujeeth.data@gmail.com">
+                  <Mail className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 ml-1" size="sm" asChild>
+                <Link to={isResumePage ? "/" : "/resume"}>
+                  <FileText className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </nav>
       </div>

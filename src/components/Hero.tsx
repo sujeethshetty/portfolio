@@ -20,7 +20,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center px-6 pt-20 relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center px-4 sm:px-6 pt-20 relative overflow-hidden">
       {/* Elegant background - theme adaptive */}
       <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-muted/20"></div>
       <div className="absolute inset-0 bg-grid-pattern"></div>
@@ -38,7 +38,7 @@ const Hero = () => {
           Available for opportunities
         </div>
         
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+        <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
           Hi, I'm{" "}
           <span className="text-foreground">Sujeeth</span>
           <br />
@@ -51,7 +51,7 @@ const Hero = () => {
           </span>
         </h1>
         
-        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
           AWS-certified Solutions Architect who applies systems thinking to transform petabyte-scale 
           streaming data into actionable ML features and real-time dashboards. Builds AI agents and 
           retrieval-augmented generation pipelines that unlock seven-figure revenue channels.
