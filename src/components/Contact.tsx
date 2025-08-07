@@ -68,8 +68,10 @@ const Contact = () => {
                 </div>
 
                 <div className="pt-4">
-                  <Button size="lg" className="w-full bg-highlight text-highlight-foreground hover:bg-highlight/90">
-                    Schedule a Meeting
+                  <Button size="lg" className="w-full bg-highlight text-highlight-foreground hover:bg-highlight/90" asChild>
+                    <a href="https://topmate.io/sujshe/1667884?utm_source=public_profile&utm_campaign=sujshe" target="_blank" rel="noopener noreferrer">
+                      Schedule a Meeting
+                    </a>
                   </Button>
                 </div>
               </div>

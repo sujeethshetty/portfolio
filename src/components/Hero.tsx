@@ -58,9 +58,11 @@ const Hero = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button size="lg" className="bg-highlight text-highlight-foreground hover:bg-highlight/90">
-            <Calendar className="h-5 w-5 mr-2" />
-            Schedule a meet
+          <Button size="lg" className="bg-highlight text-highlight-foreground hover:bg-highlight/90" asChild>
+            <a href="https://topmate.io/sujshe/1667884?utm_source=public_profile&utm_campaign=sujshe" target="_blank" rel="noopener noreferrer">
+              <Calendar className="h-5 w-5 mr-2" />
+              Schedule a meet
+            </a>
           </Button>
           <Button variant="outline" size="lg" onClick={() => {
             document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
