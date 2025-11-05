@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Linkedin, Github, MapPin } from "lucide-react";
+import { PERSONAL_INFO } from "@/config/constants";
 
 const Contact = () => {
   return (
@@ -29,12 +30,12 @@ const Contact = () => {
                 <div className="space-y-4">
                   <div className="flex items-center space-x-3">
                     <MapPin className="h-5 w-5 text-highlight" />
-                    <span className="text-muted-foreground">USA</span>
+                    <span className="text-muted-foreground">{PERSONAL_INFO.location}</span>
                   </div>
                   <div className="flex items-center space-x-3">
                     <Mail className="h-5 w-5 text-highlight" />
-                    <a href="mailto:sujeeth.data@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors">
-                      sujeeth.data@gmail.com
+                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-muted-foreground hover:text-foreground transition-colors">
+                      {PERSONAL_INFO.email}
                     </a>
                   </div>
                 </div>
@@ -45,21 +46,21 @@ const Contact = () => {
                   <h3 className="text-xl font-semibold mb-4">Connect With Me</h3>
                   <div className="space-y-3">
                     <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href="mailto:sujeeth.data@gmail.com">
+                      <a href={`mailto:${PERSONAL_INFO.email}`}>
                         <Mail className="h-5 w-5 mr-3" />
                         Send Email
                       </a>
                     </Button>
-                    
+
                     <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href="https://www.linkedin.com/in/isujith/" target="_blank" rel="noopener noreferrer">
+                      <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer">
                         <Linkedin className="h-5 w-5 mr-3" />
                         LinkedIn Profile
                       </a>
                     </Button>
-                    
+
                     <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer">
+                      <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer">
                         <Github className="h-5 w-5 mr-3" />
                         GitHub Profile
                       </a>
@@ -69,7 +70,7 @@ const Contact = () => {
 
                 <div className="pt-4">
                   <Button size="lg" className="w-full bg-highlight text-highlight-foreground hover:bg-highlight/90" asChild>
-                    <a href="https://topmate.io/sujshe/1667884?utm_source=public_profile&utm_campaign=sujshe" target="_blank" rel="noopener noreferrer">
+                    <a href={PERSONAL_INFO.topmateUrl} target="_blank" rel="noopener noreferrer">
                       Schedule a Meeting
                     </a>
                   </Button>

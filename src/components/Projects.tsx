@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github, TrendingUp, Zap } from "lucide-react";
+import { PERSONAL_INFO } from "@/config/constants";
 
 const Projects = () => {
   const projects = [
@@ -99,7 +100,7 @@ const Projects = () => {
             Interested in seeing more of my work?
           </p>
           <Button variant="outline" size="lg" asChild>
-            <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer">
+            <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer">
               <Github className="h-5 w-5 mr-2" />
               View All Projects on GitHub
             </a>

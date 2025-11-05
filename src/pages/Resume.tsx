@@ -2,17 +2,18 @@ import Header from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Linkedin, 
-  Github, 
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Linkedin,
+  Github,
   Calendar,
   ExternalLink,
   Download
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { PERSONAL_INFO } from "@/config/constants";
 
 const Resume = () => {
   const experience = [
@@ -126,11 +127,11 @@ const Resume = () => {
         {/* Header with download button */}
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
           <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">Sujeeth Shetty</h1>
-            <p className="text-lg sm:text-xl text-muted-foreground">AI & Data Engineering</p>
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">{PERSONAL_INFO.name}</h1>
+            <p className="text-lg sm:text-xl text-muted-foreground">{PERSONAL_INFO.title}</p>
           </div>
           <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 w-fit" asChild>
-            <a href="https://drive.google.com/file/d/1X8lzgvyw7bSvIDrfODHPD3-IWidBrJDe/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+            <a href={PERSONAL_INFO.resumeUrl} target="_blank" rel="noopener noreferrer">
               <Download className="h-4 w-4 mr-2" />
               <span className="hidden sm:inline">Download PDF</span>
               <span className="sm:hidden">PDF</span>
@@ -144,25 +145,25 @@ const Resume = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="flex items-center space-x-2">
                 <Mail className="h-4 w-4 text-muted-foreground" />
-                <a href="mailto:sujeeth.data@gmail.com" className="text-sm hover:text-highlight">
-                  sujeeth.data@gmail.com
+                <a href={`mailto:${PERSONAL_INFO.email}`} className="text-sm hover:text-highlight">
+                  {PERSONAL_INFO.email}
                 </a>
               </div>
               <div className="flex items-center space-x-2">
                 <Linkedin className="h-4 w-4 text-muted-foreground" />
-                <a href="https://www.linkedin.com/in/isujith/" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-highlight">
+                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-highlight">
                   linkedin.com/in/isujith
                 </a>
               </div>
               <div className="flex items-center space-x-2">
                 <Github className="h-4 w-4 text-muted-foreground" />
-                <a href="https://github.com/sujeethshetty" target="_blank" rel="noopener noreferrer" className="text-sm hover:text-highlight">
+                <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-highlight">
                   github.com/sujeethshetty
                 </a>
               </div>
               <div className="flex items-center space-x-2">
                 <MapPin className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm">Atlanta, GA</span>
+                <span className="text-sm">{PERSONAL_INFO.location}</span>
               </div>
             </div>
           </CardContent>
