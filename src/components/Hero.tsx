@@ -27,11 +27,7 @@ const Hero = () => {
       
       {/* Interactive particle background */}
       <ParticleBackground />
-      
-      {/* Floating shapes - theme adaptive */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-highlight/[0.03] dark:bg-highlight/5 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/[0.03] dark:bg-blue-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      
+
       <div className="max-w-4xl mx-auto text-center relative z-10">
         <div className="inline-flex items-center px-3 py-1 rounded-full text-sm bg-highlight/15 text-highlight border border-highlight/30 mb-8">
           <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse" style={{ backgroundColor: '#00FF41' }}></span>
