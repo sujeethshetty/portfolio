@@ -34,7 +34,7 @@ const Hero = () => {
           Available for opportunities
         </div>
         
-        <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6">
           Hi, I'm{" "}
           <span className="text-foreground">Sujeeth</span>
           <br />
@@ -46,8 +46,8 @@ const Hero = () => {
             </span>
           </span>
         </h1>
-        
-        <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
+
+        <p className="text-lg sm:text-xl md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-12 leading-relaxed">
           AWS-certified Solutions Architect who applies systems thinking to transform petabyte-scale 
           streaming data into actionable ML features and real-time dashboards. Builds AI agents and 
           retrieval-augmented generation pipelines that unlock seven-figure revenue channels.
