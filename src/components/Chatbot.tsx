@@ -41,7 +41,7 @@ const MessageContent = ({ content }: { content: string }) => {
   const urlRegex = /(https?:\/\/[^\s]+?)([.,;!?]?\s|[.,;!?]?$)/g;
   const parts: (string | JSX.Element)[] = [];
   let lastIndex = 0;
-  let match;
+  let match: RegExpExecArray | null;
 
   while ((match = urlRegex.exec(content)) !== null) {
     // Add text before the URL
@@ -207,7 +207,6 @@ const Chatbot = () => {
 
       let accumulatedContent = '';
       let responseId: string | undefined;
-      let currentEvent = '';
 
       while (true) {
         const { done, value } = await reader.read();
@@ -217,9 +216,7 @@ const Chatbot = () => {
         const lines = chunk.split('\n');
 
         for (const line of lines) {
-          if (line.startsWith('event: ')) {
-            currentEvent = line.slice(7).trim();
-          } else if (line.startsWith('data: ')) {
+          if (line.startsWith('data: ')) {
             const data = line.slice(6);
 
             try {
@@ -304,14 +301,14 @@ const Chatbot = () => {
         )}
         size="icon"
       >
-        <MessageCircle className="h-11 w-11" strokeWidth={1.5} />
+        <MessageCircle className="h-[52px] w-[52px]" strokeWidth={2.5} />
       </Button>
 
       {/* Chat window */}
       {isOpen && (
-        <Card className="fixed bottom-0 right-0 md:bottom-6 md:right-6 w-full md:w-96 h-screen md:h-[600px] md:max-h-[80vh] shadow-2xl dark:shadow-[0_0_40px_rgba(0,0,0,0.8)] z-50 flex flex-col animate-in slide-in-from-bottom-4 duration-300">
+        <Card className="fixed inset-0 md:bottom-6 md:right-6 md:inset-auto w-full md:w-96 h-full md:h-[600px] md:max-h-[80vh] shadow-2xl dark:shadow-[0_0_40px_rgba(0,0,0,0.8)] z-50 flex flex-col animate-in slide-in-from-bottom-4 duration-300">
           {/* Header */}
-          <div className="flex items-center justify-between p-4 border-b">
+          <div className="flex items-center justify-between p-4 border-b shrink-0">
             <div>
               <h3 className="font-semibold text-lg">Ask me Anything (Not Anything)</h3>
               <p className="text-xs text-muted-foreground">
@@ -372,7 +369,7 @@ const Chatbot = () => {
           </ScrollArea>
 
           {/* Input */}
-          <div className="p-4 border-t">
+          <div className="p-4 border-t shrink-0">
             <div className="flex gap-2">
               <Textarea
                 ref={textareaRef}
