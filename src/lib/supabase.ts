@@ -1,5 +1,4 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import { createHash } from 'crypto';
 
 export interface ChatSession {
   id?: string;
@@ -23,10 +22,15 @@ export interface ChatMessage {
 }
 
 /**
- * Hash IP address for privacy
+ * Hash IP address for privacy using Web Crypto API
+ * Works in both Node.js and Cloudflare Workers
  */
-export function hashIP(ip: string): string {
-  return createHash('sha256').update(ip).digest('hex');
+export async function hashIP(ip: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(ip);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
 /**

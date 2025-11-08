@@ -71,7 +71,7 @@ app.post('/api/chat', async (req, res) => {
       );
 
       const userAgent = req.headers['user-agent'] || 'unknown';
-      const ipHash = hashIP(ip);
+      const ipHash = await hashIP(ip);
 
       dbSessionId = await upsertChatSession(supabase, {
         session_id: sessionId || `session_${Date.now()}`,

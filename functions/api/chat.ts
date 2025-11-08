@@ -92,7 +92,7 @@ export async function onRequest(context: any) {
 
         // Create/update session
         const userAgent = request.headers.get('user-agent') || 'unknown';
-        const ipHash = hashIP(ip);
+        const ipHash = await hashIP(ip);
 
         dbSessionId = await upsertChatSession(supabase, {
           session_id: sessionId || `session_${Date.now()}`,
