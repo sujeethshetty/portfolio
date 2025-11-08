@@ -7,7 +7,7 @@ import { MessageCircle, X, Send, Loader2, RotateCcw, Download } from 'lucide-rea
 import { Message, ChatSession, MAX_MESSAGES_PER_SESSION, SESSION_STORAGE_KEY, generateSessionId } from '@/types/chat';
 import { cn } from '@/lib/utils';
 
-// Helper to detect and render resume download links
+// Helper to detect and render resume download links and make all URLs clickable
 const MessageContent = ({ content }: { content: string }) => {
   // Match Google Drive links (both view and download formats)
   const resumeUrlMatch = content.match(/(https:\/\/drive\.google\.com\/[^\s]+?)([.,;!?]?\s|[.,;!?]?$)/);
@@ -37,7 +37,52 @@ const MessageContent = ({ content }: { content: string }) => {
     );
   }
 
-  return <>{content}</>;
+  // Match general URLs and make them clickable
+  const urlRegex = /(https?:\/\/[^\s]+?)([.,;!?]?\s|[.,;!?]?$)/g;
+  const parts: (string | JSX.Element)[] = [];
+  let lastIndex = 0;
+  let match;
+
+  while ((match = urlRegex.exec(content)) !== null) {
+    // Add text before the URL
+    if (match.index > lastIndex) {
+      parts.push(content.substring(lastIndex, match.index));
+    }
+
+    // Add the clickable URL
+    const url = match[1];
+    const punctuation = match[2].trim();
+    parts.push(
+      <a
+        key={match.index}
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary underline hover:text-primary/80"
+      >
+        {url}
+      </a>
+    );
+
+    // Add punctuation after the URL if any
+    if (punctuation) {
+      parts.push(punctuation);
+    }
+
+    lastIndex = match.index + match[0].length;
+  }
+
+  // Add remaining text after last URL
+  if (lastIndex < content.length) {
+    parts.push(content.substring(lastIndex));
+  }
+
+  // If no URLs found, return plain content
+  if (parts.length === 0) {
+    return <>{content}</>;
+  }
+
+  return <>{parts}</>;
 };
 
 const Chatbot = () => {
