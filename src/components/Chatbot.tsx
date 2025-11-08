@@ -296,8 +296,8 @@ const Chatbot = () => {
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg transition-all duration-300 z-50 group ring-2 ring-primary/20 hover:ring-primary/40",
-          isOpen ? "scale-0" : "scale-100"
+          "fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg transition-all duration-300 z-40 group ring-2 ring-primary/20 hover:ring-primary/40",
+          isOpen ? "scale-0 pointer-events-none" : "scale-100"
         )}
         size="icon"
       >
@@ -306,7 +306,7 @@ const Chatbot = () => {
 
       {/* Chat window */}
       {isOpen && (
-        <Card className="fixed inset-0 md:bottom-6 md:right-6 md:inset-auto w-full md:w-96 h-full md:h-[600px] md:max-h-[80vh] shadow-2xl dark:shadow-[0_0_40px_rgba(0,0,0,0.8)] z-50 flex flex-col animate-in slide-in-from-bottom-4 duration-300">
+        <Card className="fixed top-0 left-0 right-0 bottom-0 md:top-auto md:left-auto md:bottom-6 md:right-6 w-full md:w-96 h-screen md:h-[600px] md:max-h-[80vh] shadow-2xl dark:shadow-[0_0_40px_rgba(0,0,0,0.8)] z-50 flex flex-col">
           {/* Header */}
           <div className="flex items-center justify-between p-4 border-b shrink-0">
             <div>
