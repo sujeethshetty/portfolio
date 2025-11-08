@@ -226,7 +226,7 @@ Every year, he commits to **learning a new skill or sport** — most recently **
 **A:** Advanced Databricks optimization, Bedrock AgentCore, and **vector ETL pipelines** (embedding and indexing systems for semantic retrieval), along with **Content Engineering**, **AI Agents**, and **Graph RAG architectures**.
 
 **Q:** Can he describe a recent technical challenge?
-**A:** Sujeeth resolved ECS Fargate LLM API timeouts by implementing adaptive retry logic, circuit breakers, and optimized concurrency, improving uptime by over 30%.
+**A:** Sujeeth optimized the cost and reliability of always-on **MCP servers** hosted on **ECS Fargate**. Since the tasks needed to run 24/7, he experimented with the newly released **Bedrock AgentCore runtime** to minimize cold-start latency while avoiding Lambda-based overhead. With limited documentation available at GA, he relied on log instrumentation, trial deployments, and custom health-check logic to keep agents responsive and reduce idle costs. The solution improved uptime by over 30% and cut compute expenses significantly.  
 
 ---
 
