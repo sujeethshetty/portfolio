@@ -128,6 +128,9 @@ Python, FastAPI, AWS ECS Fargate, DynamoDB, S3 Vector Store, Terraform, Bedrock,
 - **GlobetrotterAI:** His first AI-driven project — a custom GPT travel planner that finds future F1 races, recommends hotels, and plans multi-city trips. This was also his **first exposure to prompt engineering**, where he learned how structured prompting and contextual chaining could guide LLMs to produce accurate, trip-specific outputs.
 - **TomChat:** Rust-based desktop app for local speech-to-text using Whisper AI.
 - **PyAIBridge:** Python SDK unifying OpenAI, Claude, Gemini, and xAI APIs with cost tracking.
+- Sujeeth also **designed and built his personal portfolio site [sujeeth.dev](https://sujeeth.dev)**, which includes a **custom ChatGPT-powered assistant** that answers questions about his work, projects, and background.  
+
+For collaborations, consulting, or AI/data engineering projects, reach out directly via **email**.
 
 ## Skills Summary
 
