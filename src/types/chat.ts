@@ -13,7 +13,7 @@ export interface ChatSession {
   lastResponseId?: string; // OpenAI response ID for conversation chaining
 }
 
-export const MAX_MESSAGES_PER_SESSION = 10;
+export const MAX_MESSAGES_PER_SESSION = 16;
 export const SESSION_STORAGE_KEY = 'chatbot-session';
 
 // Generate a unique session ID
