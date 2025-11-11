@@ -10,7 +10,7 @@ app.use(express.json());
 
 const rateLimitStore = new Map();
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
-const MAX_REQUESTS_PER_WINDOW = 15;
+const MAX_REQUESTS_PER_WINDOW = 20;
 
 function checkRateLimit(ip) {
   const now = Date.now();
