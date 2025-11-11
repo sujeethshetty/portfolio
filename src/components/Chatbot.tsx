@@ -256,7 +256,7 @@ const Chatbot = () => {
       const errorMsg: Message = {
         id: crypto.randomUUID(),
         role: 'assistant',
-        content: "Sorry, I'm having trouble responding right now. Please try again or reach out directly via email.",
+        content: "Hold up—are you a bot? Too many questions too fast. Take a breather, then try again. Or just email Sujeeth if this is urgent.",
         timestamp: Date.now(),
       };
       setMessages(prev => [...prev, errorMsg]);
