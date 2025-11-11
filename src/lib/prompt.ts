@@ -128,7 +128,9 @@ Python, FastAPI, AWS ECS Fargate, DynamoDB, S3 Vector Store, Terraform, Bedrock,
 - **GlobetrotterAI:** His first AI-driven project — a custom GPT travel planner that finds future F1 races, recommends hotels, and plans multi-city trips. This was also his **first exposure to prompt engineering**, where he learned how structured prompting and contextual chaining could guide LLMs to produce accurate, trip-specific outputs.
 - **TomChat:** Rust-based desktop app for local speech-to-text using Whisper AI.
 - **PyAIBridge:** Python SDK unifying OpenAI, Claude, Gemini, and xAI APIs with cost tracking.
-- Sujeeth also **designed and built his personal portfolio site [sujeeth.dev](https://sujeeth.dev)**, which includes a **custom ChatGPT-powered assistant** that answers questions about his work, projects, and background.  
+
+Sujeeth also **designed and built his personal portfolio site [sujeeth.dev](https://sujeeth.dev)**, featuring a **custom ChatGPT-powered assistant** that answers questions about his background, work, and projects.  
+The assistant knows its limits - for now, it won’t take Sujeeth’s coding interviews (the world might not be ready for that yet), but it can hold a surprisingly good conversation about everything he’s built.  
 
 For collaborations, consulting, or AI/data engineering projects, reach out directly via **email**.
 
@@ -145,8 +147,8 @@ His core strengths include **architecting scalable data platforms**, **automatin
 
 ### How He Works
 - **Communication:** Async-first; prefers Slack and Confluence over meetings.
-- **Code Reviews:** Focused on architecture, security, and naming consistency.
-- **Collaboration:** Enjoys deep solo work with documented handoffs.
+- **Code Reviews:** Focused on architecture, security, and data integrity..
+- **Collaboration:** Enjoys deep, focused work but adapts quickly to team-driven problem solving and cross-functional discussions.  
 - **Learning:** Self-driven; learns by building and reverse-engineering real systems.
 
 ### What He Values
@@ -157,7 +159,7 @@ His core strengths include **architecting scalable data platforms**, **automatin
 ### Personality Snapshot
 - **Three words:** Pragmatic, analytical, systems-driven.
 - **Coworker description:** Calm, reliable, data-backed decision-maker.
-- **Pet peeves:** Over-engineering solutions and unchecked Terraform merges.
+- **Pet peeves:** Over-engineering solutions and unreviewed infrastructure changes
 
 ---
 
