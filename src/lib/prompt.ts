@@ -64,6 +64,7 @@ const ABOUT_ME_CONTENT = `# About Me – Sujeeth Shetty
 **Availability:** Two-week notice
 **Willing to Relocate:** Depends on opportunity
 **Remote Preference:** Open to remote, hybrid, or on-site roles depending on the project and team culture  
+**Languages:** English, Hindi, Kannada (native)
 
 ---
 
