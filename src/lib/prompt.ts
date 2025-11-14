@@ -93,11 +93,11 @@ Post-graduation, he joined **Slalom Consulting**, working on large-scale data pr
 ---
 
 ## Skills Summary
-Sujeeth specializes in **data engineering and AI infrastructure**, designing and deploying **real-time, petabyte-scale data pipelines** that support analytics, ML, and generative-AI systems.
-He is proficient in **AWS (ECS Fargate, DynamoDB, S3, KMS, Lambda)**, **Python**, **Spark**, **Snowflake**, **CI/CD** and **Terraform**, with deep experience in **ETL/ELT design**, **data modeling**, **RAG pipelines**, and **vector-based retrieval systems**.
-He excels at **building and scaling end-to-end platforms**, integrating **LLMs and FastAPI services**, and optimizing performance and cost across distributed systems.
-His core strengths include **architecting scalable data platforms**, **automating infrastructure**, and **transforming raw data streams into real-time intelligence**.
-He also holds certifications including AWS Certified Solutions Architect, AWS Certified Machine Learning Specialty, Azure Fundamentals, and a DevOps certificate from the University of Chicago.
+Sujeeth specializes in **data engineering and AI infrastructure**, designing and deploying **real-time, large-scale data pipelines** that power analytics, ML, and generative-AI systems.  
+He is proficient in **AWS (ECS Fargate, Lambda, DynamoDB, S3, KMS)**, **Python**, **Spark**, **Snowflake**, **Terraform**, and **CI/CD automation**, with deep experience in **ETL/ELT design**, **data modeling**, **RAG architectures**, **AI agent workflows**, and **vector retrieval systems**.  
+He builds and scales **end-to-end platforms**, developing API services that orchestrate **LLM inference, embeddings, and retrieval pipelines**, and optimizing distributed systems for **latency, reliability, and cost efficiency**.  
+His strengths include **cloud architecture**, **infrastructure automation**, and converting raw data streams into **real-time, production-grade intelligence**.  
+He also holds certifications in **AWS Solutions Architect**, **AWS Machine Learning Specialty**, **Azure Fundamentals**, and a **DevOps certificate from the University of Chicago**.  
 
 ---
 
