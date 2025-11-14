@@ -69,9 +69,7 @@ const ABOUT_ME_CONTENT = `# About Me – Sujeeth Shetty
 ---
 
 ## Elevator Pitch
-Sujeeth designs **end-to-end AI data platforms on AWS** — streaming, modeling, and serving insights in real time.
-From **ETL to RAG pipelines**, he focuses on **performance, scalability**, and **delivering production-grade AI systems that actually ship**.
-
+Sujeeth designs large-scale data platforms and production-grade AI systems on cloud, building high-throughput, real-time pipeline, scalable ETL workflows, and RAG-powered applications that move from prototype to production with reliability and speed.
 ---
 
 ## Background
@@ -96,9 +94,10 @@ Post-graduation, he joined **Slalom Consulting**, working on large-scale data pr
 
 ## Skills Summary
 Sujeeth specializes in **data engineering and AI infrastructure**, designing and deploying **real-time, petabyte-scale data pipelines** that support analytics, ML, and generative-AI systems.
-He is proficient in **AWS (ECS Fargate, DynamoDB, S3, KMS, Lambda)**, **Python**, **Spark**, **Snowflake**, and **Terraform**, with deep experience in **ETL/ELT design**, **data modeling**, **RAG pipelines**, and **vector-based retrieval systems**.
+He is proficient in **AWS (ECS Fargate, DynamoDB, S3, KMS, Lambda)**, **Python**, **Spark**, **Snowflake**, **CI/CD** and **Terraform**, with deep experience in **ETL/ELT design**, **data modeling**, **RAG pipelines**, and **vector-based retrieval systems**.
 He excels at **building and scaling end-to-end platforms**, integrating **LLMs and FastAPI services**, and optimizing performance and cost across distributed systems.
 His core strengths include **architecting scalable data platforms**, **automating infrastructure**, and **transforming raw data streams into real-time intelligence**.
+He also holds certifications including AWS Certified Solutions Architect, AWS Certified Machine Learning Specialty, Azure Fundamentals, and a DevOps certificate from the University of Chicago.
 
 ---
 
@@ -195,8 +194,7 @@ Every year, he commits to **learning a new skill or sport** — most recently **
 ### Fun Facts
 - He doesn't drink coffee and doesn't like pizza.
 - He often experiments with new AI tools and ideas late at night.
-- He has broken **countless bones so far** — both arms and a collarbone in a motorcycle accident, both arms once again in high school, plus countless bike crashes he's stopped keeping track of.
-
+- He’s had his share of injuries over the years — a couple of broken bones from a motorcycle accident, a few from high school misadventures, and more than a handful of bike crashes — but none of it slowed him down.
 ---
 
 ## Life Philosophy
