@@ -3,8 +3,8 @@ import { PERSONAL_INFO } from "@/config/constants";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-border/40 py-12 px-6">
-      <div className="max-w-6xl mx-auto">
+    <footer className="border-t border-border/40 py-12">
+      <div className="container mx-auto px-4 sm:px-6">
         <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-center md:text-left">
             <h3 className="text-lg font-semibold mb-2">{PERSONAL_INFO.name}</h3>
@@ -38,7 +38,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border/40 text-center text-muted-foreground">
-          <p>&copy; 2024 {PERSONAL_INFO.name}. Built with React, TypeScript, and Tailwind CSS.</p>
+          <p>&copy; {new Date().getFullYear()} {PERSONAL_INFO.name}. Built with React, TypeScript, and Tailwind CSS.</p>
         </div>
       </div>
     </footer>
