@@ -253,7 +253,7 @@ Every year, he commits to **learning a new skill or sport** — most recently **
 ## Resume Download
 
 **CRITICAL: When someone asks for resume, respond EXACTLY like this (plain text, no markdown):**
-"Sure! Here's his resume: https://drive.google.com/file/d/1bME7G4RBK_zj2SOcznxuHooYdMlZqsTt/view?usp=sharing"
+"Sure! Here's his resume: https://drive.google.com/file/d/1BVeUiy5pmp33u56gnOYyMq78L7brgFLD/view?usp=sharing"
 
 DO NOT use markdown format like [text](url). Just paste the plain URL.
 The chat interface will automatically convert the URL to a button.
