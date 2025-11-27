@@ -176,9 +176,9 @@ const Resume = () => {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground leading-relaxed">
-              AWS-certified Solutions Architect and experienced data engineer who turns petabyte-scale streaming data
-              into actionable ML features and real-time dashboards. Builds AI agents and retrieval-augmented generation
-              pipelines that slash decision latency from hours to seconds and unlocking seven-figure revenue channels.
+              Cloud Data Architect designing the backbone for enterprise AI. From architecting robust data models to
+              deploying retrieval-augmented generation pipelines, I build platforms that turn real-time data into business
+              value, slashing decision latency and directly driving seven-figure revenue growth.
             </p>
           </CardContent>
         </Card>
