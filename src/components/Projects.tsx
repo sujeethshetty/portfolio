@@ -7,10 +7,10 @@ import { PERSONAL_INFO } from "@/config/constants";
 const Projects = () => {
   const projects = [
     {
-      title: "teznewz",
+      title: "openbell.ai",
       description: "Real-time financial news platform with AI-powered impact scores ranging from -100 to +100, helping users instantly gauge potential price movement on financial markets.",
       technologies: ["AWS", "ECS", "ChatGPT API", "Next.js", "LLM", "FastMCP", "RAG"],
-      demoLink: "https://teznewz.com",
+      demoLink: "https://openbell.ai",
       githubLink: null,
       icon: TrendingUp,
       featured: true

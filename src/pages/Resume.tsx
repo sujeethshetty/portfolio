@@ -106,13 +106,13 @@ const Resume = () => {
 
   const projects = [
     {
-      name: "teznewz",
+      name: "openbell.ai",
       description: "Real-time financial news platform with AI-powered impact scores",
       technologies: ["AWS", "ECS", "ChatGPT API", "Next.js", "LLM"],
-      link: "https://teznewz.com"
+      link: "https://openbell.ai"
     },
     {
-      name: "pyaibridge", 
+      name: "pyaibridge",
       description: "Unified API library for multiple LLM providers",
       technologies: ["python", "async", "api-client", "ai/ml", "gemini", "openai", "claude", "xai", "llm"],
       link: "https://github.com/sixteen-dev/pyaibridge"
