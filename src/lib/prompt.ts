@@ -93,7 +93,7 @@ Post-graduation, he joined **Slalom Consulting**, working on large-scale data pr
 ---
 
 ## Skills Summary
-Sujeeth specializes in **data engineering and AI infrastructure**, designing and deploying **real-time, large-scale data pipelines** that power analytics, ML, and generative-AI systems.  
+Sujeeth specializes in **data engineering and AI/ML infrastructure**, designing and deploying **real-time, large-scale data pipelines** that power analytics, ML, and generative-AI systems.  
 He is proficient in **AWS (ECS Fargate, Lambda, DynamoDB, S3, KMS)**, **Python**, **Spark**, **Snowflake**, **Terraform**, and **CI/CD automation**, with deep experience in **ETL/ELT design**, **data modeling**, **RAG architectures**, **AI agent workflows**, and **vector retrieval systems**.  
 He builds and scales **end-to-end platforms**, developing API services that orchestrate **LLM inference, embeddings, and retrieval pipelines**, and optimizing distributed systems for **latency, reliability, and cost efficiency**.  
 His strengths include **cloud architecture**, **infrastructure automation**, and converting raw data streams into **real-time, production-grade intelligence**.  
@@ -105,11 +105,11 @@ He also holds certifications in **AWS Solutions Architect**, **AWS Machine Learn
 
 ### Current Work
 - **Day Job:** Leads large-scale data pipeline migration and Kafka integration for real-time transaction processing at **Fiserv**.
-- **Side Project:** Builds **TezNewz** (https://teznewz.com), an AI-powered financial news platform used by 100+ retail investors.
+- **Side Project:** Builds **openbell.ai** (https://openbell.ai), an AI-powered financial news platform used by 100+ retail investors.
 
-#### TezNewz
+#### OpenBell.ai
 **What it is:**
-TezNewz is an AI-powered financial news and research platform built for retail investors and independent traders. It delivers real-time, high-impact market insights by filtering through thousands of news feeds daily to highlight the most relevant stories — helping users cut through noise and react faster to market-moving events.
+openbell.ai (previously called TezNewz) is an AI-powered financial news and research platform built for retail investors and independent traders. It delivers real-time, high-impact market insights by filtering through thousands of news feeds daily to highlight the most relevant stories — helping users cut through noise and react faster to market-moving events.
 
 **What it does:**
 - Aggregates financial and social news from trusted sources, Reddit, and X (Twitter)
@@ -118,20 +118,22 @@ TezNewz is an AI-powered financial news and research platform built for retail i
 - Enables personalized feeds by ticker, sector, and impact score
 
 **What's next:**
-Sujeeth is now building TezQ, an AI stock research assistant powered by the TezNewz data backbone. Currently in private beta, targeting 2026 release. TezQ has access to real-time and historical market data, and acts like a hedge fund analyst — capable of performing deep-dive research, comparing financials, tracking sentiment, and generating structured recommendations. It is being designed to integrate natural-language queries, RAG-enhanced reasoning, and vectorized financial context retrieval, allowing users to ask questions like "Which semiconductor stock has the best earnings momentum this quarter?" and get a reasoned, data-backed answer.
+Sujeeth is now building OBaI, an AI stock research agent using a multi-agent framework powered by credible real market data served by subagents and MCP servers, developed using OpenAI's Agents SDK. Currently in private beta, targeting 2026 release. OBaI has access to real-time and historical market data, and acts like a hedge fund analyst — capable of performing deep-dive research, comparing financials, tracking sentiment, and generating structured recommendations. It integrates natural-language queries, RAG-enhanced reasoning, and vectorized financial context retrieval, allowing users to ask questions like "Which semiconductor stock has the best earnings momentum this quarter?" and get a reasoned, data-backed answer.
 
 **Tech Stack:**
-Python, FastAPI, AWS ECS Fargate, DynamoDB, S3 Vector Store, Terraform, Bedrock, OpenAI APIs, CloudWatch, Docker, and GitHub Actions CI/CD.
+Python, FastAPI, FastMCP, OpenAI Agents SDK, Redis Langcache, AWS ECS Fargate, DynamoDB, S3 Vector Store, Terraform, Bedrock, OpenAI APIs, CloudWatch, Docker, and GitHub Actions CI/CD.
 
 ### Past Experience
 - **SmartAsset:** Contributed to a data migration project that improved reporting accuracy and drove measurable revenue growth.
 - **Slalom:** Led a 100 TB data migration to AWS Redshift and architected Spark + Redis-based ML pipelines that achieved sub-10 ms inference latency and delivered $5M in incremental MRR.
 - **Oracle & Cognizant:** Delivered enterprise-scale ERP and CRM integrations for **JPMorgan Chase** and **Blue Cross Blue Shield**, improving process automation and system performance.
 
-### Other Side Projects (https://sixteen.dev)
+### Other Side Projects (https://github.com/sixteen-dev/)
 - **GlobetrotterAI:** His first AI-driven project — a custom GPT travel planner that finds future F1 races, recommends hotels, and plans multi-city trips. This was also his **first exposure to prompt engineering**, where he learned how structured prompting and contextual chaining could guide LLMs to produce accurate, trip-specific outputs.
 - **TomChat:** Rust-based desktop app for local speech-to-text using Whisper AI.
 - **PyAIBridge:** Python SDK unifying OpenAI, Claude, Gemini, and xAI APIs with cost tracking.
+- **Keystone-Agent:** An AI board of directors — a multi-agent CLI tool that evaluates ideas, decisions, and direction through 7 specialist lenses.
+- **BookmarkBrain:** A Chrome extension that uses LLMs to organize bookmarks into smart folders.
 
 Sujeeth also **designed and built his personal portfolio site [sujeeth.dev](https://sujeeth.dev)**, featuring a **custom ChatGPT-powered assistant** that answers questions about his background, work, and projects.  
 The assistant knows its limits - for now, it won’t take Sujeeth’s coding interviews (the world might not be ready for that yet), but it can hold a surprisingly good conversation about everything he’s built.  
@@ -141,8 +143,8 @@ For collaborations, consulting, or AI/data engineering projects, reach out direc
 ## Skills Summary
 
 Sujeeth specializes in **data engineering and AI infrastructure**, designing and deploying **real-time, petabyte-scale data pipelines** that support analytics, ML, and generative-AI systems.
-He is proficient in **AWS (ECS Fargate, DynamoDB, S3, KMS, Lambda)**, **Python**, **SQL**, **Spark**, **Snowflake**, and **Terraform**, with deep experience in **ETL/ELT design**, **data modeling**, **RAG pipelines**, and **vector-based retrieval systems**.
-He excels at **building and scaling end-to-end platforms**, integrating **LLMs and FastAPI services**, and optimizing performance and cost across distributed systems.
+He is proficient in **AWS (ECS Fargate, DynamoDB, S3, KMS, Lambda)**, **Python**, **SQL**, **Spark**, **Snowflake**, **Terraform**, and **CI/CD**, with deep expertise in **MLOps**, **DataOps**, **LLMOps**, **ETL/ELT design**, **data modeling**, **RAG pipelines**, and **vector-based retrieval systems**.
+He excels at turning raw data into production-grade pipelines and shipping AI/ML systems that actually work at scale.
 His core strengths include **architecting scalable data platforms**, **automating infrastructure**, and **transforming raw data streams into real-time intelligence**.
 
 ---
@@ -198,9 +200,9 @@ Every year, he commits to **learning a new skill or sport** — most recently **
 ---
 
 ## Life Philosophy
-- **Career Goal:** Build a self-sustaining ecosystem of AI products and tools under sixteen.dev.
+- **Career Goal:** Build products that make a real impact on people's lives.
 - **Motivation:** Converting complex data into usable intelligence that drives impact.
-- **Work-Life Balance:** Deep work sprints balanced with travel, fitness, and creative exploration.
+- **Work-Life Balance:** Deep work balanced with travel, fitness, and creative exploration.
 
 ---
 
@@ -213,7 +215,7 @@ Every year, he commits to **learning a new skill or sport** — most recently **
 
 ### Job Search
 **Q:** What is Sujeeth looking for next?
-**A:** A senior-level role in data or AI engineering with ownership over large-scale pipelines, LLM integration, and AI platform design.
+**A:** A senior-level role in data or AI/ML engineering with ownership over large-scale pipelines, LLM integration, and AI platform design.
 
 **Q:** What are his salary expectations?
 **A:** Compensation aligned with market standards and the scope of the role.
@@ -228,10 +230,10 @@ Every year, he commits to **learning a new skill or sport** — most recently **
 
 ### Technical
 **Q:** What is his strongest technical skill?
-**A:** Architecting and scaling **AI data platforms on AWS** that combine data engineering, automation, and LLM integration. He is strongest in building real-time pipelines with Spark and Terraform, implementing RAG systems, and optimizing model workflows from prototype to production.
+**A:** Architecting and scaling **AI data platforms on AWS** that combine data engineering, automation, AI Agents, and LLM integration. He is strongest in building real-time pipelines with Spark and Terraform, implementing RAG systems, and optimizing model workflows from prototype to production.
 
 **Q:** What is he currently learning?
-**A:** Advanced Databricks optimization, Bedrock AgentCore, and **vector ETL pipelines** (embedding and indexing systems for semantic retrieval), along with **Content Engineering**, **AI Agents**, and **Graph RAG architectures**.
+**A:** Advanced Databricks optimization, Bedrock AgentCore, and **vector ETL pipelines** (embedding and indexing systems for semantic retrieval), along with **Context Engineering**, **AI Agents**, and **Graph RAG architectures**.
 
 **Q:** Can he describe a recent technical challenge?
 **A:** Sujeeth optimized the cost and reliability of always-on **MCP servers** hosted on **ECS Fargate**. Since the tasks needed to run 24/7, he experimented with the newly released **Bedrock AgentCore runtime** to minimize cold-start latency while avoiding Lambda-based overhead. With limited documentation available at GA, he relied on log instrumentation, trial deployments, and custom health-check logic to keep agents responsive and reduce idle costs. The solution improved uptime by over 30% and cut compute expenses significantly.  
