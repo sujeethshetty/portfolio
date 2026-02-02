@@ -129,23 +129,36 @@ Python, FastAPI, FastMCP, OpenAI Agents SDK, Redis Langcache, AWS ECS Fargate, D
 - **Oracle & Cognizant:** Delivered enterprise-scale ERP and CRM integrations for **JPMorgan Chase** and **Blue Cross Blue Shield**, improving process automation and system performance.
 
 ### Other Side Projects (https://github.com/sixteen-dev/)
-- **GlobetrotterAI:** His first AI-driven project — a custom GPT travel planner that finds future F1 races, recommends hotels, and plans multi-city trips. This was also his **first exposure to prompt engineering**, where he learned how structured prompting and contextual chaining could guide LLMs to produce accurate, trip-specific outputs.
-- **TomChat:** Rust-based desktop app for local speech-to-text using Whisper AI.
-- **PyAIBridge:** Python SDK unifying OpenAI, Claude, Gemini, and xAI APIs with cost tracking.
-- **Keystone-Agent:** An AI board of directors — a multi-agent CLI tool that evaluates ideas, decisions, and direction through 7 specialist lenses.
-- **BookmarkBrain:** A Chrome extension that uses LLMs to organize bookmarks into smart folders.
+- **GlobetrotterAI:** His first AI-driven project — a custom GPT travel planner that finds future F1 races, recommends hotels, and plans multi-city trips. This was also his **first exposure to prompt engineering**, where he learned how structured prompting and contextual chaining could guide LLMs to produce accurate, trip-specific outputs. (https://chatgpt.com/g/g-RR2IiNprf-globetrotterai)
+- **TomChat:** Rust-based desktop app for local speech-to-text using Whisper AI. (https://github.com/sixteen-dev/tomchat)
+- **PyAIBridge:** Python SDK unifying OpenAI, Claude, Gemini, and xAI APIs with cost tracking. (https://github.com/sixteen-dev/pyaibridge)
+- **Keystone-Agent:** An AI board of directors — a multi-agent CLI tool that evaluates ideas, decisions, and direction through 7 specialist lenses. (https://github.com/sixteen-dev/keystone-agent)
+- **BookmarkBrain:** A Chrome extension that uses LLMs to organize bookmarks into smart folders. (https://chrome.google.com/webstore/detail/ehaclompijgcolnfphmbalenpmcbihjn)
 
 Sujeeth also **designed and built his personal portfolio site [sujeeth.dev](https://sujeeth.dev)**, featuring a **custom ChatGPT-powered assistant** that answers questions about his background, work, and projects.  
 The assistant knows its limits - for now, it won’t take Sujeeth’s coding interviews (the world might not be ready for that yet), but it can hold a surprisingly good conversation about everything he’s built.  
 
 For collaborations, consulting, or AI/data engineering projects, reach out directly via **email**.
 
-## Skills Summary
+## Skills by Domain
 
-Sujeeth specializes in **data engineering and AI infrastructure**, designing and deploying **real-time, petabyte-scale data pipelines** that support analytics, ML, and generative-AI systems.
-He is proficient in **AWS (ECS Fargate, DynamoDB, S3, KMS, Lambda)**, **Python**, **SQL**, **Spark**, **Snowflake**, **Terraform**, and **CI/CD**, with deep expertise in **MLOps**, **DataOps**, **LLMOps**, **ETL/ELT design**, **data modeling**, **RAG pipelines**, and **vector-based retrieval systems**.
-He excels at turning raw data into production-grade pipelines and shipping AI/ML systems that actually work at scale.
-His core strengths include **architecting scalable data platforms**, **automating infrastructure**, and **transforming raw data streams into real-time intelligence**.
+### Data Engineering
+- Designs and deploys **real-time, petabyte-scale data pipelines** for analytics and ML systems
+- Proficient in **Spark**, **Snowflake**, **Kafka**, **AWS (ECS Fargate, DynamoDB, S3, Glue, Kinesis)**, and **Terraform**
+- Deep expertise in **ETL/ELT design**, **data modeling**, **DataOps**, and **streaming architectures**
+- Excels at turning raw data into production-grade pipelines that don't break at 3am
+
+### AI/LLM & Agents
+- Builds **RAG pipelines**, **vector retrieval systems**, and **LLM-powered applications**
+- Develops **multi-agent systems** using **OpenAI Agents SDK**, **FastMCP**, and **MCP servers**
+- Experience with **context engineering**, **prompt design**, and **LLMOps**
+- Ships AI products end-to-end: openbell.ai, OBaI, Keystone-Agent, BookmarkBrain, portfolio chatbot
+
+### Machine Learning
+- Architected **Spark + Redis-based ML pipelines** achieving sub-10ms inference latency
+- Experience with **MLOps**, model deployment workflows, and **feature engineering pipelines**
+- AWS Machine Learning Specialty certified
+- Focus on practical ML that delivers business value, not research experiments
 
 ---
 

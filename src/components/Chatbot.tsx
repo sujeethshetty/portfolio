@@ -7,7 +7,39 @@ import { MessageCircle, X, Send, Loader2, RotateCcw, Download } from 'lucide-rea
 import { Message, ChatSession, MAX_MESSAGES_PER_SESSION, SESSION_STORAGE_KEY, generateSessionId } from '@/types/chat';
 import { cn } from '@/lib/utils';
 
-// Helper to detect and render resume download links and make all URLs clickable
+// Helper to make URLs clickable within text
+const renderTextWithLinks = (text: string, keyPrefix: string = '') => {
+  const urlRegex = /(https?:\/\/[^\s)]+)/g;
+  const parts: (string | JSX.Element)[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = urlRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(text.substring(lastIndex, match.index));
+    }
+    parts.push(
+      <a
+        key={`${keyPrefix}-${match.index}`}
+        href={match[1]}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-primary underline hover:text-primary/80"
+      >
+        {match[1]}
+      </a>
+    );
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : text;
+};
+
+// Helper to detect and render resume download links, numbered lists, and URLs
 const MessageContent = ({ content }: { content: string }) => {
   // Match Google Drive links (both view and download formats)
   const resumeUrlMatch = content.match(/(https:\/\/drive\.google\.com\/[^\s]+?)([.,;!?]?\s|[.,;!?]?$)/);
@@ -17,7 +49,6 @@ const MessageContent = ({ content }: { content: string }) => {
     const textBeforeLink = content.substring(0, resumeUrlMatch.index).trim();
     const textAfterLink = content.substring(resumeUrlMatch.index! + resumeUrlMatch[0].length).trim();
 
-    // Clean up the text before link (remove trailing "link:" or similar)
     const cleanedBefore = textBeforeLink.replace(/\s*(using this link|this link|here's|here is):?\s*$/i, '').trim();
 
     return (
@@ -37,52 +68,38 @@ const MessageContent = ({ content }: { content: string }) => {
     );
   }
 
-  // Match general URLs and make them clickable
-  const urlRegex = /(https?:\/\/[^\s]+?)([.,;!?]?\s|[.,;!?]?$)/g;
-  const parts: (string | JSX.Element)[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-
-  while ((match = urlRegex.exec(content)) !== null) {
-    // Add text before the URL
-    if (match.index > lastIndex) {
-      parts.push(content.substring(lastIndex, match.index));
-    }
-
-    // Add the clickable URL
-    const url = match[1];
-    const punctuation = match[2].trim();
-    parts.push(
-      <a
-        key={match.index}
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-primary underline hover:text-primary/80"
-      >
-        {url}
-      </a>
+  // Check for numbered list pattern (1. item 2. item) and split into lines
+  const numberedListMatch = content.match(/(\d+\.\s)/g);
+  if (numberedListMatch && numberedListMatch.length >= 2) {
+    // Split by numbered items while keeping the numbers
+    const items = content.split(/(?=\d+\.\s)/);
+    return (
+      <div className="space-y-1">
+        {items.map((item, idx) => {
+          const trimmed = item.trim();
+          if (!trimmed) return null;
+          return (
+            <div key={idx}>{renderTextWithLinks(trimmed, `item-${idx}`)}</div>
+          );
+        })}
+      </div>
     );
-
-    // Add punctuation after the URL if any
-    if (punctuation) {
-      parts.push(punctuation);
-    }
-
-    lastIndex = match.index + match[0].length;
   }
 
-  // Add remaining text after last URL
-  if (lastIndex < content.length) {
-    parts.push(content.substring(lastIndex));
+  // Handle newlines - split by \n and render with line breaks
+  if (content.includes('\n')) {
+    const lines = content.split('\n');
+    return (
+      <div className="space-y-1">
+        {lines.map((line, idx) => (
+          <div key={idx}>{renderTextWithLinks(line, `line-${idx}`)}</div>
+        ))}
+      </div>
+    );
   }
 
-  // If no URLs found, return plain content
-  if (parts.length === 0) {
-    return <>{content}</>;
-  }
-
-  return <>{parts}</>;
+  // Default: render with clickable URLs
+  return <>{renderTextWithLinks(content)}</>;
 };
 
 const Chatbot = () => {
