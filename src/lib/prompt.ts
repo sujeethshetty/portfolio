@@ -3,6 +3,8 @@
  * This file is compiled into the bundle so it's accessible without filesystem access
  */
 
+import { experience } from '@/data/resume';
+
 const SYSTEM_PROMPT_TEMPLATE = `You represent Sujeeth Shetty. Answer questions about his professional background, personality, hobbies, and work style.
 
 RULES:
@@ -129,11 +131,11 @@ Python, FastAPI, FastMCP, OpenAI Agents SDK, Redis Langcache, AWS ECS Fargate, D
 - **Oracle & Cognizant:** Delivered enterprise-scale ERP and CRM integrations for **JPMorgan Chase** and **Blue Cross Blue Shield**, improving process automation and system performance.
 
 ### Other Side Projects (https://github.com/sixteen-dev/)
-- **GlobetrotterAI:** His first AI-driven project — a custom GPT travel planner that finds future F1 races, recommends hotels, and plans multi-city trips. This was also his **first exposure to prompt engineering**, where he learned how structured prompting and contextual chaining could guide LLMs to produce accurate, trip-specific outputs. (https://chatgpt.com/g/g-RR2IiNprf-globetrotterai)
-- **TomChat:** Rust-based desktop app for local speech-to-text using Whisper AI. (https://github.com/sixteen-dev/tomchat)
-- **PyAIBridge:** Python SDK unifying OpenAI, Claude, Gemini, and xAI APIs with cost tracking. (https://github.com/sixteen-dev/pyaibridge)
-- **Keystone-Agent:** An AI board of directors — a multi-agent CLI tool that evaluates ideas, decisions, and direction through 7 specialist lenses. (https://github.com/sixteen-dev/keystone-agent)
-- **BookmarkBrain:** A Chrome extension that uses LLMs to organize bookmarks into smart folders. (https://chrome.google.com/webstore/detail/ehaclompijgcolnfphmbalenpmcbihjn)
+- **GlobetrotterAI** [AI]: His first AI-driven project — a custom GPT travel planner that finds future F1 races, recommends hotels, and plans multi-city trips. This was also his **first exposure to prompt engineering**, where he learned how structured prompting and contextual chaining could guide LLMs to produce accurate, trip-specific outputs. (https://chatgpt.com/g/g-RR2IiNprf-globetrotterai)
+- **TomChat** [AI, ML]: Rust-based desktop app for local speech-to-text using Whisper AI. (https://github.com/sixteen-dev/tomchat)
+- **PyAIBridge** [AI]: Python SDK unifying OpenAI, Claude, Gemini, and xAI APIs with cost tracking. (https://github.com/sixteen-dev/pyaibridge)
+- **Keystone-Agent** [AI]: An AI board of directors — a multi-agent CLI tool that evaluates ideas, decisions, and direction through 7 specialist lenses. (https://github.com/sixteen-dev/keystone-agent)
+- **BookmarkBrain** [AI]: A Chrome extension that uses LLMs to organize bookmarks into smart folders. (https://chrome.google.com/webstore/detail/ehaclompijgcolnfphmbalenpmcbihjn)
 
 Sujeeth also **designed and built his personal portfolio site [sujeeth.dev](https://sujeeth.dev)**, featuring a **custom ChatGPT-powered assistant** that answers questions about his background, work, and projects.  
 The assistant knows its limits - for now, it won’t take Sujeeth’s coding interviews (the world might not be ready for that yet), but it can hold a surprisingly good conversation about everything he’s built.  
@@ -297,10 +299,25 @@ function cleanMarkdown(text: string): string {
 }
 
 /**
+ * Generate detailed experience section from resume data
+ */
+function generateDetailedExperience(): string {
+  return `
+## Detailed Work Experience
+${experience.map(job => `
+### ${job.company} - ${job.position} (${job.duration})
+${job.achievements.map(a => `- ${a}`).join('\n')}
+`).join('\n')}`;
+}
+
+/**
  * Get the complete system prompt with context
  * Context is cleaned of markdown to save ~14% tokens
+ * Includes detailed experience from shared resume data
  */
 export function getSystemPrompt(): string {
-  const cleanedContext = cleanMarkdown(ABOUT_ME_CONTENT);
+  const detailedExperience = generateDetailedExperience();
+  const fullContext = ABOUT_ME_CONTENT + '\n\n' + detailedExperience;
+  const cleanedContext = cleanMarkdown(fullContext);
   return SYSTEM_PROMPT_TEMPLATE.replace('{context}', cleanedContext);
 }
