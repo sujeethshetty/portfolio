@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, X, Send, Loader2, RotateCcw, Download } from 'lucide-react';
+import { Bot, X, Send, Loader2, RotateCcw, Download } from 'lucide-react';
 import { Message, ChatSession, MAX_MESSAGES_PER_SESSION, SESSION_STORAGE_KEY, generateSessionId } from '@/types/chat';
 import { cn } from '@/lib/utils';
 
@@ -318,7 +318,7 @@ const Chatbot = () => {
         )}
         size="icon"
       >
-        <MessageCircle className="h-[52px] w-[52px]" strokeWidth={2.5} />
+        <Bot style={{ width: '32px', height: '32px' }} strokeWidth={2} />
       </Button>
 
       {/* Chat window */}
