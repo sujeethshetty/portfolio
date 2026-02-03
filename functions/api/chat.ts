@@ -123,7 +123,7 @@ export async function onRequest(context: any) {
     const systemPrompt = getSystemPrompt();
 
     const requestBody: any = {
-      model: 'gpt-4o-mini',
+      model: 'gpt-5-mini',
       instructions: systemPrompt,
       input: [
         {
