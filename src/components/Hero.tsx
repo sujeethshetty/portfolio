@@ -35,7 +35,7 @@ const Hero = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-highlight opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-highlight"></span>
           </span>
-          Open to opportunities
+          Open to connect
         </div>
 
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
