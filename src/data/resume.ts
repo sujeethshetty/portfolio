@@ -83,7 +83,7 @@ export const experience: Experience[] = [
     ]
   },
   {
-    company: "Cognizant Technology Solutions",
+    company: "Cognizant",
     position: "Senior Developer",
     duration: "02/2011 - 08/2015",
     location: "Chennai, India",
@@ -108,11 +108,12 @@ export const education: Education[] = [
 ];
 
 export const skills: Record<string, string[]> = {
-  "Core Technologies": ["Python", "SQL", "AWS", "Spark", "MLOps", "DBT", "Big Data", "Airflow", "Kubernetes"],
-  "Data & Analytics": ["DataOps", "Scala", "ETL", "ELT", "AI/ML", "HDFS", "Data Lake", "Snowflake", "Hadoop"],
-  "Development & DevOps": ["FastAPI", "Oracle", "PySpark", "Terraform", "Git", "CI/CD", "Docker", "SQS", "EKS"],
-  "Visualization & Cloud": ["Tableau", "S3", "Data Modeling", "Databricks", "Azure", "Data Warehouse"],
-  "AI & Modern Stack": ["ChatGPT API", "FastMCP", "RAG", "UNIX"]
+  "Languages & Frameworks": ["Python", "SQL", "Scala", "PySpark", "FastAPI", "Next.js", "Rust"],
+  "Data Engineering": ["Apache Spark", "Apache Kafka", "Apache Airflow", "dbt", "Snowflake", "Redshift", "Databricks", "Hadoop", "HDFS"],
+  "Cloud & DevOps": ["AWS", "Azure", "Terraform", "Kubernetes", "Docker", "EKS", "ECS", "EMR", "S3", "SQS", "CI/CD", "Git"],
+  "Data Architecture": ["Data Modeling", "Data Lake", "Data Warehouse", "ETL", "ELT", "Star Schema", "Medallion Architecture", "Data Quality"],
+  "AI & ML": ["AI Agents", "Snowflake Cortex AI", "LLM", "MLOps", "Redis", "MCP", "OpenAI Agent SDK", "RAG", "Vector Databases"],
+  "Visualization": ["Tableau", "Apache Superset"]
 };
 
 export const certifications: Certification[] = [
@@ -125,17 +126,56 @@ export const certifications: Certification[] = [
 export const featuredProjects: Project[] = [
   {
     name: "openbell.ai",
-    description: "Real-time financial news platform with AI-powered impact scores",
-    technologies: ["AWS", "ECS", "ChatGPT API", "Next.js", "LLM"],
+    description: "Stock research agent and Real-time financial news that uses LLMs to score market impact of breaking news, serving curated insights to investors.",
+    technologies: ["AI Agents", "AWS ECS", "OpenAI API", "Python", "LLM", "AIOps"],
     link: "https://openbell.ai",
-    tags: ["AI", "Data"]
+    tags: ["Personal", "AI", "Full Stack"]
   },
   {
     name: "pyaibridge",
-    description: "Unified API library for multiple LLM providers",
-    technologies: ["python", "async", "api-client", "ai/ml", "gemini", "openai", "claude", "xai", "llm"],
+    description: "Open-source Python library providing a unified async interface across OpenAI, Gemini, Claude, and xAI. Swap providers with zero code changes.",
+    technologies: ["Python", "OpenAI", "Gemini", "Claude", "xAI", "Async"],
     link: "https://github.com/sixteen-dev/pyaibridge",
-    tags: ["AI"]
+    tags: ["Open Source", "AI", "Developer Tool"]
+  }
+];
+
+export interface ProfessionalHighlight {
+  title: string;
+  company: string;
+  impact: string;
+  description: string;
+  technologies: string[];
+}
+
+export const professionalHighlights: ProfessionalHighlight[] = [
+  {
+    title: "Real-Time Financial Data Platform",
+    company: "Apexon",
+    impact: "100M+ rows/day",
+    description: "Built real-time data pipeline processing banking & financial data across 300+ Kafka topics into Snowflake for secure multi-tenant data sharing.",
+    technologies: ["Apache Kafka", "Snowflake", "Python", "AWS"]
+  },
+  {
+    title: "Revenue Attribution & Recommendation Platform",
+    company: "SmartAsset",
+    impact: "+$1M MRR",
+    description: "Real-time ETL pipelines powering the recommendation engine, pushing high-value client engagement to 90%, a 37pp jump.",
+    technologies: ["Python", "dbt", "Airflow", "Snowflake"]
+  },
+  {
+    title: "ML Inference Platform (Sub-10ms SLA)",
+    company: "Slalom",
+    impact: "+$5M MRR",
+    description: "Feature store, model registry, orchestration, and real-time inference API with sub-10ms SLA via Redis + FastAPI.",
+    technologies: ["FastAPI", "Redis", "MLOps", "AWS", "Feature Store", "Kubernetes"]
+  },
+  {
+    title: "100TB Hadoop to Redshift Migration",
+    company: "Slalom",
+    impact: "25% cost reduction",
+    description: "Led on-prem Hadoop to AWS Redshift migration with KMS encryption and IAM row-level security. Mentored a 3-engineer team.",
+    technologies: ["AWS Redshift", "Hadoop", "Terraform", "Apache Spark", "AWS Glue"]
   }
 ];
 

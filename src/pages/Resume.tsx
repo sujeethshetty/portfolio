@@ -1,207 +1,331 @@
 import Header from "@/components/Header";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   MapPin,
-  Mail,
   Linkedin,
   Github,
+  BookOpen,
   ExternalLink,
-  Download
+  Download,
+  Briefcase,
+  Award,
+  GraduationCap,
+  Rocket,
+  TrendingUp,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { PERSONAL_INFO } from "@/config/constants";
 import {
   experience,
   education,
   skills,
   certifications,
-  featuredProjects as projects,
-  professionalSummary
+  featuredProjects,
+  professionalHighlights,
 } from "@/data/resume";
 
 const Resume = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      
-      <main className="container mx-auto px-4 sm:px-6 py-20 sm:py-24 max-w-4xl">
-        {/* Header with download button */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">{PERSONAL_INFO.name}</h1>
-            <p className="text-lg sm:text-xl text-muted-foreground">{PERSONAL_INFO.title}</p>
-          </div>
-          <Button className="bg-highlight text-highlight-foreground hover:bg-highlight/90 w-fit" asChild>
-            <a href={PERSONAL_INFO.resumeUrl} target="_blank" rel="noopener noreferrer">
-              <Download className="h-4 w-4 mr-2" />
-              <span className="hidden sm:inline">Download PDF</span>
-              <span className="sm:hidden">PDF</span>
-            </a>
-          </Button>
-        </div>
 
-        {/* Contact Information */}
-        <Card className="mb-8">
-          <CardContent className="pt-6">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <div className="flex items-center space-x-2">
-                <Mail className="h-4 w-4 text-muted-foreground" />
-                <a href={`mailto:${PERSONAL_INFO.email}`} className="text-sm hover:text-highlight">
-                  {PERSONAL_INFO.email}
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Linkedin className="h-4 w-4 text-muted-foreground" />
-                <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-highlight">
-                  linkedin.com/in/isujith
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <Github className="h-4 w-4 text-muted-foreground" />
-                <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer" className="text-sm hover:text-highlight">
-                  github.com/sujeethshetty
-                </a>
-              </div>
-              <div className="flex items-center space-x-2">
-                <MapPin className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm">{PERSONAL_INFO.location}</span>
-              </div>
+      <main className="container mx-auto px-4 sm:px-6 py-20 sm:py-24 max-w-6xl">
+        {/* Profile Hero */}
+        <section className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-16">
+          <div className="relative flex flex-col items-center md:items-start flex-shrink-0 md:pb-3">
+            <img
+              src="/profile.jpg"
+              alt={PERSONAL_INFO.name}
+              className="w-36 h-36 md:w-44 md:h-44 rounded-2xl object-cover border-2 border-border shadow-md"
+            />
+            <div className="flex items-center justify-center gap-1.5 mt-3 w-36 md:w-44 md:absolute md:mt-0 md:-bottom-5 md:left-0 bg-background/90 md:backdrop-blur-sm md:rounded-full md:px-2 md:py-1">
+              <a
+                href={PERSONAL_INFO.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 rounded-md bg-highlight text-highlight-foreground px-1.5 py-0.5 text-xs hover:bg-highlight/90 transition-colors"
+              >
+                <Download className="h-3 w-3" />
+                Resume
+              </a>
+              <a
+                href={PERSONAL_INFO.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="inline-flex items-center justify-center rounded-md border border-border p-1 text-muted-foreground hover:text-highlight hover:border-highlight transition-colors"
+              >
+                <Linkedin className="h-3 w-3" />
+              </a>
+              <a
+                href={PERSONAL_INFO.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="inline-flex items-center justify-center rounded-md border border-border p-1 text-muted-foreground hover:text-highlight hover:border-highlight transition-colors"
+              >
+                <Github className="h-3 w-3" />
+              </a>
+              <a
+                href={PERSONAL_INFO.medium}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Medium"
+                className="inline-flex items-center justify-center rounded-md border border-border p-1 text-muted-foreground hover:text-highlight hover:border-highlight transition-colors"
+              >
+                <BookOpen className="h-3 w-3" />
+              </a>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Professional Summary */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-xl">Professional Summary</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-muted-foreground leading-relaxed">
-              {professionalSummary}
+          </div>
+          <div className="text-center md:text-left flex-1">
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
+              {PERSONAL_INFO.name}
+            </h1>
+            <p className="text-lg sm:text-xl text-highlight font-medium mb-3">
+              {PERSONAL_INFO.title}
             </p>
-          </CardContent>
-        </Card>
+            <p className="text-muted-foreground flex items-center justify-center md:justify-start gap-1 mb-4">
+              <MapPin className="h-4 w-4" />
+              {PERSONAL_INFO.location}
+            </p>
+            <p className="text-muted-foreground leading-relaxed">
+              Cloud Data Architect designing the backbone for enterprise AI. From architecting robust data models to
+deploying retrieval-augmented generation pipelines, I build platforms that turn real-time data into business
+value, slashing decision latency and directly driving seven-figure revenue growth.
+            </p>
+          </div>
+        </section>
 
-        {/* Experience */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-xl">Professional Experience</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {experience.map((job, index) => (
-              <div key={index}>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 mb-2">
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-lg">{job.position}</h3>
-                    <p className="text-highlight font-medium">{job.company}</p>
-                  </div>
-                  <div className="sm:text-right text-sm text-muted-foreground sm:flex-shrink-0">
-                    <p>{job.duration}</p>
-                    <p className="hidden sm:block">{job.location}</p>
-                  </div>
-                </div>
-                <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-                  {job.achievements.map((achievement, idx) => (
-                    <li key={idx} className="text-sm">{achievement}</li>
-                  ))}
-                </ul>
-                {index < experience.length - 1 && <Separator className="mt-6" />}
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+        {/* Project Spotlight */}
+        <section className="mb-16">
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+            <Rocket className="h-5 w-5 text-highlight" />
+            Project Spotlight
+          </h2>
 
-        {/* Skills */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-xl">Technical Skills</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {Object.entries(skills).map(([category, skillList]) => (
-              <div key={category}>
-                <h4 className="font-medium mb-2 text-foreground">{category}</h4>
-                <div className="flex flex-wrap gap-2">
-                  {skillList.map((skill) => (
-                    <Badge key={skill} variant="outline" className="text-xs">
-                      {skill}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
-        {/* Featured Projects */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-xl">Featured Projects</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {projects.map((project, index) => (
-              <div key={index}>
-                <div className="mb-2">
-                  <h3 className="font-semibold text-lg flex items-center space-x-2">
-                    <span>{project.name}</span>
-                    <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-highlight hover:text-highlight/80">
+          {/* Personal Projects */}
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+            Personal & Open Source
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            {featuredProjects.map((project, index) => (
+              <Card
+                key={index}
+                className="group hover:shadow-lg transition-all duration-300 border-border/50"
+              >
+                <CardContent className="p-5">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-semibold text-lg text-foreground">
+                      {project.name}
+                    </h3>
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-highlight hover:text-highlight/80 transition-colors"
+                    >
                       <ExternalLink className="h-4 w-4" />
                     </a>
-                  </h3>
-                  <p className="text-muted-foreground text-sm mt-1">{project.description}</p>
-                </div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {project.technologies.map((tech) => (
-                    <Badge key={tech} variant="outline" className="text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-                {index < projects.length - 1 && <Separator className="mt-6" />}
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {project.tags?.map((tag) => (
+                      <Badge
+                        key={tag}
+                        variant="secondary"
+                        className="text-xs"
+                      >
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.technologies.slice(0, 5).map((tech) => (
+                      <Badge
+                        key={tech}
+                        variant="outline"
+                        className="text-xs"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                    {project.technologies.length > 5 && (
+                      <Badge variant="outline" className="text-xs">
+                        +{project.technologies.length - 5}
+                      </Badge>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Professional Highlights */}
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+            Professional Highlights
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {professionalHighlights.map((highlight, index) => (
+              <Card
+                key={index}
+                className="group hover:shadow-lg transition-all duration-300 border-border/50"
+              >
+                <CardContent className="p-5">
+                  <div className="flex items-start justify-between mb-1">
+                    <h3 className="font-semibold text-foreground">
+                      {highlight.title}
+                    </h3>
+                    <div className="flex items-center gap-1 text-highlight flex-shrink-0 ml-2">
+                      <TrendingUp className="h-3.5 w-3.5" />
+                      <span className="text-xs font-semibold">
+                        {highlight.impact}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground mb-2">
+                    @ {highlight.company}
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {highlight.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5">
+                    {highlight.technologies.map((tech) => (
+                      <Badge
+                        key={tech}
+                        variant="outline"
+                        className="text-xs"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+        {/* Career Journey */}
+        <section className="mb-16">
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+            <Briefcase className="h-5 w-5 text-highlight" />
+            Career Journey
+          </h2>
+          <div className="space-y-0 divide-y divide-border">
+            {experience.map((job, index) => (
+              <div key={index} className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-0 py-3 first:pt-0">
+                <span className="text-sm font-mono text-muted-foreground sm:w-16 flex-shrink-0">
+                  {job.duration.split("/")[1]?.split(" ")[0] ||
+                    job.duration.substring(0, 4)}
+                </span>
+                <span className="font-semibold text-foreground sm:w-40 flex-shrink-0">
+                  {job.company}
+                </span>
+                <span className="text-sm text-muted-foreground flex-1">
+                  {job.position}
+                </span>
+                <span className="text-xs text-muted-foreground hidden sm:inline flex-shrink-0">
+                  {job.location}
+                </span>
               </div>
             ))}
-          </CardContent>
-        </Card>
+          </div>
+        </section>
 
-        {/* Certifications */}
-        <Card className="mb-8">
-          <CardHeader>
-            <CardTitle className="text-xl">Certifications</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {certifications.map((cert, index) => (
-                <div key={index} className="flex justify-between items-center p-3 border border-border rounded-lg">
-                  <span className="font-medium">{cert.name}</span>
-                  <Badge variant="outline" className="text-xs">{cert.issuer}</Badge>
+        {/* Skills & Tools */}
+        <section className="mb-16">
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+            <Award className="h-5 w-5 text-highlight" />
+            Skills & Tools
+          </h2>
+          <Card className="border-border/50">
+            <CardContent className="p-5 space-y-4">
+              {Object.entries(skills).map(([category, skillList]) => (
+                <div key={category}>
+                  <h4 className="text-sm font-medium text-muted-foreground mb-2">
+                    {category}
+                  </h4>
+                  <div className="flex flex-wrap gap-2">
+                    {skillList.map((skill) => (
+                      <Badge
+                        key={skill}
+                        variant="outline"
+                        className="text-xs"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               ))}
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </section>
 
-        {/* Education */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">Education</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {education.map((edu, index) => (
-              <div key={index}>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold text-lg">{edu.degree}</h3>
-                    <p className="text-highlight font-medium">{edu.institution}</p>
-                    {edu.details && <p className="text-muted-foreground text-sm">{edu.details}</p>}
-                  </div>
-                  <p className="text-sm text-muted-foreground">{edu.duration}</p>
+        {/* Credentials */}
+        <section>
+          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+            <GraduationCap className="h-5 w-5 text-highlight" />
+            Credentials
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Certifications */}
+            <Card className="border-border/50">
+              <CardContent className="p-5">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                  Certifications
+                </h3>
+                <div className="space-y-3">
+                  {certifications.map((cert, index) => (
+                    <div key={index}>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-foreground">
+                          {cert.name}
+                        </span>
+                        <Badge variant="outline" className="text-xs ml-2 flex-shrink-0">
+                          {cert.issuer}
+                        </Badge>
+                      </div>
+                      {index < certifications.length - 1 && (
+                        <Separator className="mt-3" />
+                      )}
+                    </div>
+                  ))}
                 </div>
-                {index < education.length - 1 && <Separator className="mt-6" />}
-              </div>
-            ))}
-          </CardContent>
-        </Card>
+              </CardContent>
+            </Card>
+
+            {/* Education */}
+            <Card className="border-border/50">
+              <CardContent className="p-5">
+                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                  Education
+                </h3>
+                <div className="space-y-3">
+                  {education.map((edu, index) => (
+                    <div key={index}>
+                      <p className="text-sm font-medium text-foreground">
+                        {edu.degree}
+                      </p>
+                      <p className="text-sm text-highlight">{edu.institution}</p>
+                      {edu.duration && (
+                        <p className="text-xs text-muted-foreground">
+                          {edu.duration}
+                        </p>
+                      )}
+                      {index < education.length - 1 && (
+                        <Separator className="mt-3" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </section>
       </main>
     </div>
   );
