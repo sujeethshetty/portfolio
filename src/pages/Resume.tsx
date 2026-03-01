@@ -1,4 +1,5 @@
 import Header from "@/components/Header";
+import Chatbot from "@/components/Chatbot";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -327,6 +328,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
           </div>
         </section>
       </main>
+      <Chatbot />
     </div>
   );
 };
