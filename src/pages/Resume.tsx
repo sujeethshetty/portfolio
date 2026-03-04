@@ -31,7 +31,7 @@ const Resume = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <main className="container mx-auto px-4 sm:px-6 py-20 sm:py-24 max-w-6xl">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-20 sm:py-24">
         {/* Profile Hero - Mobile: full-screen image with blue gradient */}
         <div className="md:hidden relative -mx-4 sm:-mx-6 -mt-20 sm:-mt-24 h-[100svh] mb-8">
           <img
