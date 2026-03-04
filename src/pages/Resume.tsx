@@ -32,15 +32,80 @@ const Resume = () => {
       <Header />
 
       <main className="container mx-auto px-4 sm:px-6 py-20 sm:py-24 max-w-6xl">
-        {/* Profile Hero */}
-        <section className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 mb-16">
-          <div className="relative flex flex-col items-center md:items-start flex-shrink-0 md:pb-3">
+        {/* Profile Hero - Mobile: full-screen image with blue gradient */}
+        <div className="md:hidden relative -mx-4 sm:-mx-6 -mt-20 sm:-mt-24 h-[100svh] mb-8">
+          <img
+            src="/profile.jpg"
+            alt={PERSONAL_INFO.name}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black via-black/60 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-6 pb-10">
+            <h1 className="text-3xl font-bold text-white mb-1">
+              {PERSONAL_INFO.name}
+            </h1>
+            <p className="text-lg font-medium text-white/80 mb-2">
+              {PERSONAL_INFO.title}
+            </p>
+            <p className="text-sm text-white/70 flex items-center gap-1 mb-4">
+              <MapPin className="h-4 w-4" />
+              {PERSONAL_INFO.location}
+            </p>
+            <div className="flex items-center gap-2">
+              <a
+                href={PERSONAL_INFO.resumeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-full bg-white/20 backdrop-blur-sm text-white px-3 py-1.5 text-sm hover:bg-white/30 transition-colors"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Resume
+              </a>
+              <a
+                href={PERSONAL_INFO.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="inline-flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white p-2 hover:bg-white/30 transition-colors"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a
+                href={PERSONAL_INFO.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="inline-flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white p-2 hover:bg-white/30 transition-colors"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+              <a
+                href={PERSONAL_INFO.medium}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Medium"
+                className="inline-flex items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white p-2 hover:bg-white/30 transition-colors"
+              >
+                <BookOpen className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+        <p className="md:hidden text-muted-foreground leading-relaxed mb-16">
+          Cloud Data Architect designing the backbone for enterprise AI. From architecting robust data models to
+deploying retrieval-augmented generation pipelines, I build platforms that turn real-time data into business
+value, slashing decision latency and directly driving seven-figure revenue growth.
+        </p>
+
+        {/* Profile Hero - Desktop: side-by-side layout */}
+        <section className="hidden md:flex items-start gap-8 mb-16">
+          <div className="relative flex flex-col items-start flex-shrink-0 pb-3">
             <img
               src="/profile.jpg"
               alt={PERSONAL_INFO.name}
-              className="w-36 h-36 md:w-44 md:h-44 rounded-2xl object-cover border-2 border-border shadow-md"
+              className="w-44 h-44 rounded-2xl object-cover border-2 border-border shadow-md"
             />
-            <div className="flex items-center justify-center gap-1.5 mt-3 w-36 md:w-44 md:absolute md:mt-0 md:-bottom-5 md:left-0 bg-background/90 md:backdrop-blur-sm md:rounded-full md:px-2 md:py-1">
+            <div className="flex items-center justify-center gap-1.5 w-44 absolute -bottom-5 left-0 bg-background/90 backdrop-blur-sm rounded-full px-2 py-1">
               <a
                 href={PERSONAL_INFO.resumeUrl}
                 target="_blank"
@@ -79,14 +144,14 @@ const Resume = () => {
               </a>
             </div>
           </div>
-          <div className="text-center md:text-left flex-1">
-            <h1 className="text-3xl sm:text-4xl font-bold text-foreground mb-2">
+          <div className="text-left flex-1">
+            <h1 className="text-4xl font-bold text-foreground mb-2">
               {PERSONAL_INFO.name}
             </h1>
-            <p className="text-lg sm:text-xl text-highlight font-medium mb-3">
+            <p className="text-xl text-highlight font-medium mb-3">
               {PERSONAL_INFO.title}
             </p>
-            <p className="text-muted-foreground flex items-center justify-center md:justify-start gap-1 mb-4">
+            <p className="text-muted-foreground flex items-center gap-1 mb-4">
               <MapPin className="h-4 w-4" />
               {PERSONAL_INFO.location}
             </p>

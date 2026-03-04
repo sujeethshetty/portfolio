@@ -21,7 +21,7 @@ const Header = () => {
   const isResumePage = location.pathname === '/resume';
   return (
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-lg">
-      <div className="container mx-auto px-4 sm:px-6 py-4">
+      <div className="container mx-auto px-4 sm:px-6 py-4 max-w-6xl">
         <nav className="flex items-center justify-between">
           <div className="text-2xl font-bold text-foreground" style={{ fontFamily: 'Kaushan Script, cursive' }}>
             {isResumePage ? (
@@ -34,7 +34,7 @@ const Header = () => {
           </div>
           
           {!isResumePage && (
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-8">
               <a href="/#/#about" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
                 e.preventDefault();
                 document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
