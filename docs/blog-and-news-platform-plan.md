@@ -23,8 +23,9 @@ Two new content features for the portfolio:
 
 | Feature | Description | Hosting |
 |---------|-------------|---------|
-| **Blog Platform** | Medium-style blog for writing and publishing articles | `blogs.sujeeth.io` (separate Cloudflare Pages project) |
-| **AI News Feed** | Automated daily AI news section displayed on the main portfolio | `sujeeth.io` (existing Cloudflare Pages project) |
+| **Blog Platform** | Medium-style blog for articles, news, and TILs — organized by content collections | `blogs.sujeeth.io` (separate Cloudflare Pages project) |
+| **AI News Feed** | Automated daily AI news stored in blog platform, surfaced on both sites | `blogs.sujeeth.io` (cron writes to KV) + `sujeeth.io` (homepage fetches latest) |
+| **Homepage Sync** | Portfolio homepage dynamically displays top 3-5 news and top 3-5 blog posts | `sujeeth.io` fetches from `blogs.sujeeth.io/api/latest.json` at runtime |
 
 ### Current Stack (for reference)
 
@@ -82,12 +83,17 @@ Two new content features for the portfolio:
 blogs.sujeeth.io/
 ├── src/
 │   ├── content/
-│   │   ├── config.ts              # Content collection schema
-│   │   └── posts/
-│   │       ├── my-first-post.mdx
-│   │       └── another-post.mdx
+│   │   ├── config.ts              # Content collection schemas (posts, news, til)
+│   │   ├── posts/                 # Long-form blog articles
+│   │   │   ├── my-first-post.mdx
+│   │   │   └── another-post.mdx
+│   │   ├── news/                  # AI/tech news & commentary
+│   │   │   └── ai-news-2026-03.mdx
+│   │   └── til/                   # Short "Today I Learned" posts
+│   │       └── til-cloudflare-kv.mdx
 │   ├── components/
 │   │   ├── BlogCard.astro         # Post preview card
+│   │   ├── NewsCard.astro         # News item card (compact)
 │   │   ├── BlogLayout.astro       # Article page layout
 │   │   ├── Header.astro           # Blog header/nav
 │   │   ├── Footer.astro           # Blog footer
@@ -98,11 +104,23 @@ blogs.sujeeth.io/
 │   ├── layouts/
 │   │   └── BaseLayout.astro       # HTML skeleton with meta tags
 │   ├── pages/
-│   │   ├── index.astro            # Blog home (post listing)
+│   │   ├── index.astro            # Blog home (all content listing)
+│   │   ├── posts/
+│   │   │   └── [slug].astro       # Individual blog post page
+│   │   ├── news/
+│   │   │   ├── index.astro        # News listing page
+│   │   │   └── [slug].astro       # Individual news article
+│   │   ├── til/
+│   │   │   ├── index.astro        # TIL listing page
+│   │   │   └── [slug].astro       # Individual TIL post
 │   │   ├── tags/
 │   │   │   └── [tag].astro        # Posts filtered by tag
-│   │   ├── [slug].astro           # Individual blog post page
-│   │   └── rss.xml.ts             # RSS feed endpoint
+│   │   ├── api/
+│   │   │   └── latest.json.ts     # JSON API for homepage sync
+│   │   ├── rss/
+│   │   │   ├── posts.xml.ts       # RSS feed for blog posts
+│   │   │   └── news.xml.ts        # RSS feed for news
+│   │   └── rss.xml.ts             # Combined RSS feed
 │   └── styles/
 │       └── global.css             # Tailwind + custom blog styles
 ├── public/
@@ -119,22 +137,88 @@ blogs.sujeeth.io/
 // src/content/config.ts
 import { defineCollection, z } from 'astro:content';
 
+const baseSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+  date: z.date(),
+  updatedDate: z.date().optional(),
+  coverImage: z.string().optional(),
+  tags: z.array(z.string()),
+  draft: z.boolean().default(false),
+  author: z.string().default('Sujeeth'),
+});
+
 const posts = defineCollection({
   type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.date(),
-    updatedDate: z.date().optional(),
-    coverImage: z.string().optional(),
-    tags: z.array(z.string()),
-    draft: z.boolean().default(false),
-    author: z.string().default('Sujeeth'),
+  schema: baseSchema,
+});
+
+const news = defineCollection({
+  type: 'content',
+  schema: baseSchema.extend({
+    source: z.string().optional(),      // e.g., "TechCrunch", "The Verge"
+    sourceUrl: z.string().url().optional(), // link to original article
   }),
 });
 
-export const collections = { posts };
+const til = defineCollection({
+  type: 'content',
+  schema: baseSchema.omit({ coverImage: true }), // TILs are short, no cover needed
+});
+
+export const collections = { posts, news, til };
 ```
+
+### JSON API Endpoint for Homepage Sync
+
+The blog exposes a JSON endpoint that the portfolio homepage fetches at runtime to display the latest content. This keeps the homepage automatically in sync — no manual updates needed.
+
+```typescript
+// src/pages/api/latest.json.ts
+import type { APIRoute } from 'astro';
+import { getCollection } from 'astro:content';
+
+export const GET: APIRoute = async () => {
+  const [posts, news] = await Promise.all([
+    getCollection('posts', ({ data }) => !data.draft),
+    getCollection('news', ({ data }) => !data.draft),
+  ]);
+
+  const sortByDate = (a: any, b: any) =>
+    new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+
+  return new Response(
+    JSON.stringify({
+      posts: posts.sort(sortByDate).slice(0, 5).map((p) => ({
+        title: p.data.title,
+        description: p.data.description,
+        date: p.data.date,
+        tags: p.data.tags,
+        slug: p.slug,
+        url: `https://blogs.sujeeth.io/posts/${p.slug}`,
+      })),
+      news: news.sort(sortByDate).slice(0, 3).map((n) => ({
+        title: n.data.title,
+        description: n.data.description,
+        date: n.data.date,
+        tags: n.data.tags,
+        slug: n.slug,
+        source: n.data.source,
+        url: `https://blogs.sujeeth.io/news/${n.slug}`,
+      })),
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': 'https://sujeeth.io',
+        'Cache-Control': 'public, max-age=3600', // 1 hour cache
+      },
+    }
+  );
+};
+```
+
+> **Note:** Since Astro is SSG by default, this API route requires `output: 'hybrid'` or `output: 'server'` in `astro.config.mjs`, or the route can be prerendered at build time (regenerated on each deploy). For a fully dynamic endpoint on Cloudflare Pages, use `export const prerender = false;` at the top of the file.
 
 ### Blog Post Frontmatter Example
 
@@ -381,20 +465,86 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
 };
 ```
 
-### React Component
+### Homepage Content Sync (sujeeth.io)
 
-**File: `src/components/AINews.tsx`**
+The portfolio homepage replaces static content sections with dynamically fetched latest posts and news from the blog platform.
 
-Key features:
-- Uses TanStack React Query with `staleTime: 30 * 60 * 1000` (30 min)
-- Displays as a card grid or horizontal carousel (Embla Carousel already installed)
-- Each card shows: title, AI summary snippet, source domain, published date
-- Links open in new tab to original article
-- Loading skeleton using shadcn/ui Skeleton component
-- "Last updated" timestamp from KV data
-- Responsive: 1 column mobile, 2 tablet, 3 desktop
+**How it works:**
+1. `blogs.sujeeth.io/api/latest.json` returns the top 5 posts and top 3 news items
+2. The homepage fetches this endpoint at runtime via React Query
+3. Content is displayed in two sections: "Latest News" and "Latest Posts"
+4. "View All" links point users to the full listings on `blogs.sujeeth.io`
 
-**Card Design:**
+**React Hook: `src/hooks/useBlogContent.ts`**
+
+```typescript
+import { useQuery } from '@tanstack/react-query';
+
+interface BlogPost {
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  slug: string;
+  url: string;
+}
+
+interface NewsItem extends BlogPost {
+  source?: string;
+}
+
+interface LatestContent {
+  posts: BlogPost[];
+  news: NewsItem[];
+}
+
+export function useBlogContent() {
+  return useQuery<LatestContent>({
+    queryKey: ['blog-latest'],
+    queryFn: () =>
+      fetch('https://blogs.sujeeth.io/api/latest.json').then((r) => r.json()),
+    staleTime: 30 * 60 * 1000, // 30 minutes
+    retry: 2,
+  });
+}
+```
+
+**Homepage Layout:**
+
+```
+┌─────────────────────────────────┐
+│  Hero / About                   │
+├────────────────┬────────────────┤
+│  Latest News   │  Latest Posts  │
+│  ┌──────────┐  │  ┌──────────┐  │
+│  │ News 1   │  │  │ Post 1   │  │
+│  │ News 2   │  │  │ Post 2   │  │
+│  │ News 3   │  │  │ Post 3   │  │
+│  └──────────┘  │  │ Post 4   │  │
+│                │  │ Post 5   │  │
+│                │  └──────────┘  │
+│  → All News    │  → All Posts   │
+├────────────────┴────────────────┤
+│  Projects / Experience / etc    │
+└─────────────────────────────────┘
+```
+
+- "All News" links to `blogs.sujeeth.io/news`
+- "All Posts" links to `blogs.sujeeth.io/posts`
+- Each card links to the full article on `blogs.sujeeth.io`
+- Loading states use shadcn/ui Skeleton components
+- Graceful fallback if fetch fails (hide section or show cached data)
+
+### AI News Cron → Blog Content
+
+The Cloudflare Cron Worker still fetches from Tavily daily, but instead of only storing in KV for the portfolio, the curated news items are also used as source material for the `news/` content collection in the blog. The flow:
+
+```
+Tavily API → Cron Worker → KV (raw data for immediate display)
+                         → Can also seed MDX files for news/ collection (manual or automated)
+```
+
+**AI News Card Design (on homepage):**
 
 ```
 ┌──────────────────────────────┐
@@ -509,26 +659,52 @@ Priority: Medium — separate project, can be developed in parallel.
 1. **Initialize Astro project**
    - `npm create astro@latest` with blog template
    - Configure Tailwind with matching theme from portfolio
-   - Set up content collections
+   - Set up content collections: `posts/`, `news/`, `til/`
 
 2. **Design blog pages**
-   - Home page (post listing with cards)
-   - Individual post page (Medium-style article layout)
+   - Home page (combined content listing with category tabs/filters)
+   - `/posts` — blog post listing with cards
+   - `/news` — news listing page
+   - `/til` — TIL listing page
+   - Individual article pages (Medium-style layout)
    - Tag filter page
 
-3. **Write first 1-2 posts**
+3. **Create JSON API endpoint**
+   - `/api/latest.json` — returns top 5 posts + top 3 news
+   - CORS configured for `sujeeth.io`
+   - Configure `output: 'hybrid'` in Astro for this dynamic route
+
+4. **Write first 1-2 posts per collection**
    - Seed content for testing layout and typography
 
-4. **Set up Cloudflare Pages deployment**
+5. **Set up Cloudflare Pages deployment**
    - New project: `sujeeth-blog`
    - GitHub Actions workflow
    - Custom domain: `blogs.sujeeth.io`
 
-5. **Cross-link portfolio ↔ blog**
+6. **Cross-link portfolio ↔ blog**
    - Add "Blog" link to portfolio header
    - Add "Portfolio" link to blog header
 
-### Phase 3: Enhancements (Ongoing)
+### Phase 3: Homepage Integration (1-2 days)
+
+Priority: High — ties the two sites together.
+
+1. **Create `useBlogContent` hook** on portfolio
+   - Fetches `blogs.sujeeth.io/api/latest.json`
+   - React Query with 30-min stale time
+
+2. **Build homepage content sections**
+   - "Latest News" section (top 3 news items)
+   - "Latest Posts" section (top 5 blog posts)
+   - "View All" links to respective blog pages
+   - Loading skeletons + error fallbacks
+
+3. **Replace/reorganize existing homepage sections**
+   - Insert news + posts sections (e.g., after Hero/About, before Projects)
+   - Ensure responsive layout (stacked on mobile, side-by-side on desktop)
+
+### Phase 4: Enhancements (Ongoing)
 
 - Full-text search (Pagefind)
 - Comments (Giscus)
@@ -542,61 +718,72 @@ Priority: Medium — separate project, can be developed in parallel.
 ## Technical Architecture Diagram
 
 ```
-                    ┌─────────────────────────┐
-                    │     sujeeth.io          │
-                    │   (Cloudflare Pages)     │
-                    │                         │
-                    │  ┌───────────────────┐  │
-                    │  │ React SPA (Vite)  │  │
-                    │  │                   │  │
-                    │  │ - Hero            │  │
-                    │  │ - About           │  │
-                    │  │ - Projects        │  │
-                    │  │ - AI News ←──────────────── KV Read
-                    │  │ - Contact         │  │
-                    │  │ - Chatbot         │  │
-                    │  └───────────────────┘  │
-                    │                         │
-                    │  /api/chat  → OpenAI    │
-                    │  /api/news  → KV Read   │
-                    └─────────────────────────┘
-                                │
-                    ┌───────────┴──────────────┐
-                    │                          │
-          ┌─────────────────┐     ┌────────────────────┐
-          │ Cloudflare KV   │     │ Supabase           │
-          │                 │     │                    │
-          │ latest-news     │     │ chat_sessions      │
-          │ (JSON blob)     │     │ messages           │
-          └────────▲────────┘     └────────────────────┘
-                   │
-          ┌────────┴────────┐
-          │ Cron Worker     │
-          │ (daily 6am UTC) │
-          │                 │
-          │ Tavily API call │
-          │ → parse results │
-          │ → write to KV   │
-          └─────────────────┘
-
-
-                    ┌─────────────────────────┐
-                    │   blogs.sujeeth.io      │
-                    │  (Cloudflare Pages)      │
-                    │                         │
-                    │  ┌───────────────────┐  │
-                    │  │ Astro SSG         │  │
-                    │  │                   │  │
-                    │  │ - Post listing    │  │
-                    │  │ - Article pages   │  │
-                    │  │ - Tag filtering   │  │
-                    │  │ - RSS feed        │  │
-                    │  │ - Sitemap         │  │
-                    │  └───────────────────┘  │
-                    │                         │
-                    │  Content: MDX files     │
-                    │  (committed to repo)    │
-                    └─────────────────────────┘
+                    ┌─────────────────────────────┐
+                    │       sujeeth.io             │
+                    │     (Cloudflare Pages)        │
+                    │                              │
+                    │  ┌────────────────────────┐  │
+                    │  │ React SPA (Vite)       │  │
+                    │  │                        │  │
+                    │  │ - Hero                 │  │
+                    │  │ - About                │  │
+                    │  │ - Latest News (top 3) ─────────┐  (runtime fetch)
+                    │  │ - Latest Posts (top 5) ────────┤
+                    │  │ - Projects             │  │    │
+                    │  │ - Contact              │  │    │
+                    │  │ - Chatbot              │  │    │
+                    │  └────────────────────────┘  │    │
+                    │                              │    │
+                    │  /api/chat  → OpenAI         │    │
+                    │  /api/news  → KV Read        │    │
+                    └──────────────────────────────┘    │
+                                │                       │
+                    ┌───────────┴───────────┐           │
+                    │                       │           │
+          ┌─────────────────┐  ┌────────────────────┐   │
+          │ Cloudflare KV   │  │ Supabase           │   │
+          │                 │  │                    │   │
+          │ latest-news     │  │ chat_sessions      │   │
+          │ (JSON blob)     │  │ messages           │   │
+          └────────▲────────┘  └────────────────────┘   │
+                   │                                    │
+          ┌────────┴────────┐                           │
+          │ Cron Worker     │                           │
+          │ (daily 6am UTC) │                           │
+          │                 │                           │
+          │ Tavily API call │                           │
+          │ → parse results │                           │
+          │ → write to KV   │                           │
+          └─────────────────┘                           │
+                                                        │
+                    ┌───────────────────────────────┐    │
+                    │     blogs.sujeeth.io           │    │
+                    │    (Cloudflare Pages)           │    │
+                    │                               │    │
+                    │  ┌─────────────────────────┐  │    │
+                    │  │ Astro SSG/Hybrid        │  │    │
+                    │  │                         │  │    │
+                    │  │ Content Collections:    │  │    │
+                    │  │ - posts/  (articles)    │  │    │
+                    │  │ - news/   (AI news)     │  │    │
+                    │  │ - til/    (quick tips)  │  │    │
+                    │  │                         │  │    │
+                    │  │ Pages:                  │  │    │
+                    │  │ - /posts   (listing)    │  │    │
+                    │  │ - /news    (listing)    │  │    │
+                    │  │ - /til     (listing)    │  │    │
+                    │  │ - /tags    (filtering)  │  │    │
+                    │  │ - /rss     (feeds)      │  │    │
+                    │  │ - /sitemap              │  │    │
+                    │  └─────────────────────────┘  │    │
+                    │                               │    │
+                    │  /api/latest.json ◄────────────────┘
+                    │  (returns top posts + news     │
+                    │   for homepage consumption)    │
+                    │                               │
+                    │  Content: MDX files            │
+                    │  (committed to repo)           │
+                    └───────────────────────────────┘
 ```
 
 ---
@@ -607,7 +794,10 @@ Priority: Medium — separate project, can be developed in parallel.
 |----------|---------|----------------|
 | Blog repo structure | Separate repo vs. monorepo | **Separate repo** — cleaner deploys, independent CI/CD |
 | Tavily query frequency | 1x/day vs. 2x/day | **1x/day** at 6 AM UTC — sufficient for news freshness |
-| News display count | 5 vs. 10 articles | **6-8 articles** — good density without overwhelming |
-| Blog comments | Giscus vs. none | **Giscus** in Phase 3 — free, GitHub-based |
+| News display on homepage | 3 vs. 5 items | **3 news items** — concise, drives clicks to blog |
+| Posts display on homepage | 3 vs. 5 items | **5 posts** — enough to show breadth of content |
+| Astro output mode | SSG vs. hybrid | **Hybrid** — SSG for content pages, server for `/api/latest.json` |
+| Blog comments | Giscus vs. none | **Giscus** in Phase 4 — free, GitHub-based |
 | Newsletter | Buttondown vs. Resend | **Buttondown** — generous free tier (100 subscribers) |
 | Blog search | Pagefind vs. Fuse.js | **Pagefind** — built for static sites, zero config with Astro |
+| News subdomain | `news.sujeeth.io` vs. category under blog | **Category under blog** — all content under one domain for SEO, less maintenance |
