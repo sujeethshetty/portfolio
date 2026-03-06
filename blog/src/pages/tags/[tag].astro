@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', ({ data }) => !data.draft);
+  const tils = await getCollection('til', ({ data }) => !data.draft);
+  const allItems = [...posts.map(p => ({ ...p, collection: 'posts' as const })), ...tils.map(t => ({ ...t, collection: 'til' as const }))];
+  const tags = [...new Set(allItems.flatMap((item) => item.data.tags))];
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      items: allItems
+        .filter((item) => item.data.tags.includes(tag))
+        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+    },
+  }));
+}
+
+const { tag, items } = Astro.props;
+---
+
+<BaseLayout title={`#${tag} — Sujeeth's Blog`} description={`Posts tagged with "${tag}"`}>
+  <h1 class="text-3xl font-bold mb-2">#{tag}</h1>
+  <p class="text-muted-foreground mb-8">{items.length} post{items.length !== 1 ? 's' : ''}</p>
+
+  <div class="grid sm:grid-cols-2 gap-4">
+    {items.map((item: any) => (
+      <PostCard
+        title={item.data.title}
+        description={item.data.description}
+        date={item.data.date}
+        tags={item.data.tags}
+        slug={item.slug}
+        collection={item.collection}
+
+      />
+    ))}
+  </div>
+
+  <div class="mt-8">
+    <a href="/tags" class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+      ← All tags
+    </a>
+  </div>
+</BaseLayout>

@@ -1,0 +1,81 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={image} />
+    <script is:inline>
+      (function() {
+        var p = new URLSearchParams(location.search);
+        var t = p.get('theme');
+        if (t === 'dark' || t === 'light') {
+          localStorage.setItem('theme', t);
+          p.delete('theme');
+          history.replaceState(null, '', location.pathname + (p.size ? '?' + p : ''));
+        }
+        var stored = localStorage.getItem('theme');
+        var prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+        if (stored === 'dark' || (!stored && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col bg-grid-pattern">
+    <Header />
+    <main class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 w-full pt-24 pb-10">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Copy icon template (hidden) -->
+    <template id="copy-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+    </template>
+    <template id="check-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </template>
+
+    <script is:inline>
+      var copyTpl = document.getElementById('copy-icon');
+      var checkTpl = document.getElementById('check-icon');
+
+      document.querySelectorAll('pre').forEach(function(pre) {
+        var wrapper = document.createElement('div');
+        wrapper.style.position = 'relative';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+
+        var btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.title = 'Copy code';
+        btn.appendChild(copyTpl.content.cloneNode(true));
+        wrapper.appendChild(btn);
+
+        btn.addEventListener('click', function() {
+          var code = pre.querySelector('code');
+          var text = code ? code.textContent : pre.textContent;
+          navigator.clipboard.writeText(text).then(function() {
+            btn.replaceChildren(checkTpl.content.cloneNode(true));
+            setTimeout(function() {
+              btn.replaceChildren(copyTpl.content.cloneNode(true));
+            }, 2000);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

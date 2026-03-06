@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const tils = (await getCollection('til', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const totalPosts = posts.length + tils.length;
+const allTags = [...new Set([...posts, ...tils].flatMap(p => p.data.tags))];
+---
+
+<BaseLayout title="Sujeeth's Blog" description="Articles on AI, data engineering, and software architecture">
+  <!-- Hero section -->
+  <section class="mb-10">
+    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium bg-highlight/10 text-foreground border border-highlight/20 mb-4">
+      <span class="relative flex h-1.5 w-1.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-highlight opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-highlight"></span>
+      </span>
+      {totalPosts} articles &middot; {allTags.length} topics
+    </div>
+
+    <h1 class="text-3xl sm:text-4xl font-bold mb-3 leading-tight">
+      Notes on <span class="text-muted-foreground">AI</span> & <span class="text-muted-foreground">Data Engineering</span>
+    </h1>
+    <p class="text-muted-foreground max-w-2xl">
+      Stuff I've built, broken, and figured out along the way.
+    </p>
+  </section>
+
+  <!-- Latest Post -->
+  {posts.length > 0 && (
+    <section class="mb-10">
+      <a href={`/posts/${posts[0].slug}`} class="group block relative rounded-xl border border-border/50 bg-card p-6 sm:p-8 hover:shadow-xl transition-all duration-300 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-highlight/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="relative z-10">
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium text-highlight mb-3">
+            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            Latest Post
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-bold mb-3 group-hover:text-highlight transition-colors">
+            {posts[0].data.title}
+          </h2>
+          <p class="text-muted-foreground mb-4 max-w-2xl">{posts[0].data.description}</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <time class="text-sm text-muted-foreground">
+              {posts[0].data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+            <span class="text-border">|</span>
+            <div class="flex gap-2">
+              {posts[0].data.tags.slice(0, 3).map((tag: string) => (
+                <span class="text-xs px-2 py-0.5 rounded-md bg-secondary text-secondary-foreground">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+  )}
+
+  <!-- More Posts -->
+  {posts.length > 1 && (
+    <section class="mb-10">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-semibold">More Posts</h2>
+        <a href="/posts" class="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+          View all
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {posts.slice(1, 7).map((post) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            tags={post.data.tags}
+            slug={post.slug}
+            collection="posts"
+            coverImage={post.data.coverImage}
+            variant={post.data.coverImage ? 'image' : 'default'}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- TIL section -->
+  {tils.length > 0 && (
+    <section>
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-semibold">Today I Learned</h2>
+        <a href="/til" class="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">
+          View all
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="grid gap-4">
+        {tils.slice(0, 5).map((til) => (
+          <PostCard
+            title={til.data.title}
+            description={til.data.description}
+            date={til.data.date}
+            tags={til.data.tags}
+            slug={til.slug}
+            collection="til"
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

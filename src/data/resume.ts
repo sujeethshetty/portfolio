@@ -108,7 +108,7 @@ export const education: Education[] = [
 ];
 
 export const skills: Record<string, string[]> = {
-  "Languages & Frameworks": ["Python", "SQL", "Scala", "PySpark", "FastAPI", "Next.js", "Rust"],
+  "Languages & Frameworks": ["Python", "SQL", "Scala", "PySpark", "FastAPI", "TypeScript", "Rust"],
   "Data Engineering": ["Apache Spark", "Apache Kafka", "Apache Airflow", "dbt", "Snowflake", "Redshift", "Databricks", "Hadoop", "HDFS"],
   "Cloud & DevOps": ["AWS", "Azure", "Terraform", "Kubernetes", "Docker", "EKS", "ECS", "EMR", "S3", "SQS", "CI/CD", "Git"],
   "Data Architecture": ["Data Modeling", "Data Lake", "Data Warehouse", "ETL", "ELT", "Star Schema", "Medallion Architecture", "Data Quality"],

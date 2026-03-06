@@ -4,15 +4,17 @@ import ThemeToggle from "./ThemeToggle";
 import { useLocation, Link } from "react-router-dom";
 import { PERSONAL_INFO } from "@/config/constants";
 
-// Custom Bluesky icon (from Bootstrap Icons) - uses currentColor to match theme
+// Custom Bluesky icon - uses currentColor to match theme
 const BlueskyIcon = ({ className }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 16 16"
-    fill="currentColor"
-    className={className}
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className={className}>
     <path d="M3.468 1.948C5.303 3.325 7.276 6.118 8 7.616c.725-1.498 2.698-4.29 4.532-5.668C13.855.955 16 .186 16 2.632c0 .489-.28 4.105-.444 4.692-.572 2.04-2.653 2.561-4.504 2.246 3.236.551 4.06 2.375 2.281 4.2-3.376 3.464-4.852-.87-5.23-1.98-.07-.204-.103-.3-.103-.218 0-.081-.033.014-.102.218-.379 1.11-1.855 5.444-5.231 1.98-1.778-1.825-.955-3.65 2.28-4.2-1.85.315-3.932-.205-4.503-2.246C.28 6.737 0 3.12 0 2.632 0 .186 2.145.955 3.468 1.948" />
+  </svg>
+);
+
+// Custom X icon
+const XIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className={className}>
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
   </svg>
 );
 
@@ -41,11 +43,11 @@ const Header = () => {
               }}>
                 About
               </a>
-              <a href="/#/#tech-stack" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+              <a href="/#/#blog" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('tech-stack')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' });
               }}>
-                Tech Stack
+                Blog
               </a>
               <a href="/#/#projects" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
                 e.preventDefault();
@@ -83,6 +85,11 @@ const Header = () => {
                 </a>
               </Button>
               <Button variant="ghost" size="icon" asChild>
+                <a href="https://x.com/xsujeeth" target="_blank" rel="noopener noreferrer">
+                  <XIcon className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
                 <a href={`mailto:${PERSONAL_INFO.email}`}>
                   <Mail className="h-5 w-5" />
                 </a>
@@ -115,6 +122,11 @@ const Header = () => {
               <Button variant="ghost" size="icon" asChild>
                 <a href="https://bsky.app/profile/sujeeth.dev" target="_blank" rel="noopener noreferrer">
                   <BlueskyIcon className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button variant="ghost" size="icon" asChild>
+                <a href="https://x.com/xsujeeth" target="_blank" rel="noopener noreferrer">
+                  <XIcon className="h-3.5 w-3.5" />
                 </a>
               </Button>
               <Button variant="ghost" size="icon" asChild>

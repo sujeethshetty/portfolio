@@ -1,0 +1,70 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import TagList from '../components/TagList.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  updatedDate?: Date;
+  tags: string[];
+  coverImage?: string;
+  prevPost?: { title: string; slug: string } | null;
+  nextPost?: { title: string; slug: string } | null;
+}
+
+const { title, description, date, updatedDate, tags, coverImage, prevPost, nextPost } = Astro.props;
+---
+
+<BaseLayout title={`${title} — Sujeeth's Blog`} description={description} image={coverImage}>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold leading-tight">{title}</h1>
+      {description && (
+        <p class="mt-3 text-lg text-muted-foreground">{description}</p>
+      )}
+      <div class="mt-3 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+        <FormattedDate date={date} />
+        {updatedDate && (
+          <span>
+            (Updated: <FormattedDate date={updatedDate} />)
+          </span>
+        )}
+      </div>
+      <div class="mt-4">
+        <TagList tags={tags} />
+      </div>
+    </header>
+
+    {coverImage && (
+      <img
+        src={coverImage}
+        alt={title}
+        class="w-full rounded-lg mb-8"
+      />
+    )}
+
+    <div class="prose prose-neutral dark:prose-invert max-w-none prose-headings:font-semibold prose-a:text-foreground prose-a:underline-offset-4 hover:prose-a:text-highlight prose-code:before:content-none prose-code:after:content-none prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:text-sm">
+      <slot />
+    </div>
+  </article>
+
+  <!-- Prev / Next navigation -->
+  {(prevPost || nextPost) && (
+    <nav class="max-w-3xl mx-auto mt-12 pt-8 border-t border-border/40 flex items-center justify-between gap-4">
+      {nextPost ? (
+        <a href={`/posts/${nextPost.slug}`} class="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors max-w-[45%]">
+          <svg class="w-4 h-4 flex-shrink-0 group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          <span class="truncate">{nextPost.title}</span>
+        </a>
+      ) : <span />}
+      {prevPost ? (
+        <a href={`/posts/${prevPost.slug}`} class="group flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors max-w-[45%] ml-auto text-right">
+          <span class="truncate">{prevPost.title}</span>
+          <svg class="w-4 h-4 flex-shrink-0 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+        </a>
+      ) : <span />}
+    </nav>
+  )}
+</BaseLayout>

@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="All Posts — Sujeeth's Blog" description="All blog posts">
+  <div class="mb-10">
+    <h1 class="text-3xl font-bold mb-2">All Posts</h1>
+    <p class="text-muted-foreground">{posts.length} articles on AI, data engineering, and building things.</p>
+  </div>
+
+  {posts.length > 0 ? (
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      {posts.map((post) => (
+        <PostCard
+          title={post.data.title}
+          description={post.data.description}
+          date={post.data.date}
+          tags={post.data.tags}
+          slug={post.slug}
+          collection="posts"
+          coverImage={post.data.coverImage}
+          variant={post.data.coverImage ? 'image' : 'default'}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="text-muted-foreground">No posts yet. Check back soon!</p>
+  )}
+</BaseLayout>

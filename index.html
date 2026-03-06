@@ -35,6 +35,17 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      (function() {
+        var p = new URLSearchParams(location.search);
+        var t = p.get('theme');
+        if (t === 'dark' || t === 'light') {
+          localStorage.setItem('theme', t);
+          p.delete('theme');
+          history.replaceState(null, '', location.pathname + (p.size ? '?' + p : ''));
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

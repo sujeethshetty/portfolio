@@ -1,0 +1,24 @@
+---
+import { getCollection } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+
+export async function getStaticPaths() {
+  const tils = await getCollection('til');
+  return tils.map((til) => ({
+    params: { slug: til.slug },
+    props: til,
+  }));
+}
+
+const til = Astro.props;
+const { Content } = await til.render();
+---
+
+<PostLayout
+  title={til.data.title}
+  description={til.data.description}
+  date={til.data.date}
+  tags={til.data.tags}
+>
+  <Content />
+</PostLayout>

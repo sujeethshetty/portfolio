@@ -1,0 +1,141 @@
+---
+title: "How I Set Up Openclaw on a Mac Mini"
+description: "A practical guide to running a AI Chief of Staff that actually does things, not just answers questions"
+date: 2026-02-09
+tags: ["openai", "ai", "ai-agents", "self-hosting"]
+draft: false
+coverImage: "https://cdn-images-1.medium.com/max/800/1*amPrrb_YTDQF-zcPj-8R-w.png"
+# Originally published on Medium: https://medium.com/@datadelight/how-i-set-up-openclaw-on-a-mac-mini-f97d1531061e
+---
+
+
+The first hiccup wasn’t software. It was a mouse.
+
+My new Mac Mini arrived, I plugged in my Logitech MX Master via USB receiver, and nothing. macOS out of the box wanted Bluetooth pairing before I could even get to the desktop. One quick trip to the Apple Store and $79 later, I had a Magic Mouse (the one with the charging port on the bottom, because Apple) and I was finally in business.
+
+Not the most dignified start to building an AI assistant, but it set the tone for the whole project: small, stupid problems are the real obstacles. The AI part is actually the easy part.
+
+### What I Built (and Why)
+
+I wanted something that goes beyond the typical chatbot experience. Not another wrapper around an LLM that answers questions and forgets you exist. I wanted a **chief of staff**, an AI that runs 24/7, talks to me over Telegram and WhatsApp, tracks my personal projects, and actually _executes_ tasks.
+
+More importantly, I wanted it to have access to all the tools and systems I already use on my local machine. That’s why I didn’t go with a $5/month VM. A remote server means rebuilding your entire dev environment from scratch, managing credentials across machines, and constantly syncing state. A Mac Mini sitting on my desk already has everything: my repos, my configs, my CLI tools, my browser sessions. The AI plugs directly into the workflow I already have instead of living in some isolated sandbox.
+
+Here’s the stack:
+
+-   **Mac Mini (M-series)** running OpenClaw as a persistent local server
+-   **Claude Code** installed separately on the same machine, strictly for coding
+-   **Tailscale** for secure remote access from anywhere
+-   **Claude** as the underlying AI, authenticated via OAuth
+-   **Telegram + WhatsApp** as the messaging interfaces
+-   **Personality files** (SOUL.md, USER.md) that give it context about who it is and who I am
+
+Total setup time was about two hours, and yes, that includes the Apple Store detour.
+
+### The Setup, Step by Step
+
+### macOS Basics
+
+**Update the OS first.** Before installing anything, make sure macOS is fully up to date. System Settings → General → Software Update. Get that out of the way so you’re not dealing with update reboots later.
+
+**Keep network access alive during sleep.** Go to System Settings → Battery → Options and enable “Wake for network access.” This ensures the Mac Mini stays reachable over Tailscale even when the display is off or the machine enters low-power mode.
+
+**Disable SSH password authentication.** If you have SSH enabled, make sure password login is turned off and only key-based authentication is allowed. One less thing to worry about.
+
+For the user account: you can create a dedicated user specifically for OpenClaw if you prefer isolation, but I skipped that. This Mac Mini exists purely to run OpenClaw, so I set it up with a local account and didn’t bother signing in with iCloud. Keep it simple and single-purpose.
+
+### CModel Provider Authentication
+
+This is part of the OpenClaw setup process, not a separate step. During onboarding, OpenClaw asks for your model provider auth key, so have it ready before you run `openclaw onbaord`. I use Claude, but OpenClaw also supports OpenAI, and other providers if you prefer a different model. For Claude, you can generate a token by running:
+
+```bash
+claude setup-token
+```
+
+This walks you through the OAuth flow and stores the token locally. Copy it when prompted during the OpenClaw setup and you’re good to go.
+
+### Node.js and OpenClaw Onbaord
+
+Straightforward Homebrew install:
+
+```css
+brew install node@22npm install -g openclawopenclaw onboard
+```
+
+The configure wizard walks you through everything in the terminal: model provider, messaging channels, binding mode, and so on. Just follow the prompts. Pick **local mode** and **loopback binding** since we’re handling remote access through Tailscale, not by exposing ports to the network.
+
+OpenClaw also supports skills, which are pre-built or custom capabilities you can plug in. You don’t need to set these up right away. The only pre-built skill I configured during setup was **Brave Search** for web lookups so the bot can pull real-time information when it needs to. Everything else can be added later as you figure out what your workflow actually needs.
+
+### Remote Access with Tailscale
+
+Tailscale lets you reach the Mac Mini from anywhere without exposing ports to the internet. Only your authenticated devices can connect.
+
+```typescript
+brew install tailscalesudo tailscale up
+```
+
+OpenClaw has built-in Tailscale integration. Set the gateway to **serve** mode and it auto-configures Tailscale Serve, keeping the gateway bound to loopback while Tailscale handles HTTPS and routing:
+
+```json
+{  "gateway": {    "bind": "loopback",    "tailscale": { "mode": "serve" }  }}
+```
+
+Enable **MagicDNS** in the Tailscale admin panel and you can access the gateway dashboard at `https://<your-machine-name>/` from anywhere on your tailnet. Requests authenticate via Tailscale identity headers automatically, no separate tokens needed.
+
+### Security: Keep Your Keys in Bitwarden
+
+For API keys and secrets, I didn’t want anything hardcoded in config files or environment variables sitting in plaintext on disk. Instead, I store everything in **Bitwarden** and have OpenClaw access them through the Bitwarden CLI.
+
+The setup is simple: install the Bitwarden CLI (`bw`), log in, and unlock your vault. OpenClaw can then pull secrets on demand using `bw get` commands whenever it needs to authenticate with an external service. This means API keys for Claude, Telegram, WhatsApp, X, and anything else all live in one encrypted vault. If I need to rotate a key, I update it in Bitwarden once and OpenClaw picks it up on the next access. No scattered `.env` files, no secrets committed to repos, no credentials in shell history.
+
+### Running It
+
+```sql
+openclaw gateway start
+```
+
+That’s it. If you want persistence across reboots, OpenClaw has a launchd plist template in the docs. But honestly, I just leave a terminal session running. The Mac rarely restarts, and I’d rather not add complexity I don’t need yet.
+
+### How I Actually Use It
+
+**It’s a product manager, not a chatbot.** I describe what I want built. OpenClaw breaks the architecture into tasks, spins up Claude Code instances to build each piece, and runs tests when the changes land. By morning, features are shipped that didn’t exist when I went to bed.
+
+**The separation from Claude Code is deliberate.** Both use the same model, but they serve different roles. OpenClaw orchestrates: planning, prioritization, communication. Claude Code executes: writing and testing code with a set of plugins I’ve pre-configured for my dev workflows. I didn’t want diffs and stack traces polluting the bot’s conversational memory, and I didn’t want project planning cluttering the coding context. Each tool stays sharp at what it does best.
+
+**It posts on X autonomously.** OpenClaw runs a sub-agent that shares build-in-public updates, technical decisions, and progress on the projects it’s working on. I stopped manually tweeting about features months ago.
+
+![](https://cdn-images-1.medium.com/max/800/1*aorDZUpt3fnq_crUGdRGhg.png)
+
+**It works on my schedule, not against it.** OpenClaw monitors Claude API usage and runs heavy project work while I’m asleep or at the office so it doesn’t burn through my limits during working hours. Every morning I get a daily update with what shipped overnight. If it hits a blocker (access permissions, missing packages, failed tests), it pings me on Telegram and waits instead of spinning its wheels.
+
+**Telegram and WhatsApp are just interfaces.** Same AI, same memory. I message whichever app is open.
+
+### What I’d Do Differently
+
+**Buy the right mouse before unboxing.** Obvious in hindsight.
+
+**Start simpler than you think.** I spent too long reading about configuration options I didn’t need. Default settings are fine for most things. Add complexity when you hit an actual problem, not before.
+
+**Set up the workspace directory first.** OpenClaw works best with a dedicated workspace (mine is at `~/clawd`). Think about what goes in there before you start piling files in.
+
+### What’s Next
+
+The overnight coding loop works. The X agent posts. The daily updates land. Now I’m pushing into the parts that are still manual.
+
+I want OpenClaw to own the full deployment pipeline: not just write and test code, but push to staging, run smoke tests against live services, and only ping me when something actually needs a human decision. Right now I’m still the bottleneck between “tests pass” and “it’s live.”
+
+I’m also working on giving it deeper context about my users. Right now it builds what I tell it to build. I want it reading support threads, monitoring error logs, and proposing features based on what’s actually breaking or what users are actually asking for. Less “build this component” from me, more “here’s what I think we should ship next and why” from it.
+
+The end state is an AI that doesn’t just execute my plans but challenges them.
+
+### The Bottom Line
+
+If you’ve been curious about running a local AI assistant but thought it required a complex homelab setup, it doesn’t. A Mac Mini, a couple hours, and a willingness to solve dumb problems (like mice) is all it takes.
+
+The real value isn’t in the tech stack. It’s in having an AI that persists, remembers context, builds autonomously, and runs on your terms instead of inside someone else’s app.
+
+_Total cost: One Mac Mini and a Magic Mouse I’ll probably never use again._
+
+_Worth it? Absolutely._
+
+_If you want to go cloud, there are solid threads on X about OpenClaw setups, and the official docs are at docs.openclaw.ai._

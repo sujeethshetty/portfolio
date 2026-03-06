@@ -1,0 +1,101 @@
+---
+title: "How I Built an AI-Powered Reddit Stock Monitoring System"
+description: "How I built an AI system to automatically discover trending stocks across Reddit before they hit mainstream attention."
+date: 2025-06-30
+tags: ["openai", "ai", "rag", "reddit", "finance", "discord", "teznewz"]
+draft: false
+coverImage: "https://cdn-images-1.medium.com/max/800/1*7rKGVY33bshCqHf35MRF3A.png"
+# Originally published on Medium: https://medium.com/@datadelight/how-i-built-an-ai-powered-reddit-stock-monitoring-system-1bcda3ea21c4
+---
+### **The Inspiration**
+
+It started with a routine post on r/TheRaceTo10Million, but the replies quickly turned lively as veteran Reddit traders jumped in, trading notes on their go-to finance subreddits, some focus on long-form analysis, others hunt momentum trades, and still others specialize in penny stocks or blue-chip chatter. One theme kept surfacing: the smartest plays emerge when _the same ticker suddenly pops up across several very different communities_.
+
+That crowd-sourced insight crystallized a bigger idea: **real edge lies in tracking many subreddits at once and spotting the tickers that start trending in more than one place**. The hurdle, of course, is scale, there are thousands of new comments every hour, scattered across r/wallstreetbets, r/investing, r/stocks, and dozens more.
+
+So the question became: _How can I automatically scan that firehose in real time and reliably pull out mentions of symbols like RGC or ASTS buried inside the noise?_ Solving that puzzle is what set this project in motion, and what drives everything I’m building next.
+
+### **The Engineering Challenge**
+
+When I set out to build TezNewz’s Reddit monitoring system, I quickly discovered that identifying stock tickers in social media posts is far more complex than it initially appears.
+
+#### **The Ticker Identification Problem**
+
+Consider these real Reddit comments:
+
+> RGC is about to moon 🚀
+
+> Anyone else loading up on ASTS calls?
+
+> DD on ROTH — this could be the next big play
+
+> WSB ruined $GME for me
+
+A naive approach might use regex patterns to find 3–4 letter uppercase words preceded by “$” symbols. But this fails catastrophically:
+
+#### **False Positives:**
+
+> **DD** (Due Diligence) ≠ a stock ticker
+
+> **WSB** (WallStreetBets) ≠ a stock ticker
+
+> CEO, IPO, SEC ≠ stock tickers
+
+#### **False Negatives:**
+
+> Companies mentioned by name: **Tesla is overvalued (TSLA)**
+
+> Longer tickers: **ARKK** (5 letters)
+
+> Context-dependent abbreviations: **the mouse (Disney/DIS)**
+
+#### **Ambiguity:**
+
+> “ROTH” could be Roth CH Acquisition V Co. (ROTH) or a Roth IRA
+
+> AI could be C3.ai Inc. (AI) or artificial intelligence
+
+Traditional NLP approaches struggle with the informal nature of Reddit discussions, slang, emojis, and the constantly evolving vocabulary of retail investors.
+
+### **Solution: RAG-Enhanced Ticker Identification**
+
+I solved this challenge by building a **Retrieval-Augmented Generation (RAG) system** that combines the contextual understanding of large language models with a comprehensive, real-time ticker database.
+
+#### **The Architecture**
+
+![](https://cdn-images-1.medium.com/max/800/1*Xllf-Hst2tmS6K_l4qzTcQ.png)
+
+#### **How It Works**
+
+1.  **Real-time Data Collection**
+
+-   Monitor key financial subreddits every 2 hours
+-   Capture posts, comments, engagement metrics, and sentiment
+
+2\. **RAG-Enhanced Processing**
+
+-   Feed raw Reddit content to our Ticker RAG system
+-   RAG queries our comprehensive ticker database (60,000+ symbols)
+-   Enhanced context passed to GPT-4.1 for intelligent extraction
+
+3\. **Smart Filtering**
+
+-   Only process discussions meeting impact thresholds
+-   Minimum 2 discussions AND (total impact ≥ 30 OR average impact ≥ 20)
+-   **This saves ~60% of OpenAI API costs** by filtering out low-signal noise
+
+4\. **AI-Powered Summarization**
+
+-   Generate concise summaries of ticker discussions
+-   Include sentiment analysis and engagement metrics
+-   Route to sector-specific Discord channels
+
+![](https://cdn-images-1.medium.com/max/800/1*iLQ9g3AWmbGca3z6tE073g.png)
+
+### The Bigger Picture
+
+TezNewz turns Reddit’s market buzz into a tradable signal. The AI sifts thousands of finance subreddits in real time, filtering out noise and flagging only meaningful sentiment shifts. Pair those signals with your charts and fundamentals, set instant alerts, and catch crowd-driven moves before they hit the tape.
+
+Ready to see it in action? Visit [**TezNewz.com**](https://teznewz.com) and start exploring for yourself.
+
+[TezNewz | AI-Scored Financial NewsGet real-time AI-scored financial news with TezNewz. Make informed investment decisions with our market impact ratings…teznewz.com](https://teznewz.com)

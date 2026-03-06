@@ -1,0 +1,69 @@
+---
+title: "Auto-GPT : Installation Made Easy"
+description: "Unlocking the Potential of GPT-4: An Installation Guide for Auto-GPT"
+date: 2023-05-04
+tags: ["openai", "ai", "python", "auto-gpt"]
+draft: false
+coverImage: "https://cdn-images-1.medium.com/max/800/1*dll6-Dp4JwjEJNJK86g1QA.png"
+# Originally published on Medium: https://medium.com/@datadelight/auto-gpt-installation-made-easy-94ae4ca426b0
+---
+Auto-GPT is an open-source project that provides a simple interface for interacting with the OpenAI GPT language models. By using GPT-4 to connect LLM “thoughts”, Auto-GPT can autonomously achieve any objective you set for it. As one of the first fully autonomous GPT-4 examples, Auto-GPT pushes the limits of what is feasible with AI. It can access the internet for information gathering, manage long-term and short-term memory, generate text using GPT-4 instances, access popular websites and platforms, store files, summarize with GPT-3.5, and expand its capabilities with Plugins. The following are the steps to install Auto-GPT.
+
+### Getting an API key
+
+Get your OpenAI API key from: [https://platform.openai.com/account/api-keys](https://platform.openai.com/account/api-keys).
+
+> _Note: To use the OpenAI API with Auto-GPT, it is recommended to set up billing (AKA paid account). Free accounts are limited to 3 API calls per minute, which can cause the application to crash. You can set up a paid account at Manage account > Billing > Overview. It’s highly recommended that you keep track of your API costs on the Usage page. You can also set limits on how much you spend on the Usage limits page._
+
+For OpenAI API key to work, set up a paid account at OpenAI API > Billing.
+
+### Setting up Auto-GPT
+
+There are multiple ways to install Auto-GPT on your machine, depending on your preferences. Below, we’ll provide detailed instructions for the most common installation methods, so you can choose the one that fits you best.
+
+#### Set up with build script
+
+The build script installs all necessary prerequisites for Auto-GPT to function properly. It simplifies the installation process, making it easier for users to set up Auto-GPT on Linux machines.
+
+```bash
+#!/bin/bash
+# This script is used to build the Auto-GPT environment
+apt update && apt upgrade -y
+apt install software-properties-common -y 
+add-apt-repository ppa:deadsnakes/ppa
+
+#install python3.10
+apt install python3.10 
+#install pip
+apt install python3-pip
+#install venv
+apt install python3.10-venv
+#install python-is-python3
+apt install python-is-python3
+#install git
+apt install git
+
+#clone the repo
+git clone https://github.com/Significant-Gravitas/Auto-GPT.git
+cd Auto-GPT
+
+#install requirements
+python -m venv venv
+source ./venv/bin/activate
+pip install -r requirements.txt
+
+#rename .env.template to .env
+mv .env.template .env
+
+# Now, edit the .env file to include your API key
+#replace sk-xxxx with your key
+sed -i 's/OPENAI_API_KEY=your-openai-api-key/OPENAI_API_KEY=sk-xxxx/g' .env
+
+echo "Build Complete!"
+```
+
+Once the build is complete, simply run the startup script in your terminal. This will install any missing Python packages and launch Auto-GPT.
+
+```bash
+cd Auto-GPT ./run.sh#since python packages are already installed, you can directly usepython -m autogpt
+```

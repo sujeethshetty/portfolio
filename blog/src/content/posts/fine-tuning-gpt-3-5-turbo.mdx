@@ -1,0 +1,87 @@
+---
+title: "Fine-Tuning GPT-3.5 Turbo"
+description: "A Guide to Fine-tune GPT-3.5 Turbo for peak performance and tailor-made interactions"
+date: 2023-08-25
+tags: ["openai", "ai", "fine-tuning"]
+draft: false
+coverImage: "https://cdn-images-1.medium.com/max/800/1*F5aUyE2-sGwLR_H1oYQdPQ.png"
+# Originally published on Medium: https://medium.com/@datadelight/fine-tuning-gpt-3-5-turbo-3dc918ad643e
+---
+
+
+***Conductor guiding an orchestra of stylized GPT-3.5 Turbo models***
+
+In a notable stride towards catering to the unique requirements of developers and businesses, OpenAI has unveiled an exciting addition: fine-tuning for its GPT-3.5 Turbo model. This breakthrough not only allows developers to fashion custom models finely attuned to their specific use cases but also accentuates performance and personalization. Notably, the data sent to and from the fine-tuning API is exclusively owned by the customer, ensuring privacy and control. Furthermore, as a promising hint of things to come, fine-tuning capabilities are on the horizon for GPT-4 in the upcoming fall season.
+
+### The Step-by-Step Guide to Fine-Tuning
+
+Fine-tuning GPT-3.5 Turbo involves several steps that pave the way for customization. Let’s walk through the process:
+
+**Step 1: Prepare Your Data**
+
+Your journey begins with preparing the data that will be used for fine-tuning. Data preparation involves structuring conversations in a specific format, comprising system instructions, user messages, and assistant responses.
+
+```bash
+{
+  "messages": [
+    { "role": "system", "content": "You are an assistant that occasionally misspells words" },
+    { "role": "user", "content": "Tell me a story." },
+    { "role": "assistant", "content": "One day a student went to school." }
+  ]
+}
+```
+
+**Step 2: Upload Files**
+
+Upload your prepared data using the provided API call. This will facilitate the incorporation of your data into the fine-tuning process.
+
+```bash
+curl https://api.openai.com/v1/files \  -H "Authorization: Bearer $OPENAI_API_KEY" \  -F "purpose=fine-tune" \  -F "file=@path_to_your_file"
+```
+
+**Step 3: Create a Fine-Tuning Job**
+
+Initiate a fine-tuning job by issuing the appropriate API call. This associates your uploaded training data with the GPT-3.5 Turbo model.
+
+```bash
+curl https://api.openai.com/v1/fine_tuning/jobs \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer $OPENAI_API_KEY" \
+-d '{
+  "training_file": "TRAINING_FILE_ID",
+  "model": "gpt-3.5-turbo-0613"
+}'
+```
+
+Once the fine-tuning process concludes, the model becomes available for immediate production use, inheriting the shared rate limits of the base model.
+
+**Step 4: Use a Fine-Tuned Model**
+
+Now comes the exciting part — using your fine-tuned model to achieve personalized and optimized interactions. This API call demonstrates how to interact with the fine-tuned model.
+
+```bash
+curl https://api.openai.com/v1/chat/completions \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer $OPENAI_API_KEY" \
+-d '{
+  "model": "ft:gpt-3.5-turbo:org_id",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an assistant that occasionally misspells words"
+    },
+    {
+      "role": "user",
+      "content": "Hello! What is fine-tuning?"
+    }
+  ]
+}'
+```
+
+### Conclusion
+
+As we wrap up our exploration of fine-tuning GPT-3.5 Turbo, the prospect of shaping AI to precise specifications stands out as a game-changer. Fine-tuning empowers developers to fine-tune responses, formats, and even tones, turning AI into a personalized solution for diverse needs.
+
+The power of improved steerability allows businesses to guide AI responses with finesse, ensuring outcomes match intentions perfectly. Whether it’s maintaining consistent formats for crucial tasks or infusing interactions with brand identity, fine-tuning delivers tailored results.
+
+Yet, in the grand tapestry of AI possibilities, it’s important to note that OpenAI’s commitment to innovation is unwavering. The introduction of ChatGPT Enterprise, for instance, represents a significant step forward. This new offering extends the boundaries of what AI can achieve, with an emphasis on data control, privacy, and enhanced performance.

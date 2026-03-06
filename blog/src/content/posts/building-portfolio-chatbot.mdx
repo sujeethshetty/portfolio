@@ -1,0 +1,72 @@
+---
+title: "Building an AI-Powered Portfolio Chatbot"
+description: "How I integrated GPT-4o-mini into my portfolio with streaming responses, rate limiting, and conversation logging"
+date: 2026-03-04
+tags: ["ai", "openai", "cloudflare", "supabase"]
+draft: false
+---
+
+When I rebuilt my portfolio site, I wanted something more interactive than a static "About Me" section. The idea was simple: let visitors ask questions about my experience, skills, and projects through a conversational AI interface.
+
+## The Architecture
+
+The chatbot runs on a straightforward stack:
+
+- **Frontend**: React component with streaming SSE support
+- **API**: Cloudflare Pages Function proxying to OpenAI's Responses API
+- **Model**: GPT-4o-mini (fast, cheap, good enough for a portfolio chatbot)
+- **Logging**: Supabase for conversation persistence
+- **Rate Limiting**: 20 requests per hour per IP
+
+```typescript
+const requestBody = {
+  model: 'gpt-4o-mini',
+  instructions: systemPrompt,
+  input: [{ type: 'message', role: 'user', content: message }],
+  max_output_tokens: 250,
+  stream: true,
+};
+```
+
+## Streaming Responses
+
+The key to making it feel responsive is streaming. Instead of waiting for the full response, we pipe OpenAI's SSE stream directly to the client:
+
+```typescript
+const reader = response.body.getReader();
+const decoder = new TextDecoder();
+
+while (true) {
+  const { done, value } = await reader.read();
+  if (done) break;
+  res.write(decoder.decode(value, { stream: true }));
+}
+```
+
+The frontend renders each token as it arrives, giving that satisfying typewriter effect.
+
+## Rate Limiting Without a Database
+
+For rate limiting, I used an in-memory `Map` on the server side. It's simple but effective for a portfolio site:
+
+```typescript
+const rateLimitStore = new Map();
+
+function checkRateLimit(ip: string): boolean {
+  const record = rateLimitStore.get(ip);
+  if (!record || Date.now() > record.resetTime) {
+    rateLimitStore.set(ip, { count: 1, resetTime: Date.now() + 3600000 });
+    return true;
+  }
+  return record.count++ < 20;
+}
+```
+
+Yes, this resets on deploy. That's fine for a portfolio site - if someone hits 20 messages in an hour, they've probably learned everything they need to know about me.
+
+## Lessons Learned
+
+1. **GPT-4o-mini is underrated** - it's fast, cheap, and handles conversational Q&A perfectly
+2. **Streaming matters** - the perceived performance difference between streaming and non-streaming is massive
+3. **Keep the system prompt focused** - mine is about 500 tokens covering my background, skills, and what to redirect visitors to
+4. **Log everything** - conversation logs are genuinely interesting to read and help you understand what visitors actually want to know

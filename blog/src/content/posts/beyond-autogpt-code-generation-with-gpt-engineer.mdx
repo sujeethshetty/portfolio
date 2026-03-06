@@ -1,0 +1,103 @@
+---
+title: "Beyond AutoGPT: Code Generation with GPT Engineer"
+description: "Ever tried Auto-GPT for code generation? Yeah, me too. But more often than not, it got stuck in loops — not fun. If you’re curious about…"
+date: 2023-08-10
+tags: ["openai", "ai", "python", "writing", "auto-gpt"]
+draft: false
+coverImage: "https://cdn-images-1.medium.com/max/800/1*4p1fW3GSu01PPsJvWWIR0A.png"
+# Originally published on Medium: https://medium.com/@datadelight/ai-coding-assistant-gpt-engineer-vs-auto-gpt-4bc3da38ec8a
+---
+*Crafted using Midjourney*
+
+Ever tried Auto-GPT for code generation? Yeah, me too. But more often than not, it got stuck in loops — not fun. If you’re curious about setting up Auto-GPT, check out my article [here](https://blog.gopenai.com/auto-gpt-installation-made-easy-94ae4ca426b0?sk=ccee7bd76c1759471ca4f88244ecb568). Thankfully, I then came across GPT-Engineer, and it’s a game-changer. Unlike Auto-GPT, it’s a breeze to use and adapt. Join me as I share my experience with GPT-Engineer — a tool that’s reshaping the world of AI-driven code generation.
+
+### Getting started with GPT Engineer
+
+II harnessed the capabilities of GPT Engineer to construct an ML pipeline using the sklearn library. This pipeline was designed to predict Delivery Duration, and my adventure began with a dataset from Doordash — you can access it through this [link](https://github.com/Bahaakhalled/Delivery-Duration-Prediction-Stratas/blob/main/historical_data.csv?raw=true).
+
+#### Step1: **Installation of GPT Engineer**
+
+For development purposes, I cloned the repository and followed the installation guide.
+
+```bash
+git clone https://github.com/AntonOsika/gpt-engineer.gitcd gpt-engineerpip install -e .(or: make install && source venv/bin/activate)
+```
+
+If you’re opting for the stable release, you can simply install it using this command.
+
+```bash
+pip install gpt-engineer
+```
+
+#### **Step2: Establishing the Connection**
+
+Using an OpenAI API key (preferably with GPT-4 access), I executed the following command. In case you don’t have GPT-4 access, you can switch the model name to GPT-3.5 in `gpt_engineer/main.py`
+
+```bash
+export OPENAI_API_KEY=[your api key]
+```
+
+#### Step3: **Creating My Project**
+
+I initiated a blank project using the subsequent command within the repository.
+
+```bash
+cp -r projects/example/ projects/doordash
+```
+
+#### Step4: Tailoring the prompt
+
+I populated the prompt file with the requisite details. This step laid the foundation for guiding GPT Engineer in understanding my coding requirements.
+
+```
+We are going to analyze a dataset in the path "/data/historical_data.csv". 
+Heres the structure of the data
+Data columns (total 16 columns):
+ #   Column                                        Non-Null Count   Dtype  
+---  ------                                        --------------   -----  
+ 0   market_id                                     196441 non-null  float64
+ 1   created_at                                    197428 non-null  object 
+ 2   actual_delivery_time                          197421 non-null  object 
+ 3   store_id                                      197428 non-null  int64  
+ 4   store_primary_category                        192668 non-null  object 
+ 5   order_protocol                                196433 non-null  float64
+ 6   total_items                                   197428 non-null  int64  
+ 7   subtotal                                      197428 non-null  int64  
+ 8   num_distinct_items                            197428 non-null  int64  
+ 9   min_item_price                                197428 non-null  int64  
+ 10  max_item_price                                197428 non-null  int64  
+ 11  total_onshift_dashers                         181166 non-null  float64
+ 12  total_busy_dashers                            181166 non-null  float64
+ 13  total_outstanding_orders                      181166 non-null  float64
+ 14  estimated_order_place_duration                197428 non-null  int64  
+ 15  estimated_store_to_consumer_driving_duration  196902 non-null  float64
+
+setup a machine learning pipeline using sklearn to create and comapre 3 
+machine learning models that can predict the the "total delivery duration 
+seconds" that is the time taken from created_at(start) to 
+actual_delivery_time(end). Determine based on the columns types which 
+columns are relevant to put into the model and what features to transform 
+or engineer. Evaluate the results using r2 and rmse.
+```
+
+#### **Step 5: Generating Code**
+
+In the final phase, I executed the GPT Engineer code that was customized for the project I had established earlier.
+
+```bash
+python gpt_engineer/main.py projects/doordash(or: gpt-engineer projects/doordash)
+```
+
+Now, let’s delve into a demonstration showcasing the code generation process through GPT Engineer.
+
+<iframe src="https://www.youtube.com/embed/CHZ2MVQMv9Y?feature=oembed" width="100%" height="400" frameBorder="0" allowFullScreen></iframe>
+
+The generated files were situated in the projects/doordash/workspace directory. Some minor adjustments were needed, such as adding missing import statements and modifying the imputation logic, before running the pipeline. Once those tweaks were made, everything worked seamlessly.
+
+### Conclusion
+
+In wrapping up my exploration with GPT Engineer, I found that addressing the minor code issues was a breeze, thanks to the ChatGPT code generation plugin. Additionally, making manual adjustments was equally uncomplicated, given that the issues were not significant. I also ventured into generating code for web scraping from job sites, and although some tweaking was necessary due to tag identification challenges, the experience was worth every bit of exploration. If you ever need assistance with prompts, feel free to drop a comment — I’m here to help.
+
+In summary, GPT Engineer transcends being just a tool; it stands as a potential revolution in application development. It’s a testament to the remarkable capabilities of AI and LLMs, offering a glimpse into the future of coding. Whether you’re a seasoned developer or just starting out, don’t miss the chance to dive into GPT Engineer’s possibilities.
+
+Wishing you productive coding and fruitful prompts!

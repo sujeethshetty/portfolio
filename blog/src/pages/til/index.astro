@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const tils = (await getCollection('til', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Today I Learned — Sujeeth's Blog" description="Quick learnings and tips">
+  <h1 class="text-3xl font-bold mb-8">Today I Learned</h1>
+
+  {tils.length > 0 ? (
+    <div class="grid gap-4">
+      {tils.map((til) => (
+        <PostCard
+          title={til.data.title}
+          description={til.data.description}
+          date={til.data.date}
+          tags={til.data.tags}
+          slug={til.slug}
+          collection="til"
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="text-muted-foreground">No TILs yet. Check back soon!</p>
+  )}
+</BaseLayout>

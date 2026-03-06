@@ -1,0 +1,57 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  slug: string;
+  collection: 'posts' | 'til';
+  coverImage?: string;
+  variant?: 'default' | 'image';
+}
+
+const { title, description, date, tags, slug, collection, coverImage, variant = 'default' } = Astro.props;
+const href = `/${collection}/${slug}`;
+---
+
+{variant === 'image' && coverImage ? (
+  <a href={href} class="group block rounded-xl overflow-hidden bg-card border border-border/30 hover:border-border/60 transition-all duration-300 hover:shadow-xl">
+    <div class="aspect-[16/10] overflow-hidden bg-muted">
+      <img
+        src={coverImage}
+        alt={title}
+        class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+        loading="lazy"
+      />
+    </div>
+    <div class="p-5">
+      <h3 class="text-lg font-semibold group-hover:text-highlight transition-colors line-clamp-2">
+        {title}
+      </h3>
+      <div class="mt-2 flex items-center gap-3 text-xs text-muted-foreground">
+        <FormattedDate date={date} />
+      </div>
+    </div>
+  </a>
+) : (
+  <article class="group relative border border-border/50 rounded-lg p-5 hover:shadow-lg transition-all duration-300 bg-card overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-highlight/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+    <div class="relative z-10">
+      <a href={href} class="block">
+        <h3 class="text-lg font-semibold group-hover:text-highlight transition-colors line-clamp-2">
+          {title}
+        </h3>
+        <p class="mt-2 text-sm text-muted-foreground line-clamp-2">{description}</p>
+      </a>
+      <div class="mt-3 flex items-center justify-between">
+        <span class="text-xs text-muted-foreground">
+          <FormattedDate date={date} />
+        </span>
+        <TagList tags={tags} />
+      </div>
+    </div>
+  </article>
+)}

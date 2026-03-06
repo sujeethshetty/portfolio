@@ -1,0 +1,17 @@
+---
+title: "Elixir Might Be the Best Language for AI Agents"
+description: "The BEAM VM solved agent orchestration problems in 1986. The AI world is just now catching up."
+date: 2026-03-05
+tags: ["ai", "ai-agents", "elixir"]
+draft: false
+---
+
+OpenAI open sourced [Symphony](https://github.com/openai/symphony), their multi-agent coding orchestrator. The core is written in Elixir, not Python.
+
+Turns out the BEAM VM (which runs Elixir/Erlang) already has everything agent frameworks are trying to build: isolated lightweight processes (~2KB each, millions per machine), built-in message passing, supervision trees that auto-restart crashed processes, and hot code reloading without killing active sessions.
+
+As [George Guimaraes put it](https://georgeguimaraes.com/your-agent-orchestrator-is-just-a-bad-clone-of-elixir/), the actor model Erlang introduced in 1986 is the agent model AI is rediscovering in 2026. LangGraph, CrewAI, AutoGen are all reimplementing it with extra steps.
+
+Bonus: a [Tencent study](https://dashbit.co/blog/why-elixir-best-language-for-ai) found Elixir had the highest LLM code completion rate across 20 languages. Immutability and explicit data flow make it easier for models to reason about.
+
+Worth learning the actor model even if you never write Elixir.

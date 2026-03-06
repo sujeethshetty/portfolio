@@ -2,7 +2,7 @@
 export const PERSONAL_INFO = {
   name: "Sujeeth Shetty",
   title: "AI & Data Engineering",
-  email: "sujeeth.data@gmail.com",
+  email: "hello@sujeeth.io",
   location: "Atlanta, GA",
   linkedin: "https://www.linkedin.com/in/isujith/",
   github: "https://github.com/sujeethshetty",
