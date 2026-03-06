@@ -8,7 +8,7 @@ const Projects = () => {
   const projects = [
     {
       title: "openbell.ai",
-      description: "Real-time financial news platform with AI-powered impact scores ranging from -100 to +100, helping users instantly gauge potential price movement on financial markets.",
+      description: "AI-powered financial news platform that aggregates, analyzes, and delivers personalized market insights in real-time. Processes financial data with sentiment analysis and market prediction to surface personalized news recommendations.",
       technologies: ["AWS", "ECS", "ChatGPT API", "TypeScript", "LLM", "FastMCP", "RAG", "AI Agents"],
       demoLink: "https://openbell.ai",
       githubLink: null,
