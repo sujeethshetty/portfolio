@@ -87,7 +87,7 @@ const BlogPosts = () => {
                     <div className="absolute inset-0 bg-gradient-to-r from-highlight/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <div className="relative">
                       <time className="text-xs text-muted-foreground">
-                        {new Date(post.date).toLocaleDateString("en-US", {
+                        {new Date(post.date + "T00:00:00").toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "long",
                           day: "numeric",
