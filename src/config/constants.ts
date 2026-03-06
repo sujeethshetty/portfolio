@@ -11,3 +11,8 @@ export const PERSONAL_INFO = {
   calendlyUrl: "https://calendly.com/sujeeth-data/30min",
   topmateUrl: "https://topmate.io/sujshe/1667884?utm_source=public_profile&utm_campaign=sujshe"
 } as const;
+
+export const CHAT_CONFIG = {
+  model: "gpt-4o-mini",
+  maxOutputTokens: 250,
+} as const;

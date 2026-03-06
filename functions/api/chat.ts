@@ -1,5 +1,6 @@
 import { createSupabaseClient, upsertChatSession, logMessage, hashIP } from '../../src/lib/supabase';
 import { getSystemPrompt } from '../../src/lib/prompt';
+import { CHAT_CONFIG } from '../../src/config/constants';
 
 interface RateLimitStore {
   [ip: string]: {
@@ -74,6 +75,7 @@ export async function onRequest(context: any) {
 
   try {
     const { message, previousResponseId, sessionId } = await request.json();
+    console.log(`Chat request: msg="${message.substring(0, 50)}" prevId=${previousResponseId || 'none'} session=${sessionId || 'none'}`);
 
     if (!validateMessage(message)) {
       return new Response(JSON.stringify({ error: 'Invalid message' }), {
@@ -123,7 +125,7 @@ export async function onRequest(context: any) {
     const systemPrompt = getSystemPrompt();
 
     const requestBody: any = {
-      model: 'gpt-5-mini',
+      model: CHAT_CONFIG.model,
       instructions: systemPrompt,
       input: [
         {
@@ -132,7 +134,7 @@ export async function onRequest(context: any) {
           content: message,
         },
       ],
-      max_output_tokens: 250,
+      max_output_tokens: CHAT_CONFIG.maxOutputTokens,
       stream: true,
     };
 
@@ -150,8 +152,12 @@ export async function onRequest(context: any) {
     });
 
     if (!response.ok) {
-      throw new Error(`OpenAI API error: ${response.status}`);
+      const errorBody = await response.text();
+      console.error(`OpenAI API error: status=${response.status} body=${errorBody}`);
+      throw new Error(`OpenAI API error: ${response.status} - ${errorBody}`);
     }
+
+    console.log(`OpenAI request OK: model=${requestBody.model} hasPrevId=${!!previousResponseId}`);
 
     // Stream response and collect assistant message for logging
     const { readable, writable } = new TransformStream();
@@ -239,8 +245,8 @@ export async function onRequest(context: any) {
       },
     });
   } catch (error) {
-    console.error('Chat API error:', error);
-    return new Response(JSON.stringify({ error: 'Failed to process request' }), {
+    console.error('Chat API error:', error instanceof Error ? error.message : error);
+    return new Response(JSON.stringify({ error: 'Failed to process request', detail: error instanceof Error ? error.message : String(error) }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

@@ -1,6 +1,7 @@
 import express from 'express';
 import { createSupabaseClient, upsertChatSession, logMessage, hashIP } from './src/lib/supabase.ts';
 import { getSystemPrompt } from './src/lib/prompt.ts';
+import { CHAT_CONFIG } from './src/config/constants.ts';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -98,7 +99,7 @@ app.post('/api/chat', async (req, res) => {
 
     // Build request body for Responses API
     const requestBody = {
-      model: 'gpt-4o-mini',
+      model: CHAT_CONFIG.model,
       instructions: systemPrompt,
       input: [
         {
@@ -107,7 +108,7 @@ app.post('/api/chat', async (req, res) => {
           content: message
         }
       ],
-      max_output_tokens: 250,
+      max_output_tokens: CHAT_CONFIG.maxOutputTokens,
       stream: true,
     };
 
