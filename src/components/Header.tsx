@@ -95,7 +95,12 @@ const Header = () => {
                 </a>
               </Button>
               <Button variant="ghost" size="icon" asChild>
-                <a href={PERSONAL_INFO.medium} target="_blank" rel="noopener noreferrer">
+                <a href={import.meta.env.DEV ? "http://localhost:4325" : "https://blogs.sujeeth.io"} target="_blank" rel="noopener noreferrer" onClick={(e) => {
+                  const theme = document.documentElement.classList.contains("dark") ? "dark" : "light";
+                  const url = new URL(e.currentTarget.href);
+                  url.searchParams.set("theme", theme);
+                  e.currentTarget.href = url.toString();
+                }}>
                   <PenTool className="h-5 w-5" />
                 </a>
               </Button>
