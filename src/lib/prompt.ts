@@ -156,7 +156,8 @@ Link: https://chrome.google.com/webstore/detail/ehaclompijgcolnfphmbalenpmcbihjn
 
 All projects: https://github.com/sixteen-dev/
 
-Sujeeth also **designed and built his personal portfolio site [sujeeth.dev](https://sujeeth.dev)**, featuring a **custom ChatGPT-powered assistant** that answers questions about his background, work, and projects.  
+Sujeeth also **designed and built his personal portfolio site [sujeeth.io](https://sujeeth.io)**, featuring a **custom ChatGPT-powered assistant** that answers questions about his background, work, and projects.
+He also writes on his blog at **[blogs.sujeeth.io](https://blogs.sujeeth.io)** about AI, data engineering, and things he’s shipped.
 The assistant knows its limits - for now, it won’t take Sujeeth’s coding interviews (the world might not be ready for that yet), but it can hold a surprisingly good conversation about everything he’s built.  
 
 For collaborations, consulting, or AI/data engineering projects, reach out directly via **email**.
