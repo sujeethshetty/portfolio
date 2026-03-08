@@ -1,88 +1,81 @@
 # Sujeeth's Portfolio
 
-A modern, responsive portfolio website showcasing my work as an AI & Data Engineer/Architect.
+A modern, responsive portfolio website with an integrated blog and AI-powered chatbot.
 
-**Live Site**: [sujeeth.dev](https://sujeeth.dev)
+| | |
+|---|---|
+| **Portfolio** | [sujeeth.io](https://sujeeth.io) |
+| **Blog** | [blogs.sujeeth.io](https://blogs.sujeeth.io) |
 
 ## Features
 
-- 🌗 Dark/Light theme toggle
-- 🎨 Interactive particle background system
-- 📱 Fully responsive design with mobile optimizations
-- ⚡ Fast loading with Vite
-- 🎯 Clean, professional layout
-- 📄 Integrated resume page
-- 🌍 Global CDN deployment on Cloudflare Pages
-- 🚀 Automatic deployments via GitHub Actions
-
-## Development
-
-Requirements: Node.js & npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-```sh
-# Clone the repository
-git clone https://github.com/sujeethshetty/portfolio.git
-
-# Navigate to project directory
-cd portfolio
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Build for production
-npm run build
-```
+- AI chatbot powered by GPT for answering questions about my background and work
+- Dark/Light theme with synced preferences across portfolio and blog
+- Interactive particle background (mobile-optimized)
+- Integrated blog with latest posts pulled into the portfolio homepage
+- Resume page with downloadable PDF
+- Fully responsive design
+- Deployed globally on Cloudflare Pages via GitHub Actions
 
 ## Tech Stack
 
-- **Frontend**: React 18 + TypeScript
-- **Build Tool**: Vite
-- **Styling**: Tailwind CSS + shadcn/ui components
+### Portfolio
+- **Framework**: React 18 + TypeScript
+- **Build**: Vite
+- **Styling**: Tailwind CSS + shadcn/ui
 - **Routing**: React Router
-- **Animations**: Custom CSS animations + Canvas API
-- **Icons**: Lucide React + Simple Icons
-- **Deployment**: Cloudflare Pages with GitHub Actions
-- **Performance**: Mobile-optimized with reduced particle density and frame rate limiting
+- **Animations**: Custom CSS + Canvas API
+
+### Blog
+- **Framework**: Astro
+- **Content**: MDX
+- **Styling**: Tailwind CSS
+- **Feed**: RSS support
+
+### Infrastructure
+- **Hosting**: Cloudflare Pages
+- **CI/CD**: GitHub Actions
+- **AI**: OpenAI API (chatbot)
 
 ## Project Structure
 
 ```
-src/
-├── components/          # Reusable UI components
-│   ├── Header.tsx      # Navigation header
-│   ├── Hero.tsx        # Landing section with particles
-│   ├── About.tsx       # About section
-│   ├── TechStack.tsx   # Technology showcase
-│   ├── Projects.tsx    # Project portfolio
-│   ├── Contact.tsx     # Contact form
-│   └── ParticleBackground.tsx  # Interactive background
-├── pages/              # Route pages
-│   ├── Index.tsx       # Main portfolio page
-│   └── Resume.tsx      # Resume page
-└── lib/                # Utility functions
+├── src/                    # Portfolio (React)
+│   ├── components/         # UI components, chatbot, particle background
+│   ├── pages/              # Index, Resume
+│   ├── data/               # Resume data
+│   └── lib/                # Utilities, chatbot prompt
+├── blog/                   # Blog (Astro)
+│   └── src/
+│       ├── content/blog/   # MDX blog posts
+│       ├── layouts/        # Page layouts
+│       └── pages/          # Routes + RSS + API
+└── .github/workflows/      # CI/CD pipelines
+```
+
+## Development
+
+Requires Node.js & npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+```sh
+# Portfolio
+npm install
+npm run dev
+
+# Blog
+cd blog
+npm install
+npm run dev
 ```
 
 ## Deployment
 
-Automatically deployed to **Cloudflare Pages** via GitHub Actions on every push to main branch.
+Both sites auto-deploy to Cloudflare Pages on push to `main`.
 
-### Setup Requirements:
-- Cloudflare account with Pages enabled
-- Repository secrets configured:
-  - `CLOUDFLARE_API_TOKEN`: API token with Pages:Edit permissions
-  - `CLOUDFLARE_ACCOUNT_ID`: Your Cloudflare account ID
-
-### Benefits:
-- **Global CDN**: 200+ edge locations worldwide
-- **Better Performance**: Faster loading for international users
-- **Free SSL**: Automatic HTTPS certificates
-- **Unlimited Bandwidth**: No usage limits
-
-The workflow builds the project and deploys to Cloudflare's global network, accessible at [sujeeth.dev](https://sujeeth.dev).
+Required repository secrets:
+- `CLOUDFLARE_API_TOKEN` — API token with Pages:Edit permissions
+- `CLOUDFLARE_ACCOUNT_ID` — Cloudflare account ID
 
 ## License
 
-MIT License - feel free to use this code as a template for your own portfolio! See [LICENSE](LICENSE) for details.
+MIT — feel free to use as a template. See [LICENSE](LICENSE) for details.
