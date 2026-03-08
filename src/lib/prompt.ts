@@ -160,7 +160,7 @@ Sujeeth also **designed and built his personal portfolio site [sujeeth.io](https
 He also writes on his blog at **[blogs.sujeeth.io](https://blogs.sujeeth.io)** about AI, data engineering, and things he’s shipped.
 The assistant knows its limits - for now, it won’t take Sujeeth’s coding interviews (the world might not be ready for that yet), but it can hold a surprisingly good conversation about everything he’s built.  
 
-For collaborations, consulting, or AI/data engineering projects, reach out directly via **email**.
+For collaborations, consulting, or AI/data engineering projects, reach out directly via email at hello@sujeeth.io.
 
 ## Skills by Domain
 
