@@ -1,0 +1,118 @@
+---
+title: "I Built a Wall Street Research Desk with AI Agents"
+description: "Most AI tools feel impressive until you ask for a number that matters."
+date: 2026-03-26
+tags: ["ai", "ai-agents", "finance", "mcp", "self-hosting", "oss", "trading"]
+draft: false
+coverImage: "https://cdn-images-1.medium.com/max/800/1*gjlruU-8-oPoqf4cDIo8iQ.png"
+---
+
+> Most AI tools feel impressive until you ask for a number that matters.
+
+Ask an LLM what TSLA’s implied volatility looks like heading into earnings. You usually get a confident answer with shaky grounding. Then you open Google, your broker, maybe Nasdaq, maybe investor relations, and spend five minutes checking whether any of it is real. The model did not save you work. It just moved the work.
+
+I trade after hours, so I wanted one system that could pull live market data, compare fundamentals, read recent news, inspect the options chain, screen for setups, and backtest an idea without sending me across five products. I did not want another dashboard. I wanted a research desk.
+
+So I built **OBaI**, an open source multi-agent system for stock market research. You ask a question in plain English. A hub agent breaks it into parts. Seven specialist agents hit real data sources in parallel, then the hub synthesizes the result into one answer where every number maps back to a tool call. Quotes, fundamentals, SEC filings, options data, news, screening, and backtesting sit behind the same interface. 
+
+The domain here is finance. The pattern is broader: if bad data is expensive, agent systems need real tools, clear boundaries, and traceability.
+
+<iframe src="https://www.youtube.com/embed/zXPvaUI_1bQ?feature=oembed" width="100%" height="400" frameBorder="0" allowFullScreen></iframe>
+
+### **In finance, bad data is expensive**
+
+Finance is a bad place to fake competence. If a model is wrong about price, implied volatility, or position sizing, you lose money , not time. So OBaI started with one boring rule: every important number comes from a real data source, and you can trace it after the fact. I was not going to build this on a laggy Yahoo Finance API and pretend that was good enough for serious research.
+
+### **The architecture: one hub and seven specialists**
+
+A central hub agent receives the query, decides what data is needed, dispatches work to specialist agents in parallel, and combines the results.
+
+![](https://cdn-images-1.medium.com/max/800/1*SIiH0b4pbnkkO-Xlm3wT6w.png)
+*OBaI architecture with the hub agent routing requests to seven specialist agents through MCP servers*
+
+The design decision that mattered most was **agents as tools, not handoffs**.
+
+The hub does not start a long autonomous chain. It calls specialists like functions. The Market Data Agent handles quotes and price history. The Fundamentals Agent handles financials and SEC context. The Events and News Agent handles earnings and coverage. The Options Agent handles chains and implied volatility. Other agents cover screening, quantitative research, and strategy generation.
+
+That structure bought me three things:
+
+1.  Better prompts. Each agent can be opinionated about one domain.
+2.  Parallelism. A multi-part research query fans out immediately instead of waiting on brittle handoffs.
+3.  Model control. The Strategy Agent can use a stronger reasoning model while cheaper agents handle simpler work.
+
+Each agent talks to its own MCP server. Agents do not call external APIs directly. They discover tools through **list\_tools()** at startup and call them through typed schemas. That keeps the data layer separate from orchestration. If I swap a provider or add a new domain, I change the server, not the agent code. All seven servers run as Docker containers and start with a single **setup.sh**.
+
+### **The data stack: serious financial data without Bloomberg pricing**
+
+I chose **Financial Modeling Prep (FMP)** as the backbone. It covers real-time quotes, historical price and volume data, fundamentals, SEC filings, earnings, and screening. I use the $49 a month plan because I wanted broader API coverage across those endpoints.
+
+For options, I use **Massive.com** at about $24 a month for real-time data. Massive also has cheaper $19 a month and free tiers, so the stack can be run more cheaply if you do not need the same real-time options coverage. **Tavily** handles news search.
+
+That gave me a stack I actually wanted to pay for: one core market data API, a separate real-time options feed, and LLM costs that stay in the low single digits per day. The point was to build a serious AI stock research workflow without Bloomberg-sized pricing.
+
+### **How a stock research query flows through the system**
+
+Take this prompt:
+
+> Compare NVDA and AMD: current price, P/E ratio, recent news, and options IV for next month’s expiry.
+
+![](https://cdn-images-1.medium.com/max/800/1*Ir2PCqsiH0Rk5_roDke6DA.png)
+*Query flow from user prompt to parallel agent calls to final synthesis*
+
+The hub sees four data needs: market data, fundamentals, recent events, and options. It dispatches them in parallel. Each specialist calls MCP tools like get\_quote, get\_fundamentals, search\_news, and get\_options\_chain, then returns the results to the hub.
+
+The synthesis step is the point. I did not want a system that pasted four tool outputs together. The hub cross-references them. It can compare valuation in context, connect elevated implied volatility to an upcoming earnings date, and explain why the market is pricing the stocks differently.
+
+End to end, a query like that takes 20 to 30 seconds. Manually, it is closer to 15 to 20 minutes across broker tabs, filings, news pages, and an options chain.
+
+### **The strategy agent: where it stops being chat and starts becoming research**
+
+The Strategy Agent turns OBaI from question answering into research. If I ask it to “_Design and backtest a volatility-based trading strategy for TSLA”_ it runs a loop:
+
+1.  Design a strategy spec with entry and exit logic, indicators, sizing, and stops.
+2.  Send it to the backtest server.
+3.  Analyze risk and return metrics like Sharpe ratio, max drawdown, win rate, and profit factor.
+4.  Iterate two to four times by tightening stops, adding filters, or adjusting for regime.
+5.  Run a walk-forward split to catch obvious overfitting.
+6.  Return a verdict: accept, paper\_trade, needs\_more\_research, or reject.
+
+![](https://cdn-images-1.medium.com/max/800/1*bNbOD2Bi2XbSA-zSosiE8g.png)
+*Strategy Agent loop across design, backtesting, iteration, and validation*
+
+The backtesting server uses Polars with a polars-talib Rust backend and more than 50 indicators. It supports intraday bars down to 5 minutes.
+
+This agent runs on gpt-5.1, not a smaller model, because this is where cheap intelligence breaks. Strategy design is not just tool routing. It requires deciding why a result failed and whether the next iteration is fixing the problem or just torturing the data until it says yes.
+
+### **OBaI stops at research**
+
+OBaI itself does not place trades. I keep that boundary on purpose.
+
+A separate skill for **OpenClaw** handles execution through the Alpaca API. It runs OBaI research every morning, builds strategies on weekends, and keeps its own journal and memory across sessions. Right now it only operates in a paper trading account. I want to watch it behave across different market conditions before I let it anywhere near real capital.
+
+![](https://cdn-images-1.medium.com/max/800/1*qIoZf1oF3D3NCiYSJcpUTA.jpeg)
+
+### **Why I used specialist agents and MCP**
+
+A single agent with every tool ends up knowing a little about everything and not enough about anything. The prompt gets bloated, the cost profile gets messy, and the model has more room to choose the wrong tool or reason with the wrong context. Specialists keep each agent narrow, opinionated, and easier to evaluate.
+
+MCP helps for the same reason. If you have not used it before, think of it as a clean contract between the model and the tool layer: typed schemas, standardized discovery, and fewer one-off wrappers in orchestration. If the data is wrong, I can debug the server. If the synthesis is weak, I can tune the hub or the prompt. The boundaries are explicit.
+
+### **Observability and trust: how I verify the numbers**
+
+In a financial AI system, **trust me** is not a feature.
+
+Every query generates a full **Opik trace**, basically a step-by-step execution record. I can inspect hub routing, agent tool calls, latency by step, and token usage. When an answer looks suspicious, I can see the exact tool call and the raw result that fed the final response.
+
+I also run two inline evaluators. A **faithfulness scorer** extracts every number from the answer and cross-checks it against raw tool output using deterministic numeric matching. A **completeness scorer** measures whether the response covered the available data that mattered for the query.
+
+They do not solve interpretation. They do make it much harder for the system to produce a clean paragraph built on numbers that never existed.
+
+### **Limits, costs, and what I would build next**
+
+OBaI is a research tool, not high-frequency trading infrastructure. Complex queries still take 50 to 60 seconds. A deep strategy session can burn $0.1 to $0.2 in LLM tokens, though Opik tracing makes the spend visible. And no agent, however instrumented, is going to discover alpha that is not in the data.
+
+The roadmap is clear: multi-leg options strategy modeling, crypto coverage, semantic caching for follow-up research, and a web client. A new market domain is usually a new MCP server, a new specialist prompt, and some hub logic.
+
+More importantly, it already earns its keep. I use it every day. If it keeps saving me time, keeping the numbers grounded, and surfacing ideas worth testing, it has done its job.
+
+*OBaI is open source on [GitHub](https://github.com/sixteen-dev/obai).*
