@@ -1,14 +1,14 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, TrendingUp, Zap } from "lucide-react";
+import { ExternalLink, Github, TrendingUp, Zap, Package } from "lucide-react";
 import { PERSONAL_INFO } from "@/config/constants";
 
 const Projects = () => {
   const projects = [
     {
       title: "openbell.ai / OBaI",
-      description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and paper trading.",
+      description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
       technologies: ["OpenAI Agent SDK", "FastMCP", "Docker", "Python", "Polars", "DuckDB", "AI Agents"],
       demoLink: "https://openbell.ai",
       githubLink: "https://github.com/sixteen-dev/obai",
@@ -21,6 +21,7 @@ const Projects = () => {
       technologies: ["python", "async", "api-client", "ai/ml", "gemini", "openai", "claude", "xai", "llm"],
       demoLink: null,
       githubLink: "https://github.com/sixteen-dev/pyaibridge",
+      downloadLink: "https://pypi.org/project/pyaibridge/",
       icon: Zap,
       featured: true
     }
@@ -86,6 +87,14 @@ const Projects = () => {
                       <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
                         <Github className="h-4 w-4 mr-2" />
                         View Code
+                      </a>
+                    </Button>
+                  )}
+                  {project.downloadLink && (
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={project.downloadLink} target="_blank" rel="noopener noreferrer">
+                        <Package className="h-4 w-4 mr-2" />
+                        PyPI
                       </a>
                     </Button>
                   )}

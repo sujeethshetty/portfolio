@@ -127,7 +127,7 @@ export const certifications: Certification[] = [
 export const featuredProjects: Project[] = [
   {
     name: "openbell.ai / OBaI",
-    description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and paper trading.",
+    description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
     technologies: ["AI Agents", "OpenAI Agent SDK", "FastMCP", "Python", "Docker", "Polars", "DuckDB"],
     link: "https://openbell.ai",
     githubLink: "https://github.com/sixteen-dev/obai",
