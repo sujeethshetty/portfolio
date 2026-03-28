@@ -7,11 +7,11 @@ import { PERSONAL_INFO } from "@/config/constants";
 const Projects = () => {
   const projects = [
     {
-      title: "openbell.ai",
-      description: "AI-powered financial news platform that aggregates, analyzes, and delivers personalized market insights in real-time. Processes financial data with sentiment analysis and market prediction to surface personalized news recommendations.",
-      technologies: ["AWS", "ECS", "ChatGPT API", "TypeScript", "LLM", "FastMCP", "RAG", "AI Agents"],
+      title: "openbell.ai / OBaI",
+      description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and paper trading.",
+      technologies: ["OpenAI Agent SDK", "FastMCP", "Docker", "Python", "Polars", "DuckDB", "AI Agents"],
       demoLink: "https://openbell.ai",
-      githubLink: null,
+      githubLink: "https://github.com/sixteen-dev/obai",
       icon: TrendingUp,
       featured: true
     },

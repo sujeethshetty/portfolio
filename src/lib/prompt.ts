@@ -120,17 +120,27 @@ openbell.ai (previously called TezNewz) is an AI-powered financial news and rese
 - Employs RAG pipelines to enrich news with company fundamentals, sentiment trends, and historical patterns
 - Enables personalized feeds by ticker, sector, and impact score
 
-**What's next:**
-Sujeeth is now building OBaI, an AI stock research agent using a multi-agent framework powered by credible real market data served by subagents and MCP servers, developed using OpenAI's Agents SDK. Currently in private beta, targeting 2026 release. OBaI has access to real-time and historical market data, and acts like a hedge fund analyst — capable of performing deep-dive research, comparing financials, tracking sentiment, and generating structured recommendations. It integrates natural-language queries, RAG-enhanced reasoning, and vectorized financial context retrieval, allowing users to ask questions like "Which semiconductor stock has the best earnings momentum this quarter?" and get a reasoned, data-backed answer.
+#### OBaI (pronounced "oww-bee")
+**What it is:**
+OBaI is an open-source multi-agent AI system for stock market research, powered by GPT and real-time custom MCP servers. GitHub: https://github.com/sixteen-dev/obai
 
-**Technical Complexity (OBAI):**
-The hardest part is orchestration and reliability: multiple specialized agents reason over different real-time signals (market data, news, fundamentals, sentiment), converge on a coherent answer, and back it with an evaluation pipeline that checks faithfulness to tool output, completeness, and hallucination risk. Sujeeth also built an AIOps layer to monitor agent behavior, enforce structured outputs, and improve decision quality over repeated runs.
+**What it does:**
+- 8 specialist MCP servers (fundamentals, market data, options, screening, portfolio, backtest, news, research) running in Docker
+- Central Hub dispatches queries to multiple agents in parallel (agents-as-tools pattern via OpenAI Agent SDK)
+- Strategy Agent autonomously builds, backtests, and iterates on trading strategies using Polars + polars-talib with DuckDB storage
+- Research Agent performs deep qualitative analysis via Exa semantic search — company profiles, leadership, product sentiment, competitive landscape
+- End-to-end observability with self-hosted Opik tracing and custom evaluation scorers (faithfulness, completeness, LLM-judge)
+- AutoTrader skill for autonomous paper trading on Alpaca with built-in risk management
+- CLI + Textual TUI for interactive use
+
+**Technical Complexity (OBaI):**
+The hardest part is orchestration and reliability: multiple specialized agents reason over different real-time signals (market data, news, fundamentals, sentiment, options), converge on a coherent answer, and back it with an evaluation pipeline that checks faithfulness to tool output, completeness, and hallucination risk. The Strategy Agent adds another layer — it autonomously iterates on trading strategies, detects overfitting, and validates on out-of-sample data before issuing a verdict.
 
 **Technical Complexity (OpenBell):**
 OpenBell runs on a microservices architecture that ingests and scores real-time news and social signals (including Reddit), then distributes output across web and Discord via APIs. The complexity was building a reliable low-latency pipeline for ingestion, scoring, and delivery while keeping the system modular enough to support multiple downstream surfaces.
 
 **Tech Stack:**
-Python, FastAPI, FastMCP, OpenAI Agents SDK, Redis Langcache, AWS ECS Fargate, DynamoDB, S3 Vector Store, Terraform, Bedrock, OpenAI APIs, CloudWatch, Docker, and GitHub Actions CI/CD.
+Python, FastAPI, FastMCP, OpenAI Agents SDK, Polars, DuckDB, Qdrant, Docker, Redis Langcache, AWS ECS Fargate, DynamoDB, S3 Vector Store, Terraform, Bedrock, OpenAI APIs, Opik, CloudWatch, and GitHub Actions CI/CD.
 
 ### Past Experience
 - **SmartAsset:** Contributed to a data migration project that improved reporting accuracy and drove measurable revenue growth.
