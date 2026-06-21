@@ -1,7 +1,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github, TrendingUp, Zap, Package } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 import { PERSONAL_INFO } from "@/config/constants";
 
 const Projects = () => {
@@ -11,18 +11,21 @@ const Projects = () => {
       description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
       technologies: ["OpenAI Agent SDK", "FastMCP", "Docker", "Python", "Polars", "DuckDB", "AI Agents"],
       demoLink: "https://openbell.ai",
+      demoLabel: "Live Demo",
       githubLink: "https://github.com/sixteen-dev/obai",
-      icon: TrendingUp,
+      logo: "/openbell-logo.png",
+      iconBg: "bg-white",
       featured: true
     },
     {
-      title: "pyaibridge",
-      description: "A high-performance unified API library providing a consistent interface for interacting with multiple Large Language Model (LLM) providers. Simplifies AI integration across different platforms.",
-      technologies: ["python", "async", "api-client", "ai/ml", "gemini", "openai", "claude", "xai", "llm"],
-      demoLink: null,
-      githubLink: "https://github.com/sixteen-dev/pyaibridge",
-      downloadLink: "https://pypi.org/project/pyaibridge/",
-      icon: Zap,
+      title: "fermix",
+      description: "Your personal AI, everywhere you are. Fermix is an always-on, fully-local Elixir daemon that lives on your own machine and meets you in the apps you already use — Telegram, WhatsApp, Slack, Discord, Signal, voice, or the terminal. One resilient BEAM runtime schedules work while you sleep, dispatches subagents for the heavy lifting, and remembers what matters — staying provider-agnostic across OpenAI, Claude, Grok, Mistral, and local Ollama. Your assistant, your hardware, no SaaS in the middle.",
+      technologies: ["Elixir", "OTP", "Phoenix", "BEAM", "AI Agents", "MCP", "Multi-Provider LLM"],
+      demoLink: "https://tezra.io/projects/fermix",
+      demoLabel: "Project Page",
+      githubLink: "https://github.com/tezra-io/fermix",
+      logo: "/fermix-logo.png",
+      iconBg: "bg-[#0b1020]",
       featured: true
     }
   ];
@@ -43,8 +46,15 @@ const Projects = () => {
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-highlight/10 rounded-lg flex items-center justify-center">
-                      <project.icon className="h-5 w-5 text-highlight" />
+                    <div className={`w-10 h-10 rounded-lg overflow-hidden border border-border/50 flex items-center justify-center ${project.iconBg}`}>
+                      <img
+                        src={project.logo}
+                        alt={`${project.title} logo`}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        width={40}
+                        height={40}
+                      />
                     </div>
                     <div>
                       <CardTitle className="text-xl group-hover:text-highlight transition-colors">
@@ -78,7 +88,7 @@ const Projects = () => {
                     <Button variant="default" size="sm" asChild className="bg-highlight text-highlight-foreground hover:bg-highlight/90">
                       <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
                         <ExternalLink className="h-4 w-4 mr-2" />
-                        Live Demo
+                        {project.demoLabel}
                       </a>
                     </Button>
                   )}
@@ -87,14 +97,6 @@ const Projects = () => {
                       <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
                         <Github className="h-4 w-4 mr-2" />
                         View Code
-                      </a>
-                    </Button>
-                  )}
-                  {project.downloadLink && (
-                    <Button variant="outline" size="sm" asChild>
-                      <a href={project.downloadLink} target="_blank" rel="noopener noreferrer">
-                        <Package className="h-4 w-4 mr-2" />
-                        PyPI
                       </a>
                     </Button>
                   )}

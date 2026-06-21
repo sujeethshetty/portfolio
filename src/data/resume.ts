@@ -134,11 +134,12 @@ export const featuredProjects: Project[] = [
     tags: ["Personal", "AI", "Full Stack"]
   },
   {
-    name: "pyaibridge",
-    description: "Open-source Python library providing a unified async interface across OpenAI, Gemini, Claude, and xAI. Swap providers with zero code changes.",
-    technologies: ["Python", "OpenAI", "Gemini", "Claude", "xAI", "Async"],
-    link: "https://github.com/sixteen-dev/pyaibridge",
-    tags: ["Open Source", "AI", "Developer Tool"]
+    name: "fermix",
+    description: "Your personal AI, everywhere you are. An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI — scheduling jobs, dispatching subagents, and remembering what matters, all provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama. Your assistant, your hardware.",
+    technologies: ["Elixir", "OTP", "Phoenix", "BEAM", "AI Agents", "MCP"],
+    link: "https://tezra.io/projects/fermix",
+    githubLink: "https://github.com/tezra-io/fermix",
+    tags: ["Open Source", "AI", "Personal AI"]
   }
 ];
 
