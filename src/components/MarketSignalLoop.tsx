@@ -217,7 +217,7 @@ const MarketSignalLoop = () => {
       {/* header */}
       <div className="absolute inset-x-0 top-0 flex items-center gap-2 px-4 py-3">
         <span className="msl-dot" />
-        <span className="text-sm font-bold tracking-tight">OBaI</span>
+        <span className="text-sm font-bold tracking-tight">openbell</span>
         <span className="text-[11px] text-muted-foreground">live impact feed</span>
         <span className="ml-auto font-mono text-[11px] text-muted-foreground transition-opacity duration-300 group-hover:opacity-0">
           S&amp;P · realtime

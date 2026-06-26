@@ -145,20 +145,16 @@ const Projects = () => {
                 <div className="grid items-center gap-8 lg:gap-14 lg:grid-cols-2">
                   {/* Media — always left for a consistent, deliberate rhythm */}
                   <div>
+                    {/* On small screens the title leads, above the animation */}
+                    <h3 className="lg:hidden mb-4 text-2xl font-bold tracking-tight">
+                      {project.title}
+                    </h3>
                     <ProjectMedia project={project} />
                   </div>
 
                   {/* Details */}
                   <div>
-                    {project.featured && (
-                      <Badge
-                        variant="secondary"
-                        className="mb-4 bg-highlight/15 text-highlight border border-highlight/30"
-                      >
-                        Featured
-                      </Badge>
-                    )}
-                    <h3 className="text-2xl md:text-3xl font-bold tracking-tight">
+                    <h3 className="hidden lg:block text-2xl md:text-3xl font-bold tracking-tight">
                       {project.title}
                     </h3>
                     <p className="mt-4 text-muted-foreground leading-relaxed">
