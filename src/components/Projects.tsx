@@ -114,11 +114,11 @@ const Projects = () => {
       animation: "market",
     },
     {
-      title: "fermix",
+      title: "fermix.ai",
       description:
         "Your personal AI, everywhere you are. Fermix is an always-on, fully-local Elixir daemon that lives on your own machine and meets you in the apps you already use — Telegram, WhatsApp, Slack, Discord, Signal, voice, or the terminal. One resilient BEAM runtime schedules work while you sleep, dispatches subagents for the heavy lifting, and remembers what matters — staying provider-agnostic across OpenAI, Claude, Grok, Mistral, and local Ollama. Your assistant, your hardware, no SaaS in the middle.",
       technologies: ["Elixir", "OTP", "Phoenix", "BEAM", "AI Agents", "MCP", "Multi-Provider LLM"],
-      demoLink: "https://tezra.io/projects/fermix",
+      demoLink: "https://fermix.ai",
       demoLabel: "Project Page",
       githubLink: "https://github.com/tezra-io/fermix",
       logo: "/fermix-logo.png",
