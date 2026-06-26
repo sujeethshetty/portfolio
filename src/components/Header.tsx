@@ -30,11 +30,11 @@ const Header = () => {
           
           {!isResumePage && (
             <div className="hidden lg:flex items-center space-x-8">
-              <a href="/#/#about" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+              <a href="/#/#projects" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
               }}>
-                About
+                Projects
               </a>
               <a href="/#/#blog" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
                 e.preventDefault();
@@ -42,11 +42,11 @@ const Header = () => {
               }}>
                 Blog
               </a>
-              <a href="/#/#projects" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+              <a href="/#/#about" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
                 e.preventDefault();
-                document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
               }}>
-                Projects
+                About
               </a>
               <a href="/#/#contact" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
                 e.preventDefault();

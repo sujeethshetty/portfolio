@@ -192,3 +192,26 @@ All colors MUST be HSL.
   animation: word-slide 0.6s ease-in-out;
   transform-style: preserve-3d;
 }
+
+/* Slow Ken-Burns drift for project media (exa-style ambient motion) */
+@keyframes ken-burns {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+  }
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+  }
+}
+
+.animate-ken-burns {
+  animation: ken-burns 24s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ken-burns {
+    animation: none;
+  }
+}
