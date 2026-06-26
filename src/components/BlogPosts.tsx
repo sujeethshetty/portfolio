@@ -39,46 +39,22 @@ const COVER_POOL = [
   "/covers/cloud-data.jpg",
 ];
 
-const hashSlug = (slug: string) => {
-  let h = 0;
-  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
-  return h;
-};
-
 /**
- * Assign each post a cover from the pool: the pick is stable per slug, and a
- * bounded greedy probe keeps every cover in the rendered list unique. New
- * posts slot in deterministically and stay distinct (up to the pool size).
- */
-const assignCovers = (posts: BlogPost[]): BlogPost[] => {
-  const used = new Set<number>();
-  return posts.map((p) => {
-    let idx = hashSlug(p.slug) % COVER_POOL.length;
-    for (let n = 0; n < COVER_POOL.length && used.has(idx); n++) {
-      idx = (idx + 1) % COVER_POOL.length;
-    }
-    used.add(idx);
-    return { ...p, coverImage: COVER_POOL[idx] };
-  });
-};
-
-/**
- * Cover image for a homepage panel. `src` is always a local pool image (see
- * assignCovers), so it should never fail — but if one ever 404s we cycle to
- * the next pool image rather than ever falling back to a blank/black panel.
+ * Cover image for a homepage panel. Each panel gets a distinct pool image by
+ * index (see the fetch below), so the visible list is always unique. If an
+ * image ever 404s we show a neutral panel — never a duplicate or black tile.
  * Greyscale at rest, full colour when its panel is in focus.
  */
 const Cover = ({ src, active }: { src: string; active: boolean }) => {
-  const start = Math.max(0, COVER_POOL.indexOf(src));
-  const [step, setStep] = useState(0);
-  const current = COVER_POOL[(start + step) % COVER_POOL.length];
+  const [failed, setFailed] = useState(false);
+  if (failed) return <div className="absolute inset-0 bg-muted" />;
   return (
     <img
-      src={current}
+      src={src}
       alt=""
       loading="lazy"
       draggable={false}
-      onError={() => setStep((s) => (s < COVER_POOL.length ? s + 1 : s))}
+      onError={() => setFailed(true)}
       className={`absolute inset-0 h-full w-full object-cover contrast-[1.05] transition-[transform,filter] duration-700 ease-out ${
         active ? "grayscale-0 scale-[1.04]" : "grayscale scale-100"
       }`}
@@ -121,11 +97,12 @@ const BlogPosts = () => {
       .then((res) => res.json())
       .then((data) =>
         setPosts(
-          assignCovers(
-            (data.posts?.slice(0, MAX_PANELS) ?? []).map((p: BlogPost) => ({
+          (data.posts?.slice(0, MAX_PANELS) ?? []).map(
+            (p: BlogPost, i: number) => ({
               ...p,
               url: `${BLOG_BASE}/posts/${p.slug}`,
-            }))
+              coverImage: COVER_POOL[i % COVER_POOL.length],
+            })
           )
         )
       )
