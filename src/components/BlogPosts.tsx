@@ -21,9 +21,46 @@ const BLOG_API = `${BLOG_BASE}/api/latest.json`;
 /** How many covers to show in the accordion. */
 const MAX_PANELS = 6;
 
-const resolveCover = (cover?: string) => {
-  if (!cover) return undefined;
-  return cover.startsWith("http") ? cover : `${BLOG_BASE}${cover}`;
+/**
+ * Portfolio-local premium cover pool (served from this app's own /public).
+ * Used ONLY in this homepage list — the live blog keeps its own covers and
+ * these never touch post frontmatter. Drop a new file in /public/covers and
+ * add it here to grow the pool.
+ */
+const COVER_POOL = [
+  "/covers/horizon.jpg",
+  "/covers/neural-ai.jpg",
+  "/covers/network-mesh.jpg",
+  "/covers/pipeline.jpg",
+  "/covers/data-layers.jpg",
+  "/covers/platform.jpg",
+  "/covers/chatbot.jpg",
+  "/covers/audio-wave.jpg",
+  "/covers/messaging.jpg",
+  "/covers/cloud-data.jpg",
+];
+
+const hashSlug = (slug: string) => {
+  let h = 0;
+  for (let i = 0; i < slug.length; i++) h = (h * 31 + slug.charCodeAt(i)) >>> 0;
+  return h;
+};
+
+/**
+ * Assign each post a cover from the pool: the pick is stable per slug, and a
+ * bounded greedy probe keeps every cover in the rendered list unique. New
+ * posts slot in deterministically and stay distinct (up to the pool size).
+ */
+const assignCovers = (posts: BlogPost[]): BlogPost[] => {
+  const used = new Set<number>();
+  return posts.map((p) => {
+    let idx = hashSlug(p.slug) % COVER_POOL.length;
+    for (let n = 0; n < COVER_POOL.length && used.has(idx); n++) {
+      idx = (idx + 1) % COVER_POOL.length;
+    }
+    used.add(idx);
+    return { ...p, coverImage: COVER_POOL[idx] };
+  });
 };
 
 /** Deterministic monochrome cover for posts without an image. */
@@ -79,8 +116,8 @@ const Cover = ({
       loading="lazy"
       draggable={false}
       onError={() => setFailed(true)}
-      className={`absolute inset-0 h-full w-full object-cover grayscale contrast-[1.05] transition-transform duration-700 ease-out ${
-        active ? "scale-[1.04]" : "scale-100"
+      className={`absolute inset-0 h-full w-full object-cover contrast-[1.05] transition-[transform,filter] duration-700 ease-out ${
+        active ? "grayscale-0 scale-[1.04]" : "grayscale scale-100"
       }`}
     />
   );
@@ -121,11 +158,12 @@ const BlogPosts = () => {
       .then((res) => res.json())
       .then((data) =>
         setPosts(
-          (data.posts?.slice(0, MAX_PANELS) ?? []).map((p: BlogPost) => ({
-            ...p,
-            url: `${BLOG_BASE}/posts/${p.slug}`,
-            coverImage: resolveCover(p.coverImage),
-          }))
+          assignCovers(
+            (data.posts?.slice(0, MAX_PANELS) ?? []).map((p: BlogPost) => ({
+              ...p,
+              url: `${BLOG_BASE}/posts/${p.slug}`,
+            }))
+          )
         )
       )
       .catch(() => setPosts([]))

@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { ExternalLink, Github } from "lucide-react";
 import { PERSONAL_INFO } from "@/config/constants";
 import Reveal from "./Reveal";
+import AgentChatLoop from "./AgentChatLoop";
+import MarketSignalLoop from "./MarketSignalLoop";
 
 interface Project {
   title: string;
@@ -18,9 +20,15 @@ interface Project {
   image?: string;
   /** Looping muted video (webm/mp4) for an exa-style animation. Takes priority over `image`; `image` is reused as the poster. */
   video?: string;
+  /** Code-driven looping animation rendered inside the media frame. Takes priority over video/image. */
+  animation?: "chat" | "market";
 }
 
-/** Large media panel: greyscale screenshot if provided, else a branded placeholder. */
+/**
+ * Large media panel. Priority: coded animation → video → screenshot → branded placeholder.
+ * NOTE: source imagery is already monochrome, so we only bump `contrast` —
+ * we do NOT stack `grayscale` on top (that flattens the midtones and washes them out).
+ */
 const ProjectMedia = ({ project }: { project: Project }) => (
   <a
     href={project.demoLink}
@@ -29,7 +37,11 @@ const ProjectMedia = ({ project }: { project: Project }) => (
     aria-label={`${project.title} — ${project.demoLabel}`}
     className="group relative block aspect-[16/11] overflow-hidden rounded-2xl ring-1 ring-border/60 transition-all duration-500 hover:ring-foreground/30 hover:-translate-y-1"
   >
-    {project.video ? (
+    {project.animation === "chat" ? (
+      <AgentChatLoop />
+    ) : project.animation === "market" ? (
+      <MarketSignalLoop />
+    ) : project.video ? (
       <video
         autoPlay
         muted
@@ -37,7 +49,7 @@ const ProjectMedia = ({ project }: { project: Project }) => (
         playsInline
         preload="metadata"
         poster={project.image}
-        className="absolute inset-0 h-full w-full object-cover grayscale contrast-[1.05] animate-ken-burns"
+        className="absolute inset-0 h-full w-full object-cover contrast-[1.05] animate-ken-burns"
       >
         <source src={project.video} />
       </video>
@@ -46,7 +58,7 @@ const ProjectMedia = ({ project }: { project: Project }) => (
         src={project.image}
         alt={`${project.title} preview`}
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover grayscale contrast-[1.05] animate-ken-burns"
+        className="absolute inset-0 h-full w-full object-cover contrast-[1.05] animate-ken-burns"
       />
     ) : (
       <div className="absolute inset-0 bg-gradient-to-br from-foreground/[0.09] to-foreground/[0.02]">
@@ -76,8 +88,8 @@ const ProjectMedia = ({ project }: { project: Project }) => (
       </div>
     )}
 
-    {/* Light sheen sweep on hover */}
-    <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-all duration-1000 ease-out group-hover:left-[120%] group-hover:opacity-100" />
+    {/* Light sheen sweep on hover — token-based so it reads in both themes */}
+    <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-0 transition-all duration-1000 ease-out group-hover:left-[120%] group-hover:opacity-100" />
 
     <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground opacity-0 backdrop-blur transition-opacity duration-300 group-hover:opacity-100">
       <ExternalLink className="h-3.5 w-3.5" />
@@ -99,7 +111,7 @@ const Projects = () => {
       logo: "/openbell-logo.png",
       iconBg: "bg-white",
       featured: true,
-      image: "/obai-preview.jpg",
+      animation: "market",
     },
     {
       title: "fermix",
@@ -110,9 +122,9 @@ const Projects = () => {
       demoLabel: "Project Page",
       githubLink: "https://github.com/tezra-io/fermix",
       logo: "/fermix-logo.png",
-      iconBg: "bg-[#0b1020]",
+      iconBg: "bg-card",
       featured: true,
-      image: "/fermix-preview.jpg",
+      animation: "chat",
     },
   ];
 
