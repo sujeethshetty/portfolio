@@ -35,7 +35,7 @@ const allTags = [...new Set([...posts, ...tils].flatMap(p => p.data.tags))];
   <!-- Latest Post -->
   {posts.length > 0 && (
     <section class="mb-10">
-      <a href={`/posts/${posts[0].slug}`} class="group block relative rounded-xl border border-border/50 bg-card p-6 sm:p-8 hover:shadow-xl transition-all duration-300 overflow-hidden">
+      <a href={`/posts/${posts[0].id}`} class="group block relative rounded-xl border border-border/50 bg-card p-6 sm:p-8 hover:shadow-xl transition-all duration-300 overflow-hidden">
         <div class="absolute inset-0 bg-gradient-to-r from-highlight/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         <div class="relative z-10">
           <span class="inline-flex items-center gap-1.5 text-xs font-medium text-highlight mb-3">
@@ -79,7 +79,7 @@ const allTags = [...new Set([...posts, ...tils].flatMap(p => p.data.tags))];
             description={post.data.description}
             date={post.data.date}
             tags={post.data.tags}
-            slug={post.slug}
+            slug={post.id}
             collection="posts"
             coverImage={post.data.coverImage}
             variant={post.data.coverImage ? 'image' : 'default'}
@@ -106,7 +106,7 @@ const allTags = [...new Set([...posts, ...tils].flatMap(p => p.data.tags))];
             description={til.data.description}
             date={til.data.date}
             tags={til.data.tags}
-            slug={til.slug}
+            slug={til.id}
             collection="til"
           />
         ))}

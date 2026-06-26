@@ -18,7 +18,7 @@ const tils = (await getCollection('til', ({ data }) => !data.draft))
           description={til.data.description}
           date={til.data.date}
           tags={til.data.tags}
-          slug={til.slug}
+          slug={til.id}
           collection="til"
         />
       ))}

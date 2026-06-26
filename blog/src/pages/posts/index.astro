@@ -21,7 +21,7 @@ const posts = (await getCollection('posts', ({ data }) => !data.draft))
           description={post.data.description}
           date={post.data.date}
           tags={post.data.tags}
-          slug={post.slug}
+          slug={post.id}
           collection="posts"
           coverImage={post.data.coverImage}
           variant={post.data.coverImage ? 'image' : 'default'}
