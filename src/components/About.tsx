@@ -43,13 +43,12 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="py-24">
+    <section id="about" className="py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Reveal className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">My Expertise</h2>
+        <Reveal className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">Expertise</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Specialized in building intelligent data solutions and AI-powered
-            applications
+            Where I go deep — from streaming pipelines to multi-agent systems.
           </p>
         </Reveal>
 

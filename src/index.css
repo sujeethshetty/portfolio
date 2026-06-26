@@ -129,6 +129,10 @@ All colors MUST be HSL.
     touch-action: manipulation;
   }
 
+  h1, h2, h3, h4 {
+    font-family: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
+  }
+
   /* Optimize touch interactions */
   button, [role="button"], a {
     touch-action: manipulation;

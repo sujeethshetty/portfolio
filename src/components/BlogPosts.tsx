@@ -33,7 +33,6 @@ const COVER_POOL = [
   "/covers/network-mesh.jpg",
   "/covers/pipeline.jpg",
   "/covers/data-layers.jpg",
-  "/covers/platform.jpg",
   "/covers/chatbot.jpg",
   "/covers/audio-wave.jpg",
   "/covers/messaging.jpg",
@@ -63,59 +62,23 @@ const assignCovers = (posts: BlogPost[]): BlogPost[] => {
   });
 };
 
-/** Deterministic monochrome cover for posts without an image. */
-const FallbackCover = ({ title, tag }: { title: string; tag?: string }) => {
-  let hash = 0;
-  for (let i = 0; i < title.length; i++) {
-    hash = (hash * 31 + title.charCodeAt(i)) >>> 0;
-  }
-  const angle = hash % 180;
-  const l1 = 6 + (hash % 8);
-  const l2 = 18 + (hash % 16);
-  const label = (tag || title).replace(/[^a-zA-Z]/g, "").slice(0, 2).toUpperCase();
-
-  return (
-    <div
-      className="absolute inset-0"
-      style={{
-        backgroundImage: `linear-gradient(${angle}deg, hsl(0 0% ${l1}%), hsl(0 0% ${l2}%))`,
-      }}
-    >
-      <div
-        className="absolute inset-0 opacity-[0.13]"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle at 1px 1px, #fff 1px, transparent 0)",
-          backgroundSize: "16px 16px",
-        }}
-      />
-      <span className="absolute left-5 top-4 text-6xl font-bold text-white/20">
-        {label}
-      </span>
-    </div>
-  );
-};
-
-const Cover = ({
-  src,
-  title,
-  tag,
-  active,
-}: {
-  src?: string;
-  title: string;
-  tag?: string;
-  active: boolean;
-}) => {
-  const [failed, setFailed] = useState(false);
-  if (!src || failed) return <FallbackCover title={title} tag={tag} />;
+/**
+ * Cover image for a homepage panel. `src` is always a local pool image (see
+ * assignCovers), so it should never fail — but if one ever 404s we cycle to
+ * the next pool image rather than ever falling back to a blank/black panel.
+ * Greyscale at rest, full colour when its panel is in focus.
+ */
+const Cover = ({ src, active }: { src: string; active: boolean }) => {
+  const start = Math.max(0, COVER_POOL.indexOf(src));
+  const [step, setStep] = useState(0);
+  const current = COVER_POOL[(start + step) % COVER_POOL.length];
   return (
     <img
-      src={src}
+      src={current}
       alt=""
       loading="lazy"
       draggable={false}
-      onError={() => setFailed(true)}
+      onError={() => setStep((s) => (s < COVER_POOL.length ? s + 1 : s))}
       className={`absolute inset-0 h-full w-full object-cover contrast-[1.05] transition-[transform,filter] duration-700 ease-out ${
         active ? "grayscale-0 scale-[1.04]" : "grayscale scale-100"
       }`}
@@ -173,9 +136,9 @@ const BlogPosts = () => {
   if (!loading && posts.length === 0) return null;
 
   return (
-    <section id="blog" className="py-24 bg-muted/30">
+    <section id="blog" className="py-16 md:py-20 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Reveal className="text-center mb-16">
+        <Reveal className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Latest from the Blog
           </h2>
@@ -218,9 +181,7 @@ const BlogPosts = () => {
                     }`}
                   >
                     <Cover
-                      src={post.coverImage}
-                      title={post.title}
-                      tag={post.tags[0]}
+                      src={post.coverImage ?? COVER_POOL[0]}
                       active={isActive}
                     />
 
@@ -244,7 +205,7 @@ const BlogPosts = () => {
                           : "opacity-0 translate-y-3"
                       }`}
                     >
-                      <time className="text-[11px] uppercase tracking-wider text-white/60">
+                      <time className="font-mono text-[11px] uppercase tracking-wider text-white/60">
                         {new Date(post.date).toLocaleDateString("en-US", {
                           year: "numeric",
                           month: "short",
@@ -254,7 +215,7 @@ const BlogPosts = () => {
                       <h3 className="mt-1.5 max-w-md text-xl md:text-2xl font-semibold leading-snug line-clamp-2">
                         {post.title}
                       </h3>
-                      <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] uppercase tracking-wider text-white/55">
+                      <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-white/55">
                         {post.tags.slice(0, 3).map((tag, i) => (
                           <span key={tag} className="flex items-center gap-2">
                             {i > 0 && <span className="text-white/30">/</span>}
@@ -270,7 +231,7 @@ const BlogPosts = () => {
           </Reveal>
         )}
 
-        <div className="mt-12">
+        <div className="mt-12 flex justify-center">
           <Button variant="outline" size="lg" asChild>
             <a
               href={BLOG_BASE}

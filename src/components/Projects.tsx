@@ -129,12 +129,12 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-24">
+    <section id="projects" className="py-16 md:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Reveal className="text-center mb-16">
+        <Reveal className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            A showcase of innovative AI and data engineering solutions
+            Production AI systems I architected, shipped, and scaled.
           </p>
         </Reveal>
 
@@ -167,7 +167,7 @@ const Projects = () => {
 
                     <div className="mt-6 flex flex-wrap gap-2">
                       {project.technologies.map((tech) => (
-                        <Badge key={tech} variant="outline" className="text-xs">
+                        <Badge key={tech} variant="outline" className="font-mono text-xs">
                           {tech}
                         </Badge>
                       ))}

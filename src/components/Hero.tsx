@@ -30,7 +30,7 @@ const Hero = () => {
       <ParticleBackground />
 
       <div className="max-w-4xl mx-auto text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-highlight/10 text-highlight border border-highlight/20 mb-10 backdrop-blur-sm">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full font-mono text-xs font-medium uppercase tracking-wider bg-highlight/10 text-highlight border border-highlight/20 mb-10 backdrop-blur-sm">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-highlight opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-highlight"></span>
