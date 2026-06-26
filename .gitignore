@@ -33,3 +33,5 @@ scripts/
 # Claude memory files in src
 src/**/CLAUDE.md
 src/CLAUDE.md
+
+design/

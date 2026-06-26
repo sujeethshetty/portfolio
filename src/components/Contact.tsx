@@ -2,19 +2,20 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Linkedin, Github, MapPin } from "lucide-react";
 import { PERSONAL_INFO } from "@/config/constants";
+import Reveal from "./Reveal";
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-20 bg-muted/30">
+    <section id="contact" className="py-16 md:py-20 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Let's Connect</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to collaborate on innovative AI and data engineering projects? 
-            Let's discuss how we can build something amazing together.
+            Ready to collaborate on AI and data engineering projects? Let's build something great together.
           </p>
-        </div>
+        </Reveal>
 
+        <Reveal>
         <Card className="border-border/50 overflow-hidden">
           <CardContent className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -79,6 +80,7 @@ const Contact = () => {
             </div>
           </CardContent>
         </Card>
+        </Reveal>
       </div>
     </section>
   );

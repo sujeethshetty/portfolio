@@ -18,6 +18,11 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				sans: ['"IBM Plex Sans"', 'system-ui', '-apple-system', 'sans-serif'],
+				display: ['"Space Grotesk"', '"IBM Plex Sans"', 'system-ui', 'sans-serif'],
+				mono: ['"IBM Plex Mono"', 'ui-monospace', 'Menlo', 'monospace'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
