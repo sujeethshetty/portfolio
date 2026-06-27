@@ -15,8 +15,8 @@ export const GET: APIRoute = async () => {
         description: p.data.description,
         date: p.data.date.toISOString(),
         tags: p.data.tags,
-        slug: p.slug,
-        url: `https://blogs.sujeeth.io/posts/${p.slug}`,
+        slug: p.id,
+        url: `https://blogs.sujeeth.io/posts/${p.id}`,
         // Return the raw value (absolute URL or site-relative path). The
         // consumer resolves relative paths against the right origin so it
         // works in local dev (localhost) and production alike.

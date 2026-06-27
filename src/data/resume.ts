@@ -137,7 +137,7 @@ export const featuredProjects: Project[] = [
     name: "fermix",
     description: "Your personal AI, everywhere you are. An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI — scheduling jobs, dispatching subagents, and remembering what matters, all provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama. Your assistant, your hardware.",
     technologies: ["Elixir", "OTP", "Phoenix", "BEAM", "AI Agents", "MCP"],
-    link: "https://tezra.io/projects/fermix",
+    link: "https://fermix.ai",
     githubLink: "https://github.com/tezra-io/fermix",
     tags: ["Open Source", "AI", "Personal AI"]
   }

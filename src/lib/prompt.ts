@@ -157,7 +157,7 @@ Link: https://github.com/sixteen-dev/tomchat
 
 **Fermix** [AI, Elixir]: "Your personal AI, everywhere you are." An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI — with scheduled jobs, bounded subagents, persistent memory, and a full tool suite, staying provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama.
 Link: https://github.com/tezra-io/fermix
-Project page: https://tezra.io/projects/fermix
+Project page: https://fermix.ai
 
 **Keystone-Agent** [AI]: Multi-agent CLI tool (AI board of directors) that evaluates ideas through 7 specialist lenses.
 Link: https://github.com/sixteen-dev/keystone-agent
