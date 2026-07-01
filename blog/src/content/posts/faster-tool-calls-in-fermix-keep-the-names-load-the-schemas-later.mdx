@@ -1,0 +1,117 @@
+---
+title: "Faster tool calls in Fermix: keep the names, load the schemas later"
+description: "How Fermix keeps plugin and MCP tool names visible while deferring their schemas out of the prompt: smaller prompts, a stabler cache, and clearer tool choice as the catalog grows."
+date: 2026-06-30
+tags: ["ai", "ai-agents", "elixir", "fermix", "mcp"]
+draft: false
+coverImage: "/fermix-tools-cover.jpg"
+---
+
+Tool calls have a boring bottleneck. A tool is not just a name. It is a name, a description, parameter fields, required keys, enum values, nested objects, and validation rules.
+
+That is fine with a small tool set. It breaks down once the agent has built-in tools, plugins, MCP tools, browser tools, memory tools, git tools, scheduled-job tools, and channel tools.
+
+Earlier, Fermix carried the full tool catalog in the prompt. That meant plugin and MCP schemas were present before the model knew whether it needed them. Most tasks use a small number of tools, and the old path made every task pay for all of them.
+
+I measured it on my own daemon. 87 tools on the wire. About 10k tokens of schema in front of every request, re-sent on every step of the loop. A six-step turn paid for all of it six times.
+
+The cost showed up in two places. First, latency: more schema text means more prompt to process before the model does useful work. Second, tool choice: more visible tools means more similar names, more overlapping descriptions, and more ways to pick something that looks close but is wrong.
+
+So the goal was not just to reduce tokens. It was to keep Fermix useful as the tool catalog grows.
+
+## The fix I did not want
+
+The obvious fix is to hide all tools and expose one search tool. That looks clean. It is also too aggressive.
+
+If the model cannot see that a capability exists, it may not search for it. It may answer from memory, ask the user to do something manually, or pick a visible tool that is close enough.
+
+I did not want a fully hidden catalog. The model still needs a map — it just does not need every manual up front. That was the split: tool names stay visible, and full schemas move out of the prompt.
+
+## The split
+
+A tool name is cheap. A short hint is cheap. A full schema is expensive. The model needs the cheap part early, because it tells the model what is possible. It only needs the full schema after it has narrowed down which tool it wants to use.
+
+Fermix now partitions capabilities into two groups. Built-in tools stay advertised with full schemas. Plugin and MCP tools are deferred: their names stay visible in the prompt, but their schemas load on demand.
+
+Three bridge tools handle that path:
+
+- `tool_search` searches the live registry.
+- `tool_describe` returns the full schema for a selected tool.
+- `tool_call` runs the tool by name.
+
+The search runs over the registry Fermix already has. No vector store, no extra service, no separate indexing pipeline. At this scale, plain search is enough.
+
+## Why built-ins stay inline
+
+Not every schema should be deferred. Fermix built-ins are used constantly: file tools, shell, git, web, memory, browser, scheduled jobs, and subagents. Putting those behind search would add a lookup step to common work. That is not optimization — that is moving cost around.
+
+So built-ins stay inline. The deferred path is for plugin and MCP tools, because that is where the catalog grows and where any single task usually needs only a few tools.
+
+## The part that mattered more than expected
+
+Prompt caching changes the design. The front of the prompt should stay stable. If the tool list grows every time the model discovers a tool, the cached prefix changes — then you save schema tokens in one place and lose cache behavior somewhere else.
+
+So Fermix keeps the bridge tools fixed and the base prompt stable. Deferred schemas arrive later, as normal conversation content, when the model asks for them. Same principle for model-specific prompt changes: append them after the stable base, and do not mutate the cached front unless you have to.
+
+Small thing. Big impact.
+
+## What actually gets faster
+
+Be precise about the claim. The tool does not run faster — a shell call or an API call takes as long as it takes. What gets faster is the model step around it.
+
+Every step of the loop resends the prompt. Cut the schema payload and every step carries less. Less input to read is less time before the model starts working, and less to pay for. A six-step turn banks that six times.
+
+Fewer full schemas in front of the model also means fewer near-identical tools to choose between. The model picks better on the first try, and a wrong tool call is the most expensive kind of slow, so this removes a lot of them. The prompt prefix stays stable, so the cache keeps paying out.
+
+And the main agent is no longer holding a catalog it does not need. Less context to carry is less context to get lost in. The model reasons on the task, not on a wall of schemas it will never call.
+
+So this is not a faster tool call in the literal sense. It is a smaller prompt, a stabler cache, and a clearer choice at every step. Make the tool layer efficient and the speed follows. That is the honest version of the claim.
+
+## The real win
+
+This changes the cost curve.
+
+Old design:
+
+- Add plugin.
+- Add full schema to every prompt.
+- Every task gets heavier.
+
+New design:
+
+- Add plugin.
+- Add name and hint to the visible map.
+- Load full schema only when needed.
+
+On my daemon that cut the tool payload by about half the day it shipped, and the gap widens with every plugin I add. That matters because the plugin catalog can grow without forcing every request to carry every plugin schema. The model still sees what exists; it just does not read every parameter of every tool before doing anything.
+
+Names are the map. Schemas are the manual. The model gets the map up front, and opens the manual when it reaches for the tool.
+
+## The fallback
+
+This is behind a config flag. If tool search is disabled, Fermix goes back to the inline catalog behavior. That matters because deferring schemas is not always worth it.
+
+If an install has five tools, inline them — the search step is not free. Deferred loading starts to make sense when the catalog is large and each task uses a small slice of it. That is the plugin case.
+
+## The other speed path: parallel subagents
+
+Tool schema deferral makes each step cheaper. It does not make a large task finish by itself. For that, Fermix has subagents: when work can be split into independent pieces, the main agent spins up temporary workers and runs them in parallel, up to a cap.
+
+That gives Fermix a second speed path. Deferred tools reduce how much each model call has to read. Subagents reduce how much work sits on one serial path. These solve different parts of the same problem: do not make one model read everything, and do not make one model do everything in order.
+
+## Final shape
+
+The final design is simple:
+
+- Keep built-in tools inline.
+- Keep plugin and MCP tool names visible.
+- Defer plugin and MCP schemas.
+- Search the live registry when needed.
+- Describe one tool when the model selects it.
+- Call the tool by name.
+- Keep the stable prompt prefix stable.
+- Use subagents when work can run in parallel.
+
+This is not a clever trick. It is accounting. A growing tool catalog should not make every turn slower by default. The model needs to know what it can do — it does not need every schema all the time.
+
+[GitHub: tezra-io/fermix](https://github.com/tezra-io/fermix)
