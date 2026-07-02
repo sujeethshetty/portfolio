@@ -28,15 +28,15 @@ const MAX_PANELS = 6;
  * add it here to grow the pool.
  */
 const COVER_POOL = [
-  "/covers/horizon.jpg",
-  "/covers/neural-ai.jpg",
-  "/covers/network-mesh.jpg",
-  "/covers/pipeline.jpg",
-  "/covers/data-layers.jpg",
-  "/covers/chatbot.jpg",
-  "/covers/audio-wave.jpg",
-  "/covers/messaging.jpg",
-  "/covers/cloud-data.jpg",
+  "/covers/horizon.webp",
+  "/covers/neural-ai.webp",
+  "/covers/network-mesh.webp",
+  "/covers/pipeline.webp",
+  "/covers/data-layers.webp",
+  "/covers/chatbot.webp",
+  "/covers/audio-wave.webp",
+  "/covers/messaging.webp",
+  "/covers/cloud-data.webp",
 ];
 
 /**
@@ -53,9 +53,10 @@ const Cover = ({ src, active }: { src: string; active: boolean }) => {
       src={src}
       alt=""
       loading="lazy"
+      decoding="async"
       draggable={false}
       onError={() => setFailed(true)}
-      className={`absolute inset-0 h-full w-full object-cover contrast-[1.05] transition-[transform,filter] duration-700 ease-out ${
+      className={`absolute inset-0 h-full w-full object-cover contrast-[1.05] transition-[transform,filter] duration-500 ease-out-expo ${
         active ? "grayscale-0 scale-[1.04]" : "grayscale scale-100"
       }`}
     />
@@ -94,7 +95,10 @@ const BlogPosts = () => {
 
   useEffect(() => {
     fetch(BLOG_API)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`Blog API responded with ${res.status}`);
+        return res.json();
+      })
       .then((data) =>
         setPosts(
           (data.posts?.slice(0, MAX_PANELS) ?? []).map(
@@ -106,11 +110,12 @@ const BlogPosts = () => {
           )
         )
       )
-      .catch(() => setPosts([]))
+      .catch((err) => {
+        console.error("Failed to load blog posts:", err);
+        setPosts([]);
+      })
       .finally(() => setLoading(false));
   }, []);
-
-  if (!loading && posts.length === 0) return null;
 
   return (
     <section id="blog" className="py-16 md:py-20 bg-muted/30">
@@ -129,7 +134,7 @@ const BlogPosts = () => {
         {loading ? (
           <>
             <div className="grid gap-4 md:hidden">
-              {[...Array(3)].map((_, i) => (
+              {[...Array(MAX_PANELS)].map((_, i) => (
                 <div
                   key={i}
                   className="aspect-[16/10] rounded-2xl bg-muted animate-pulse"
@@ -146,7 +151,7 @@ const BlogPosts = () => {
               ))}
             </div>
           </>
-        ) : (
+        ) : posts.length === 0 ? null : (
           <>
             {/* Mobile: full-width cards — a tap opens the post (no hover/accordion) */}
             <div className="grid gap-4 md:hidden">
@@ -163,6 +168,7 @@ const BlogPosts = () => {
                     src={post.coverImage ?? COVER_POOL[0]}
                     alt=""
                     loading="lazy"
+                    decoding="async"
                     draggable={false}
                     className="absolute inset-0 h-full w-full object-cover contrast-[1.05]"
                   />
@@ -192,7 +198,7 @@ const BlogPosts = () => {
             </div>
 
             {/* Desktop: expanding hover accordion */}
-            <Reveal className="hidden md:block">
+            <Reveal className="hidden md:block" delay={120}>
               <div className="flex gap-3 h-[560px]">
                 {posts.map((post, index) => {
                   const isActive = active === index;
@@ -208,7 +214,7 @@ const BlogPosts = () => {
                       onFocus={() => setActive(index)}
                       onClick={(e) => handlePanelClick(e, index)}
                       style={{ flexGrow: isActive ? 6 : 1, flexBasis: 0 }}
-                      className={`group relative block h-full min-w-[56px] cursor-pointer overflow-hidden rounded-2xl ring-1 transition-all duration-700 ease-in-out ${
+                      className={`group relative block h-full min-w-[56px] cursor-pointer overflow-hidden rounded-2xl ring-1 [contain:layout_paint] transition-all duration-500 ease-out-expo ${
                         isActive ? "ring-foreground/30" : "ring-border/60"
                       }`}
                     >
@@ -231,9 +237,9 @@ const BlogPosts = () => {
 
                       {/* Expanded: full detail */}
                       <div
-                        className={`pointer-events-none absolute inset-x-0 bottom-0 p-5 md:p-7 text-white transition-all duration-500 ${
+                        className={`pointer-events-none absolute inset-x-0 bottom-0 p-5 md:p-7 text-white transition-all duration-400 ${
                           isActive
-                            ? "opacity-100 translate-y-0 delay-200"
+                            ? "opacity-100 translate-y-0 delay-100"
                             : "opacity-0 translate-y-3"
                         }`}
                       >
