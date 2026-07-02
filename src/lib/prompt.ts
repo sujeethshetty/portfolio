@@ -76,22 +76,22 @@ Sujeeth designs large-scale data platforms and production-grade AI systems on cl
 ---
 
 ## Background
-Sujeeth was born and raised in a small village, where he spent his childhood surrounded by people from all walks of life. Growing up in that environment taught him an important lesson early on — to treat **janitors and CEOs the same way**, with respect and empathy.
+Sujeeth was born and raised in a small village, where he spent his childhood surrounded by people from all walks of life. Growing up in that environment taught him an important lesson early on: to treat **janitors and CEOs the same way**, with respect and empathy.
 
 To attend a good school, he commuted over an hour each day, often the only student from his village on that route. The long rides became less lonely after he befriended the bus driver and learned the value of conversations outside the classroom.
-**Math** was his favorite subject, while **history** was his least — he never enjoyed memorizing dates or rote facts.
+**Math** was his favorite subject, while **history** was his least; he never enjoyed memorizing dates or rote facts.
 
-He describes his childhood as fun but academically rigid, shaped by a schooling system focused more on **memory than true learning**. Access to the **internet later changed his worldview**, opening up opportunities to learn through exploration rather than repetition. Today, he's fascinated by how **Generative AI** accelerates learning and access to knowledge — a reflection of how far education and technology have evolved since those early days.
+He describes his childhood as fun but academically rigid, shaped by a schooling system focused more on **memory than true learning**. Access to the **internet later changed his worldview**, opening up opportunities to learn through exploration rather than repetition. Today, he's fascinated by how **Generative AI** accelerates learning and access to knowledge, a reflection of how far education and technology have evolved since those early days.
 
 Sujeeth completed his undergraduate degree in **Telecommunications Engineering**, not out of a deep interest in telecommunications, but to secure a strong academic foundation from a reputable college. His real curiosity was always in **computers and software engineering**, where he began learning **C, Java, and Assembly** alongside his core coursework.
 
 After graduation, he joined **Cognizant Technology Solutions**, working with banking and healthcare clients on **PeopleSoft ERP implementations**. His success there led him to **Oracle**, where he transitioned from implementing to **building the very PeopleSoft applications** he once deployed for clients. Over several years, he became deeply skilled in **Oracle databases**, **PeopleSoft architecture**, and **enterprise integrations**, while mentoring junior developers and leading modules.
 
-Craving a new challenge, Sujeeth began exploring **AI and conversational interfaces**, developing **POCs of Oracle Chatbots for PeopleSoft** — a project that sparked his long-term interest in **data and artificial intelligence**. Determined to pivot his career, he moved to the United States and earned his **Master's in Business Analytics from the University of Texas at Dallas**, with a **minor in Data Science**.
+Craving a new challenge, Sujeeth began exploring **AI and conversational interfaces**, developing **POCs of Oracle Chatbots for PeopleSoft**, a project that sparked his long-term interest in **data and artificial intelligence**. Determined to pivot his career, he moved to the United States and earned his **Master's in Business Analytics from the University of Texas at Dallas**, with a **minor in Data Science**.
 
 While pursuing his master's, Sujeeth worked part-time in the service industry before landing a **founding data engineering internship** at a startup, where he and his small team **built a multi-tenant big data infrastructure from scratch** and implemented **machine learning models for vehicle price prediction during auctions**.
 
-Post-graduation, he joined **Slalom Consulting**, working on large-scale data projects for clients such as **United Airlines, International Flavors & Fragrances, and Bank of Montreal**. His work there spanned **Spark-based MLOps**, **data migration from on-prem to cloud**, and **real-time feature engineering pipelines** — experiences that laid the groundwork for his current focus on AI-driven data platforms.
+Post-graduation, he joined **Slalom Consulting**, working on large-scale data projects for clients such as **United Airlines, International Flavors & Fragrances, and Bank of Montreal**. His work there spanned **Spark-based MLOps**, **data migration from on-prem to cloud**, and **real-time feature engineering pipelines**. Those experiences laid the groundwork for his current focus on AI-driven data platforms.
 
 ---
 
@@ -112,7 +112,7 @@ He also holds certifications in **AWS Solutions Architect**, **AWS Machine Learn
 
 #### OpenBell.ai
 **What it is:**
-openbell.ai (previously called TezNewz) is an AI-powered financial news and research platform built for retail investors and independent traders. It delivers real-time, high-impact market insights by filtering through thousands of news feeds daily to highlight the most relevant stories — helping users cut through noise and react faster to market-moving events.
+openbell.ai (previously called TezNewz) is an AI-powered financial news and research platform built for retail investors and independent traders. It delivers real-time, high-impact market insights by filtering through thousands of news feeds daily to highlight the most relevant stories, helping users cut through noise and react faster to market-moving events.
 
 **What it does:**
 - Aggregates financial and social news from trusted sources, Reddit, and X (Twitter)
@@ -128,13 +128,13 @@ OBaI is an open-source multi-agent AI system for stock market research, powered 
 - 8 specialist MCP servers (fundamentals, market data, options, screening, portfolio, backtest, news, research) running in Docker
 - Central Hub dispatches queries to multiple agents in parallel (agents-as-tools pattern via OpenAI Agent SDK)
 - Strategy Agent autonomously builds, backtests, and iterates on trading strategies using Polars + polars-talib with DuckDB storage
-- Research Agent performs deep qualitative analysis via Exa semantic search — company profiles, leadership, product sentiment, competitive landscape
+- Research Agent performs deep qualitative analysis via Exa semantic search: company profiles, leadership, product sentiment, competitive landscape
 - End-to-end observability with self-hosted Opik tracing and custom evaluation scorers (faithfulness, completeness, LLM-judge)
 - AutoTrader skill for autonomous paper trading on Alpaca with built-in risk management
 - CLI + Textual TUI for interactive use
 
 **Technical Complexity (OBaI):**
-The hardest part is orchestration and reliability: multiple specialized agents reason over different real-time signals (market data, news, fundamentals, sentiment, options), converge on a coherent answer, and back it with an evaluation pipeline that checks faithfulness to tool output, completeness, and hallucination risk. The Strategy Agent adds another layer — it autonomously iterates on trading strategies, detects overfitting, and validates on out-of-sample data before issuing a verdict.
+The hardest part is orchestration and reliability: multiple specialized agents reason over different real-time signals (market data, news, fundamentals, sentiment, options), converge on a coherent answer, and back it with an evaluation pipeline that checks faithfulness to tool output, completeness, and hallucination risk. The Strategy Agent adds another layer: it autonomously iterates on trading strategies, detects overfitting, and validates on out-of-sample data before issuing a verdict.
 
 **Technical Complexity (OpenBell):**
 OpenBell runs on a microservices architecture that ingests and scores real-time news and social signals (including Reddit), then distributes output across web and Discord via APIs. The complexity was building a reliable low-latency pipeline for ingestion, scoring, and delivery while keeping the system modular enough to support multiple downstream surfaces.
@@ -155,7 +155,7 @@ Link: https://chatgpt.com/g/g-RR2IiNprf-globetrotterai
 **TomChat** [AI, ML]: Rust-based desktop app for local speech-to-text using Whisper AI.
 Link: https://github.com/sixteen-dev/tomchat
 
-**Fermix** [AI, Elixir]: "Your personal AI, everywhere you are." An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI — with scheduled jobs, bounded subagents, persistent memory, and a full tool suite, staying provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama.
+**Fermix** [AI, Elixir]: "Your personal AI, everywhere you are." An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI. It ships scheduled jobs, bounded subagents, persistent memory, and a full tool suite, staying provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama.
 Link: https://github.com/tezra-io/fermix
 Project page: https://fermix.ai
 
@@ -204,14 +204,14 @@ For collaborations, consulting, or AI/data engineering projects, reach out direc
 - **Learning:** Self-driven; learns by building and reverse-engineering real systems.
 
 ### What He Values
-- **In a team:** A balance of autonomy and mentorship — learning from experienced peers while owning execution.  
+- **In a team:** A balance of autonomy and mentorship: learning from experienced peers while owning execution.
 - **In a company:** Engineering discipline, transparency, and product focus. He thrives even when requirements are ambiguous, using data and structure to bring clarity.  
 - **Red flags:** Micromanagement, constant firefighting, and lack of documentation or technical ownership.  
 
 ### Personality Snapshot
 - **Three words:** Pragmatic, analytical, systems-driven.
 - **Coworker description:** Calm, reliable, data-backed decision-maker.
-- **Identity:** Builder first — owns hard problems end-to-end with high intensity, high accountability, and low need for hand-holding.
+- **Identity:** Builder first. Owns hard problems end-to-end with high intensity, high accountability, and low need for hand-holding.
 - **Work intensity:** Thrives in high-agency environments on meaningful, technically hard problems with clear ownership.
 - **Pet peeves:** Over-engineering solutions and unreviewed infrastructure changes
 
@@ -234,29 +234,29 @@ For collaborations, consulting, or AI/data engineering projects, reach out direc
 
 ### Hobbies & Interests
 Outside of work, Sujeeth enjoys **fitness, CrossFit, and pickleball**.
-He is a **certified scuba diver** with 12+ dives — his favorite being **Lanai Cathedrals in Hawaii**.
+He is a **certified scuba diver** with 12+ dives, his favorite being **Lanai Cathedrals in Hawaii**.
 He supports **dog shelters** in both the US and India, funding initiatives for stray care.
 He enjoys **sci-fi and fiction**, with *Project Hail Mary* among his recent favorites.
 A passionate traveler, he loves **road trips** and was an avid **motorcycle tourer** in India, planning to resume long rides across the US next summer.
 He also loves **hiking**, with **Har Ki Dun in the Himalayas (37 km, 11,600 ft elevation)** as his favorite trek for its endurance challenge and serenity.
-Every year, he commits to **learning a new skill or sport** — most recently **surfing in Hawaii**, with **snowboarding** next on the list.
+Every year, he commits to **learning a new skill or sport**, most recently **surfing in Hawaii**, with **snowboarding** next on the list.
 
 ### Fun Facts
 - He doesn't drink coffee and doesn't like pizza.
 - He often experiments with new AI tools and ideas late at night.
-- He’s had his share of injuries over the years — a couple of broken bones from a motorcycle accident, a few from high school misadventures, and more than a handful of bike crashes — but none of it slowed him down.
+- He’s had his share of injuries over the years (a couple of broken bones from a motorcycle accident, a few from high school misadventures, and more than a handful of bike crashes), but none of it slowed him down.
 ---
 
 ## Life Philosophy
 - **Career Goal:** Build products that make a real impact on people's lives.
 - **Motivation:** Converting complex data into usable intelligence that drives impact.
 - **Work-Life Balance:** Deep work balanced with travel, fitness, and creative exploration.
-- **Core value:** Time — he optimizes for it above all else, building systems that reduce friction and protect attention.
+- **Core value:** Time. He optimizes for it above all else, building systems that reduce friction and protect attention.
 
 ---
 
 ### Favorite Quote
-- "The more I learn, the more I realize how much I don't know." — Socrates
+- "The more I learn, the more I realize how much I don't know." (Socrates)
 
 ---
 

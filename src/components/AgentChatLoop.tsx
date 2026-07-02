@@ -15,11 +15,11 @@ import { useEffect, useRef, useState } from "react";
 const CHANNELS = ["Telegram", "Slack", "Discord", "CLI"];
 const SCRIPT: { who: "user" | "agent"; text: string }[] = [
   { who: "user", text: "every morning, brief me on my inbox" },
-  { who: "agent", text: "On it. Triaged 38 emails — 4 need you." },
+  { who: "agent", text: "On it. Triaged 38 emails. 4 need you." },
   { who: "user", text: "book the Kyoto flight if it dips under cap" },
   { who: "agent", text: "Watching it. I'll grab it and send receipts." },
   { who: "user", text: "ship the standup to Notion" },
-  { who: "agent", text: "Done — drafted and posted. Logged every step." },
+  { who: "agent", text: "Done. Drafted and posted. Logged every step." },
 ];
 
 const AgentChatLoop = () => {

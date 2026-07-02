@@ -127,7 +127,7 @@ export const certifications: Certification[] = [
 export const featuredProjects: Project[] = [
   {
     name: "openbell.ai / OBaI",
-    description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
+    description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI, a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
     technologies: ["AI Agents", "OpenAI Agent SDK", "FastMCP", "Python", "Docker", "Polars", "DuckDB"],
     link: "https://openbell.ai",
     githubLink: "https://github.com/sixteen-dev/obai",
@@ -135,7 +135,7 @@ export const featuredProjects: Project[] = [
   },
   {
     name: "fermix",
-    description: "Your personal AI, everywhere you are. An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI — scheduling jobs, dispatching subagents, and remembering what matters, all provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama. Your assistant, your hardware.",
+    description: "Your personal AI, everywhere you are. An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI. It schedules jobs, dispatches subagents, and remembers what matters, all provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama. Your assistant, your hardware.",
     technologies: ["Elixir", "OTP", "Phoenix", "BEAM", "AI Agents", "MCP"],
     link: "https://fermix.ai",
     githubLink: "https://github.com/tezra-io/fermix",
