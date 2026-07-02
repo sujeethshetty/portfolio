@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
-    "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.0",
@@ -87,7 +86,7 @@
     "tsx": "^4.20.6",
     "turndown": "^7.2.2",
     "typescript": "^5.5.3",
-    "typescript-eslint": "^8.0.1",
+    "typescript-eslint": "^8.62.1",
     "vite": "^8.1.0"
   }
 }
