@@ -112,6 +112,7 @@ const Chatbot = () => {
   const [sessionId, setSessionId] = useState<string>('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const persistSessionRef = useRef<(() => void) | null>(null);
 
   // Load session from localStorage or add welcome message
   useEffect(() => {
@@ -141,9 +142,11 @@ const Chatbot = () => {
     }
   }, []);
 
-  // Save session to localStorage
+  // Save session to localStorage (debounced)
   useEffect(() => {
-    if (messages.length > 0 && sessionId) {
+    if (messages.length === 0 || !sessionId) return;
+
+    persistSessionRef.current = () => {
       const session: ChatSession = {
         sessionId,
         messages,
@@ -152,15 +155,30 @@ const Chatbot = () => {
         lastResponseId,
       };
       localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(session));
-    }
+    };
+
+    const timeoutId = window.setTimeout(() => {
+      persistSessionRef.current?.();
+    }, 400);
+    return () => window.clearTimeout(timeoutId);
   }, [messages, messageCount, lastResponseId, sessionId]);
+
+  // Flush pending session write on page hide or unmount
+  useEffect(() => {
+    const flush = () => persistSessionRef.current?.();
+    window.addEventListener('pagehide', flush);
+    return () => {
+      flush();
+      window.removeEventListener('pagehide', flush);
+    };
+  }, []);
 
   // Auto-scroll to bottom
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+      scrollRef.current.scrollIntoView({ behavior: isLoading ? 'auto' : 'smooth' });
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -273,7 +291,7 @@ const Chatbot = () => {
       const errorMsg: Message = {
         id: crypto.randomUUID(),
         role: 'assistant',
-        content: "Hold up—are you a bot? Too many questions too fast. Take a breather, then try again. Or just email Sujeeth if this is urgent.",
+        content: "Hold up. Are you a bot? Too many questions too fast. Take a breather, then try again. Or just email Sujeeth if this is urgent.",
         timestamp: Date.now(),
       };
       setMessages(prev => [...prev, errorMsg]);

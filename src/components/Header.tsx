@@ -20,7 +20,7 @@ const Header = () => {
         <nav className="flex items-center justify-between">
           <div className="text-2xl font-bold text-foreground" style={{ fontFamily: 'Kaushan Script, cursive' }}>
             {isResumePage ? (
-              <Link to="/" className="hover:text-highlight transition-colors">
+              <Link to="/" className="hover:text-highlight transition-colors duration-200">
                 Sujeeth
               </Link>
             ) : (
@@ -30,25 +30,25 @@ const Header = () => {
           
           {!isResumePage && (
             <div className="hidden lg:flex items-center space-x-8">
-              <a href="/#/#projects" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+              <a href="/#/#projects" className="text-muted-foreground hover:text-foreground transition-colors duration-200" onClick={(e) => {
                 e.preventDefault();
                 document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
               }}>
                 Projects
               </a>
-              <a href="/#/#blog" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+              <a href="/#/#blog" className="text-muted-foreground hover:text-foreground transition-colors duration-200" onClick={(e) => {
                 e.preventDefault();
                 document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' });
               }}>
                 Blog
               </a>
-              <a href="/#/#about" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+              <a href="/#/#about" className="text-muted-foreground hover:text-foreground transition-colors duration-200" onClick={(e) => {
                 e.preventDefault();
                 document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
               }}>
                 About
               </a>
-              <a href="/#/#contact" className="text-muted-foreground hover:text-foreground transition-colors" onClick={(e) => {
+              <a href="/#/#contact" className="text-muted-foreground hover:text-foreground transition-colors duration-200" onClick={(e) => {
                 e.preventDefault();
                 document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
               }}>

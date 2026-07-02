@@ -29,13 +29,11 @@ const Reveal = ({
   style,
 }: RevealProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
+  const [shown, setShown] = useState(() => prefersReducedMotion());
+  const [settled, setSettled] = useState(() => prefersReducedMotion());
 
   useEffect(() => {
-    if (prefersReducedMotion()) {
-      setShown(true);
-      return;
-    }
+    if (prefersReducedMotion()) return;
     const el = ref.current;
     if (!el) return;
 
@@ -46,6 +44,7 @@ const Reveal = ({
           if (!repeat) observer.disconnect();
         } else if (repeat) {
           setShown(false);
+          setSettled(false);
         }
       },
       { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
@@ -59,11 +58,15 @@ const Reveal = ({
     <div
       ref={ref}
       className={className}
+      onTransitionEnd={(e) => {
+        // transitionend bubbles from children; only our own reveal counts
+        if (e.target === ref.current && shown) setSettled(true);
+      }}
       style={{
         opacity: shown ? 1 : 0,
         transform: shown ? "none" : `translateY(${y}px)`,
         transition: `opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms, transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
-        willChange: "opacity, transform",
+        willChange: settled ? "auto" : "opacity, transform",
         ...style,
       }}
     >

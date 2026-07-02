@@ -37,6 +37,7 @@ const MarketSignalLoop = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
   const [hi, setHi] = useState(0);
   const [shown, setShown] = useState(0);
+  const [inView, setInView] = useState(true);
 
   // chart
   useEffect(() => {
@@ -51,6 +52,8 @@ const MarketSignalLoop = () => {
     let t = 0;
     let fg = "0,0,0";
     let visible = true;
+    let W = 0;
+    let H = 0;
 
     const readColor = () => {
       const c = getComputedStyle(el).color;
@@ -61,9 +64,6 @@ const MarketSignalLoop = () => {
     // Paint one frame from the current `fg`/`t` — no scheduling, so it is
     // safe to call standalone (resize, theme toggle, reduced-motion settle).
     const paint = () => {
-      const r = el.getBoundingClientRect();
-      const W = r.width;
-      const H = r.height;
       const padTop = 46;
       const padBottom = 58;
       const padX = 16;
@@ -120,8 +120,10 @@ const MarketSignalLoop = () => {
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const r = el.getBoundingClientRect();
-      cv.width = Math.max(1, r.width * dpr);
-      cv.height = Math.max(1, r.height * dpr);
+      W = r.width;
+      H = r.height;
+      cv.width = Math.max(1, W * dpr);
+      cv.height = Math.max(1, H * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       paint(); // bitmap was reset by the width/height assignment — repaint it
     };
@@ -152,6 +154,7 @@ const MarketSignalLoop = () => {
     const io = new IntersectionObserver(
       ([e]) => {
         visible = e.isIntersecting;
+        setInView(e.isIntersecting);
         if (visible) start();
         else stop();
       },
@@ -178,13 +181,14 @@ const MarketSignalLoop = () => {
     };
   }, []);
 
-  // headline cycle
+  // headline cycle — paused off-screen alongside the canvas
   useEffect(() => {
     const reduce = !!window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setShown(1);
       return;
     }
+    if (!inView) return;
     let i = 0;
     let to = 0;
     const tick = () => {
@@ -201,7 +205,7 @@ const MarketSignalLoop = () => {
       clearInterval(iv);
       clearTimeout(to);
     };
-  }, []);
+  }, [inView]);
 
   const h = HEADLINES[hi];
 

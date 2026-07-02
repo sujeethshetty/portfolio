@@ -167,34 +167,23 @@ All colors MUST be HSL.
     linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
 }
 
-/* Animation delays */
-.delay-1000 {
-  animation-delay: 1s;
-}
-
 /* Smooth word slide animation */
-@keyframes word-slide {
-  0% {
-    transform: translateY(0%) rotateX(0deg);
-    opacity: 1;
-  }
-  25% {
-    transform: translateY(-20%) rotateX(90deg);
-    opacity: 0;
-  }
-  75% {
-    transform: translateY(20%) rotateX(-90deg);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0%) rotateX(0deg);
-    opacity: 1;
-  }
+@keyframes word-out {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(-40%); opacity: 0; }
 }
 
-.animate-word-slide {
-  animation: word-slide 0.6s ease-in-out;
-  transform-style: preserve-3d;
+@keyframes word-in {
+  from { transform: translateY(40%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-word-out {
+  animation: word-out 0.28s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+.animate-word-in {
+  animation: word-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Slow Ken-Burns drift for project media (exa-style ambient motion) */
@@ -215,7 +204,13 @@ All colors MUST be HSL.
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-ken-burns {
-    animation: none;
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .animate-spin {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
   }
 }

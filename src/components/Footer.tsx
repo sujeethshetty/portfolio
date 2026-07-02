@@ -18,7 +18,7 @@ const Footer = () => {
               href={PERSONAL_INFO.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
+              className="hover:text-foreground transition-colors duration-200"
             >
               <Github className="h-4 w-4" />
             </a>
@@ -26,7 +26,7 @@ const Footer = () => {
               href={PERSONAL_INFO.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
+              className="hover:text-foreground transition-colors duration-200"
             >
               <Linkedin className="h-4 w-4" />
             </a>
@@ -34,13 +34,13 @@ const Footer = () => {
               href="https://x.com/xsujeeth"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors"
+              className="hover:text-foreground transition-colors duration-200"
             >
               <XIcon className="h-3.5 w-3.5" />
             </a>
             <a
               href={`mailto:${PERSONAL_INFO.email}`}
-              className="hover:text-foreground transition-colors"
+              className="hover:text-foreground transition-colors duration-200"
             >
               <Mail className="h-4 w-4" />
             </a>

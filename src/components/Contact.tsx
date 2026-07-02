@@ -15,7 +15,7 @@ const Contact = () => {
           </p>
         </Reveal>
 
-        <Reveal>
+        <Reveal delay={120}>
         <Card className="border-border/50 overflow-hidden">
           <CardContent className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

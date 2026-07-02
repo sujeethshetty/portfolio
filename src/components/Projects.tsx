@@ -34,8 +34,8 @@ const ProjectMedia = ({ project }: { project: Project }) => (
     href={project.demoLink}
     target="_blank"
     rel="noopener noreferrer"
-    aria-label={`${project.title} — ${project.demoLabel}`}
-    className="group relative block aspect-[16/11] overflow-hidden rounded-2xl ring-1 ring-border/60 transition-all duration-500 hover:ring-foreground/30 hover:-translate-y-1"
+    aria-label={`${project.title}: ${project.demoLabel}`}
+    className="group relative block aspect-[16/11] overflow-hidden rounded-2xl ring-1 ring-border/60 transition-all duration-450 ease-out-expo hover:ring-foreground/30 hover:-translate-y-1"
   >
     {project.animation === "chat" ? (
       <AgentChatLoop />
@@ -89,9 +89,10 @@ const ProjectMedia = ({ project }: { project: Project }) => (
     )}
 
     {/* Light sheen sweep on hover — token-based so it reads in both themes */}
-    <span className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-0 transition-all duration-1000 ease-out group-hover:left-[120%] group-hover:opacity-100" />
+    {/* Tailwind v3 composes translate+skew into one transform property; on a v4 upgrade this must become transition-[transform,translate,opacity]. */}
+    <span className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-0 transition-[transform,opacity] duration-700 ease-out-expo group-hover:translate-x-[360%] group-hover:opacity-100" />
 
-    <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground opacity-0 backdrop-blur transition-opacity duration-300 group-hover:opacity-100">
+    <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground opacity-0 backdrop-blur transition-opacity duration-200 group-hover:opacity-100">
       <ExternalLink className="h-3.5 w-3.5" />
       {project.demoLabel}
     </span>
@@ -103,7 +104,7 @@ const Projects = () => {
     {
       title: "openbell.ai / OBaI",
       description:
-        "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI — a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
+        "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI, a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
       technologies: ["OpenAI Agent SDK", "FastMCP", "Docker", "Python", "Polars", "DuckDB", "AI Agents"],
       demoLink: "https://openbell.ai",
       demoLabel: "Live Demo",
@@ -116,7 +117,7 @@ const Projects = () => {
     {
       title: "fermix.ai",
       description:
-        "Your personal AI, everywhere you are. Fermix is an always-on, fully-local Elixir daemon that lives on your own machine and meets you in the apps you already use — Telegram, WhatsApp, Slack, Discord, Signal, voice, or the terminal. One resilient BEAM runtime schedules work while you sleep, dispatches subagents for the heavy lifting, and remembers what matters — staying provider-agnostic across OpenAI, Claude, Grok, Mistral, and local Ollama. Your assistant, your hardware, no SaaS in the middle.",
+        "Your personal AI, everywhere you are. Fermix is an always-on, fully-local Elixir daemon that lives on your own machine and meets you in the apps you already use: Telegram, WhatsApp, Slack, Discord, Signal, voice, or the terminal. One resilient BEAM runtime schedules work while you sleep, dispatches subagents for the heavy lifting, and remembers what matters. It stays provider-agnostic across OpenAI, Claude, Grok, Mistral, and local Ollama. Your assistant, your hardware, no SaaS in the middle.",
       technologies: ["Elixir", "OTP", "Phoenix", "BEAM", "AI Agents", "MCP", "Multi-Provider LLM"],
       demoLink: "https://fermix.ai",
       demoLabel: "Project Page",
