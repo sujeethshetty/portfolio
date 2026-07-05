@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ExternalLink, Github } from "lucide-react";
+import { ArrowRight, ExternalLink, Github } from "lucide-react";
 import { PERSONAL_INFO } from "@/config/constants";
 import Reveal from "./Reveal";
 import AgentChatLoop from "./AgentChatLoop";
@@ -88,10 +87,6 @@ const ProjectMedia = ({ project }: { project: Project }) => (
       </div>
     )}
 
-    {/* Light sheen sweep on hover — token-based so it reads in both themes */}
-    {/* Tailwind v3 composes translate+skew into one transform property; on a v4 upgrade this must become transition-[transform,translate,opacity]. */}
-    <span className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -translate-x-full -skew-x-12 bg-gradient-to-r from-transparent via-foreground/15 to-transparent opacity-0 transition-[transform,opacity] duration-700 ease-out-expo group-hover:translate-x-[360%] group-hover:opacity-100" />
-
     <span className="absolute right-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-background/80 px-3 py-1 text-xs font-medium text-foreground opacity-0 backdrop-blur transition-opacity duration-200 group-hover:opacity-100">
       <ExternalLink className="h-3.5 w-3.5" />
       {project.demoLabel}
@@ -139,38 +134,32 @@ const Projects = () => {
           </p>
         </Reveal>
 
-        <div className="space-y-20 md:space-y-28">
+        {/* Borderless editorial layout — whitespace and scale group the content,
+            not frames. Media alternates side for rhythm; the animation is the hero. */}
+        <div className="space-y-16 md:space-y-24">
           {projects.map((project, index) => {
+            const flipped = index % 2 === 1;
             return (
               <Reveal key={project.title} delay={index * 80}>
-                <div className="grid items-center gap-8 lg:gap-14 lg:grid-cols-2">
-                  {/* Media — always left for a consistent, deliberate rhythm */}
-                  <div>
-                    {/* On small screens the title leads, above the animation */}
-                    <h3 className="lg:hidden mb-4 text-2xl font-bold tracking-tight">
-                      {project.title}
-                    </h3>
+                <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-16">
+                  <div className={flipped ? "lg:order-2" : ""}>
                     <ProjectMedia project={project} />
                   </div>
 
-                  {/* Details */}
-                  <div>
-                    <h3 className="hidden lg:block text-2xl md:text-3xl font-bold tracking-tight">
+                  <div className={flipped ? "lg:order-1" : ""}>
+                    <h3 className="text-2xl font-bold tracking-tight md:text-3xl lg:text-4xl">
                       {project.title}
                     </h3>
-                    <p className="mt-4 text-muted-foreground leading-relaxed">
+                    <p className="mt-5 leading-relaxed text-muted-foreground">
                       {project.description}
                     </p>
 
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <Badge key={tech} variant="outline" className="font-mono text-xs">
-                          {tech}
-                        </Badge>
-                      ))}
-                    </div>
+                    {/* Tech stack as plain text — no pills, no boxes */}
+                    <p className="mt-6 font-mono text-xs leading-relaxed text-muted-foreground/80">
+                      {project.technologies.join("  ·  ")}
+                    </p>
 
-                    <div className="mt-8 flex flex-wrap items-center gap-3">
+                    <div className="mt-8 flex flex-wrap items-center gap-2">
                       <Button
                         variant="default"
                         size="sm"
@@ -178,13 +167,18 @@ const Projects = () => {
                         className="bg-highlight text-highlight-foreground hover:bg-highlight/90"
                       >
                         <a href={project.demoLink} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4 mr-2" />
+                          <ExternalLink className="mr-2 h-4 w-4" />
                           {project.demoLabel}
                         </a>
                       </Button>
-                      <Button variant="outline" size="sm" asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        asChild
+                        className="text-muted-foreground hover:text-foreground"
+                      >
                         <a href={project.githubLink} target="_blank" rel="noopener noreferrer">
-                          <Github className="h-4 w-4 mr-2" />
+                          <Github className="mr-2 h-4 w-4" />
                           View Code
                         </a>
                       </Button>
@@ -196,17 +190,16 @@ const Projects = () => {
           })}
         </div>
 
-        <div className="text-center mt-20">
-          <p className="text-muted-foreground mb-6">
-            Interested in seeing more of my work?
-          </p>
+        {/* Section CTA — mirrors the "Read All Posts" button in the blog section */}
+        <Reveal className="mt-12 flex justify-center md:mt-16">
           <Button variant="outline" size="lg" asChild>
             <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer">
               <Github className="h-5 w-5 mr-2" />
-              View All Projects on GitHub
+              View All Projects
+              <ArrowRight className="h-4 w-4 ml-2" />
             </a>
           </Button>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

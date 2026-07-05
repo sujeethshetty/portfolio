@@ -19,7 +19,7 @@ const BLOG_BASE = import.meta.env.DEV
 const BLOG_API = `${BLOG_BASE}/api/latest.json`;
 
 /** How many covers to show in the accordion. */
-const MAX_PANELS = 6;
+const MAX_PANELS = 7;
 
 /**
  * Portfolio-local premium cover pool (served from this app's own /public).
@@ -134,10 +134,10 @@ const BlogPosts = () => {
         {loading ? (
           <>
             <div className="grid gap-4 md:hidden">
-              {[...Array(MAX_PANELS)].map((_, i) => (
+              {[...Array(3)].map((_, i) => (
                 <div
                   key={i}
-                  className="aspect-[16/10] rounded-2xl bg-muted animate-pulse"
+                  className="aspect-[16/11] rounded-2xl bg-muted animate-pulse"
                 />
               ))}
             </div>
@@ -153,16 +153,19 @@ const BlogPosts = () => {
           </>
         ) : posts.length === 0 ? null : (
           <>
-            {/* Mobile: full-width cards — a tap opens the post (no hover/accordion) */}
-            <div className="grid gap-4 md:hidden">
-              {posts.map((post) => (
+            {/* Mobile: vertical card deck — each card sticks near the top as you
+                scroll, so the next card slides up and covers it, revealing the
+                deck one card at a time. A tap opens the post. */}
+            <div className="space-y-4 md:hidden">
+              {posts.map((post, index) => (
                 <a
                   key={post.slug}
                   href={post.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleBlogClick}
-                  className="relative block aspect-[16/10] overflow-hidden rounded-2xl ring-1 ring-border/60"
+                  style={{ top: `calc(5rem + ${index * 0.5}rem)` }}
+                  className="sticky relative block aspect-[16/11] overflow-hidden rounded-2xl shadow-xl shadow-black/20 ring-1 ring-border/60"
                 >
                   <img
                     src={post.coverImage ?? COVER_POOL[0]}

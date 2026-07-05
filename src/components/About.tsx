@@ -52,8 +52,32 @@ const About = () => {
           </p>
         </Reveal>
 
-        {/* Compact card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+        {/* Mobile: compact list rows — dense, no dead hover state */}
+        <Reveal className="sm:hidden" y={20}>
+          <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border">
+            {expertise.map((item) => {
+              const Icon = item.icon;
+              return (
+                <li key={item.title} className="flex items-start gap-4 p-4">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-foreground">
+                    <Icon className="h-5 w-5" />
+                  </span>
+                  <div className="min-w-0">
+                    <h3 className="text-base font-semibold tracking-tight">
+                      {item.title}
+                    </h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {item.description}
+                    </p>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </Reveal>
+
+        {/* Desktop/tablet: compact hover-card grid */}
+        <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
           {expertise.map((item, index) => {
             const Icon = item.icon;
             return (
