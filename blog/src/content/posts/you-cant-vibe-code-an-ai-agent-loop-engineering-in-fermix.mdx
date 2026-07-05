@@ -1,0 +1,149 @@
+---
+title: "You Can't Vibe-Code an AI Agent: Loop Engineering in Fermix"
+description: "Fermix was not built in one prompt. It was built as loops: a design doc per milestone, a failing test first, unit tests for the mechanics, and an eval suite that grades the real model on real queries off an Opik trace."
+date: 2026-07-05
+tags: ["ai", "ai-agents", "elixir", "fermix", "evals"]
+draft: false
+coverImage: "/fermix-loop-cover.jpg"
+---
+
+I did not build Fermix in one prompt. Nobody builds an agent this way. Nobody builds anything complex this way. An agent just makes it obvious.
+
+The tempting version is one line.
+
+```
+/goal build openclaw in elixir, make no mistake
+```
+
+It does not work. It cannot work.
+
+An agent is not one program. It is providers, channels, tools, memory, subagents, scheduled jobs, a sandbox, and a tracing layer, all running at once, with a live model making decisions in the middle of it. Dozens of moving parts that have to behave together, and half of them only misbehave when a real model is driving.
+
+You do not prompt that into existence. You get a demo that way, not a daemon.
+
+## Loop engineering
+
+The phrase going around is loop engineering. Andrew Ng wrote it up well, and credits the same idea surfacing from Boris Cherny, who built Claude Code, and Peter Steinberger, who built OpenClaw.
+
+The core is simple. You stop trying to write the whole thing in one pass. You build a loop where the agent writes code, tests it, and keeps iterating until it meets a spec. In Ng's words, the coding agent can write code, test its work, and keep iterating.
+
+Fermix was built as loops. Not shots. Here is the actual loop.
+
+![Loop engineering in Fermix: a milestone becomes a design doc, the human approves, the agent builds test-first, unit tests cover the mechanics, an eval suite grades behavior off an Opik trace, and the report feeds back into the spec.](/fermix-loop-flow.png)
+
+## The unit of work is a milestone
+
+Fermix is not one project. It is more than forty milestones.
+
+M2 multi-agent. M5 the sandbox. M7 the tool catalog. M10 tool search. M12 providers. M15 media generation. On and on.
+
+Each milestone starts as a design doc. Not code. A doc.
+
+The doc does the expensive thinking up front: the problem and the goal, scope and non-goals, the architecture, the wrong-abstraction traps to avoid, the config schema, the telemetry, the testing strategy, and a list of open questions I have to answer.
+
+The research lives there too. The media milestone carries a provider-by-modality matrix, web-verified, with a date on it. That is real work, done before a line ships.
+
+No code until the doc is approved.
+
+## The human is the context advantage
+
+This is the part you cannot hand off.
+
+Ng makes the point that the human has a context advantage over the model. You know the users, the constraints, the taste. The model does not.
+
+In Fermix that advantage is the spec. I do the research. I make the owner decisions. I sign off. That is knowledge the model cannot get on its own, injected before it builds anything.
+
+The model does not decide what Fermix is. I do. Then it builds.
+
+## Then the agent builds, test first
+
+The approved spec goes to Claude or Codex.
+
+One rule up front: write the failing test first.
+
+Then implement to green. That build-test-fix cycle is the inner loop, and it turns unattended. A full spec is close to an hour of it: complex model, subagents, many iterations deep.
+
+For a lot of the codebase, this is enough.
+
+## Unit tests stub the model. That is the hole.
+
+Here is where it gets honest.
+
+The unit suite is deterministic. It stubs the model. It proves wiring, side effects, safety branches, and exact behavior with no network. It is fast and it is strict.
+
+It carries most of the mechanics.
+
+It cannot carry the one thing that matters in production: given a real query and the real model, does the agent reach for the right tool, stay in budget, and answer well?
+
+A stubbed model always picks the tool you told it to pick. That proves your wiring. It proves nothing about behavior.
+
+Unit tests are necessary. They are not the acceptance test for an agent.
+
+## The eval suite closes the real loop
+
+After the implementation is done, a second tier runs.
+
+It drives real queries through the live daemon. Real model. Every turn is a real turn.
+
+Each case declares what correct means:
+
+- the query, in plain user language
+- the tools it should reach for
+- what the reply has to confirm
+- a cost ceiling
+- a time ceiling
+- a rubric, for an LLM judge to grade the answer
+
+That is not pseudocode. That is the shape of the file:
+
+```yaml
+query: "Create a small text file at eval_scratch/notes.txt with the line: hello from fermix"
+expect:
+  tools_any: [file_write]
+  reply_matches: "(?i)created|wrote|saved|notes\\.txt"
+  max_cost_usd: 0.5
+  max_duration_ms: 90000
+rubric: "Confirms it created notes.txt containing 'hello from fermix'."
+```
+
+There are nineteen of these suites in Fermix. Files, git, shell, memory, jobs, plugins, subagents, ultra, web, routing, safety, and more. One per slice of the agent.
+
+## Tracing is how you grade it
+
+The eval does not read the reply and guess.
+
+Fermix already traces itself. Every turn is a trace with spans: which tools ran, in what order, any errors, the cost, the latency, and the final reply. That tracing runs into a local Opik instance.
+
+The eval gives each case a unique session, which becomes the trace id. It runs the query, waits for that exact trace, and grades the trace against the expectation.
+
+So the verdict is not a vibe. It is a graded trace: right tools, in budget, in time, correct reply.
+
+## This is the loop, not the shot
+
+Line it up with Ng's three loops.
+
+The inner loop is the coding agent: failing test, implement, green. Minutes.
+
+Then the eval is the acceptance gate. Ng lists evals as optional in that inner loop. For an agent, I do not treat them as optional. They are the gate. A feature is not done because the unit tests pass. It is done when the real model, on real queries, hits the tools, the budget, and the answer.
+
+The outer loop is me. I read the milestone output and the eval report, update the spec, and approve the next pass. That is the developer feedback loop, and it is where the context advantage keeps getting injected.
+
+A failed eval is not a bug ticket. It is the next edit to the spec.
+
+## Final shape
+
+The whole method, in order:
+
+- One milestone at a time.
+- A design doc with real research and owner decisions.
+- Approve before any code.
+- Failing test first, implement to green.
+- Unit tests for the mechanics.
+- An eval suite for the behavior: real queries, expected tools, reply, cost, and latency, graded off the Opik trace.
+- Read the report. Fix the spec. Go again.
+
+None of this is one prompt.
+
+The one-shot is a demo. The loop is the product.
+
+[GitHub: tezra-io/fermix](https://github.com/tezra-io/fermix)
