@@ -26,15 +26,17 @@ jobs:
       - name: Build project
         run: npm run build
 
+      # cloudflare/pages-action was removed from GitHub; wrangler-action is its replacement.
+      # Run from the repo root so ./functions (the chat API) is bundled with dist.
+      # --branch keeps the old behaviour: main = production, PR branches = previews.
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v4
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: sujeeth-portfolio
-          directory: dist
           wranglerVersion: '3'
-          
+          command: pages deploy dist --project-name=sujeeth-portfolio --branch=${{ github.head_ref || github.ref_name }}
+
       - name: Add deployment summary
         run: |
           echo "## 🚀 Deployment Summary" >> $GITHUB_STEP_SUMMARY
