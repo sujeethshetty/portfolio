@@ -109,6 +109,7 @@ app.post('/api/chat', async (req, res) => {
         }
       ],
       max_output_tokens: CHAT_CONFIG.maxOutputTokens,
+      reasoning: { effort: CHAT_CONFIG.reasoningEffort },
       stream: true,
     };
 

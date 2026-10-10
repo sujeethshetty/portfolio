@@ -1,106 +1,65 @@
-import { SiApachespark, SiOpenai, SiPython } from "react-icons/si";
-import { Cloud, Bot, Activity } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import Reveal from "./Reveal";
 
-const About = () => {
-  const expertise = [
-    {
-      icon: SiApachespark,
-      title: "Data Engineering",
-      description:
-        "ETL pipelines, data modeling, warehouse migrations, and real-time streaming architectures",
-    },
-    {
-      icon: SiOpenai,
-      title: "AI Integration",
-      description:
-        "LLM-powered applications, RAG systems, function calling, and fine-tuning models",
-    },
-    {
-      icon: Bot,
-      title: "AI Agents",
-      description:
-        "Multi-agent orchestration, MCP servers, tool-use patterns, and autonomous workflows",
-    },
-    {
-      icon: Cloud,
-      title: "Cloud Infrastructure",
-      description:
-        "AWS, Kubernetes, Terraform, and Cloudflare for scalable cloud-native deployments",
-    },
-    {
-      icon: SiPython,
-      title: "Backend Systems",
-      description:
-        "Python, RESTful APIs, distributed systems, and event-driven architectures",
-    },
-    {
-      icon: Activity,
-      title: "Real-time Analytics",
-      description:
-        "AI-scored news pipelines, market data processing, and live monitoring dashboards",
-    },
-  ];
+// Capability-focused on purpose: no employers, dates, or metrics here.
+// Career history lives on /resume (src/data/resume.ts) so this stays evergreen.
+const CAPABILITIES = [
+  {
+    title: "Data platforms",
+    detail:
+      "Streaming and batch pipelines, warehouses and lakes, data modeling, and the quality checks that keep it all trustworthy.",
+  },
+  {
+    title: "Real-time and ML systems",
+    detail:
+      "Feature stores, low-latency model serving, and the infrastructure that takes models from experimentation to production.",
+  },
+  {
+    title: "AI agents",
+    detail:
+      "Multi-agent orchestration, tool use and MCP, memory, and the evaluations and tracing that show whether an agent actually works.",
+  },
+];
 
+const About = () => {
   return (
     <section id="about" className="py-16 md:py-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Reveal className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Expertise</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Where I go deep, from streaming pipelines to multi-agent systems.
-          </p>
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20">
+        <Reveal>
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">About</h2>
+          <div className="mt-6 space-y-5 text-lg leading-relaxed text-muted-foreground">
+            <p>
+              I started in enterprise software, moved into data engineering, and now spend most of
+              my time where data and AI meet. The work I like best is turning messy, high-volume
+              data into systems people can trust, then building intelligent software on top of
+              them.
+            </p>
+            <p>
+              Outside of work, I build open-source AI agents. Fermix and OBaI are where I explore
+              what agents can actually accomplish when they have tools, memory, and the ability to
+              act on their own.
+            </p>
+          </div>
+          <Link
+            to="/resume"
+            className="mt-8 inline-flex items-center gap-2 font-medium text-foreground underline decoration-border underline-offset-4 transition-colors hover:decoration-foreground"
+          >
+            View full experience
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </Reveal>
 
-        {/* Mobile: compact list rows — dense, no dead hover state */}
-        <Reveal className="sm:hidden" y={20}>
-          <ul className="divide-y divide-border overflow-hidden rounded-2xl border border-border">
-            {expertise.map((item) => {
-              const Icon = item.icon;
-              return (
-                <li key={item.title} className="flex items-start gap-4 p-4">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border text-foreground">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0">
-                    <h3 className="text-base font-semibold tracking-tight">
-                      {item.title}
-                    </h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {item.description}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
+        <Reveal delay={120}>
+          <ul className="divide-y divide-border border-y border-border">
+            {CAPABILITIES.map((item) => (
+              <li key={item.title} className="py-6">
+                <h3 className="text-lg font-semibold tracking-tight">{item.title}</h3>
+                <p className="mt-1.5 leading-relaxed text-muted-foreground">{item.detail}</p>
+              </li>
+            ))}
           </ul>
         </Reveal>
-
-        {/* Desktop/tablet: compact hover-card grid */}
-        <div className="hidden gap-4 sm:grid sm:grid-cols-2 md:gap-5 lg:grid-cols-3">
-          {expertise.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <Reveal key={item.title} delay={(index % 3) * 80} y={20}>
-                <div className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-border p-6 transition-[transform,background-color,border-color] duration-300 hover:-translate-y-1 hover:border-foreground hover:bg-foreground">
-                  {/* Ghost index number */}
-                  <span className="pointer-events-none absolute -right-1 -top-5 select-none text-7xl font-bold tracking-tighter text-foreground/[0.04] transition-colors duration-300 group-hover:text-background/10">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span className="relative flex h-12 w-12 items-center justify-center rounded-full border border-border text-foreground transition-colors duration-300 group-hover:border-background/20 group-hover:bg-background/10 group-hover:text-background">
-                    <Icon className="h-5 w-5" />
-                  </span>
-                  <h3 className="relative mt-5 text-lg font-semibold tracking-tight transition-colors duration-300 group-hover:text-background">
-                    {item.title}
-                  </h3>
-                  <p className="relative mt-2 text-sm text-muted-foreground transition-colors duration-300 group-hover:text-background/70">
-                    {item.description}
-                  </p>
-                </div>
-              </Reveal>
-            );
-          })}
-        </div>
       </div>
     </section>
   );

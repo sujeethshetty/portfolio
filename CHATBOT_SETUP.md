@@ -28,47 +28,47 @@ npm run dev
 ```
 
 This will start:
-- Frontend on http://localhost:8080
+- Frontend on http://localhost:8080 (Vite moves to the next free port if 8080 is taken)
 - API server on http://localhost:3001
+
+To show the blog posts section locally, also run the blog on port 4325:
+```bash
+npm --prefix blog run dev -- --port 4325
+```
 
 The chatbot button will appear in the bottom-right corner.
 
-## Deployment to Vercel
+## Deployment (Cloudflare Pages)
 
-### 1. Push to GitHub
-```bash
-git add .
-git commit -m "Add chatbot"
-git push
+Pushing to `main` deploys via `.github/workflows/deploy.yml`. In production the chat API runs as a
+Cloudflare Pages Function (`functions/api/chat.ts`); locally it runs from `server.js`.
+
+Set `OPENAI_API_KEY` in Cloudflare Pages → Settings → Environment Variables. See `DEPLOYMENT.md` for details.
+
+## Model and Cost Management
+
+The model and its settings live in one place, `CHAT_CONFIG` in `src/config/constants.ts`, and are
+shared by `server.js` and `functions/api/chat.ts`:
+
+```typescript
+export const CHAT_CONFIG = {
+  model: "gpt-6-luna",
+  reasoningEffort: "none", // reasoning model: keep "none" so replies are fast and fit the cap
+  maxOutputTokens: 250,
+} as const;
 ```
 
-### 2. Deploy to Vercel
-1. Go to https://vercel.com
-2. Import your repository
-3. Add environment variable:
-   - Key: `OPENAI_API_KEY`
-   - Value: Your OpenAI API key
-4. Deploy!
+`gpt-6-luna` is a reasoning model. With `reasoningEffort: "none"` every output token goes to the
+answer. If you raise the effort, raise `maxOutputTokens` too, or replies can come back empty
+because reasoning used up the cap. `"minimal"` is not accepted by gpt-6 models.
 
-The API routes will automatically work on Vercel.
-
-## Cost Management
-
-**Expected costs with GPT-5 Nano:**
-- Input: $0.05 per 1M tokens
-- Output: $0.40 per 1M tokens
-
-**For a typical portfolio:**
-- 100 visitors/month
-- 5 questions each
-- ~500 tokens per interaction
-- **Total: ~$0.20/month**
+Check current per-token pricing for the model at https://openai.com/api/pricing.
 
 ### Built-in cost controls:
-1. **Rate limiting:** 15 requests per IP per hour
-2. **Session limiting:** 10 questions per user session
+1. **Rate limiting:** 20 requests per IP per hour
+2. **Session limiting:** 16 questions per user session
 3. **Input validation:** Blocks spam and overly long messages
-4. **Max response length:** Capped at 300 tokens
+4. **Max response length:** Capped at 250 output tokens
 
 ## Testing
 
@@ -79,7 +79,7 @@ The API routes will automatically work on Vercel.
 
 ### Test rate limiting:
 - Open multiple tabs and spam questions
-- Should get rate limited after 15 requests
+- Should get rate limited after 20 requests
 
 ### Test the UI:
 - Mobile responsiveness
@@ -91,22 +91,18 @@ The API routes will automatically work on Vercel.
 ### Adjust question limits
 Edit `src/types/chat.ts`:
 ```typescript
-export const MAX_MESSAGES_PER_SESSION = 10; // Change this
+export const MAX_MESSAGES_PER_SESSION = 16; // Change this
 ```
 
 ### Adjust rate limits
-Edit `api/chat.ts` or `server.js`:
+Edit `functions/api/chat.ts` (production) and `server.js` (local):
 ```typescript
-const MAX_REQUESTS_PER_WINDOW = 15; // Change this
+const MAX_REQUESTS_PER_WINDOW = 20; // Change this
 const RATE_LIMIT_WINDOW = 60 * 60 * 1000; // 1 hour
 ```
 
-### Change response length
-Edit the API call in `api/chat.ts` or `server.js`:
-```typescript
-max_tokens: 300, // Change this
-temperature: 0.7, // Lower = more focused, higher = more creative
-```
+### Change the model or response length
+Edit `CHAT_CONFIG` in `src/config/constants.ts` (see Model and Cost Management above).
 
 ### Modify UI
 The chatbot component is in `src/components/Chatbot.tsx`. It uses shadcn components, so styling follows your existing design system.
@@ -126,10 +122,10 @@ The chatbot component is in `src/components/Chatbot.tsx`. It uses shadcn compone
 - Clear localStorage in browser dev tools
 - Restart the API server to clear in-memory rate limits
 
-### Vercel deployment issues
-- Ensure `OPENAI_API_KEY` is set in Vercel environment variables
-- Check Vercel function logs for errors
-- Verify `vercel.json` is in the root directory
+### Production chat not responding
+- Ensure `OPENAI_API_KEY` is set in Cloudflare Pages environment variables
+- Check the Pages Functions logs in the Cloudflare dashboard
+- An empty reply usually means reasoning tokens used up `maxOutputTokens` (see above)
 
 ## Security Notes
 

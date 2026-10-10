@@ -129,8 +129,9 @@ All colors MUST be HSL.
     touch-action: manipulation;
   }
 
+  /* Headings use Geist (inherited from body) with slightly tighter tracking. */
   h1, h2, h3, h4 {
-    font-family: "Space Grotesk", "IBM Plex Sans", system-ui, sans-serif;
+    letter-spacing: -0.02em;
   }
 
   /* Optimize touch interactions */
@@ -167,23 +168,9 @@ All colors MUST be HSL.
     linear-gradient(90deg, rgba(255, 255, 255, 0.008) 1px, transparent 1px);
 }
 
-/* Smooth word slide animation */
-@keyframes word-out {
-  from { transform: translateY(0); opacity: 1; }
-  to { transform: translateY(-40%); opacity: 0; }
-}
-
-@keyframes word-in {
-  from { transform: translateY(40%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-
-.animate-word-out {
-  animation: word-out 0.28s cubic-bezier(0.55, 0, 1, 0.45) forwards;
-}
-
-.animate-word-in {
-  animation: word-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+/* Keep in-page section jumps clear of the fixed header */
+section[id] {
+  scroll-margin-top: 4rem;
 }
 
 /* Slow Ken-Burns drift for project media (exa-style ambient motion) */

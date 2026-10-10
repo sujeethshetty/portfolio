@@ -1,85 +1,52 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Mail, Linkedin, Github, MapPin } from "lucide-react";
+import { ArrowUpRight, Calendar, FileText, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 import { PERSONAL_INFO } from "@/config/constants";
 import Reveal from "./Reveal";
 
 const Contact = () => {
   return (
-    <section id="contact" className="py-16 md:py-20 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <Reveal className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Let's Connect</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to collaborate on AI and data engineering projects? Let's build something great together.
+    <section id="contact" className="bg-muted/30 py-16 md:py-24">
+      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+        <Reveal>
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Let&rsquo;s talk</h2>
+          <p className="mx-auto mt-4 max-w-xl text-lg text-muted-foreground">
+            If your team is working on challenging data or AI problems, I&apos;d like to hear
+            about it. Email is the fastest way to reach me.
           </p>
         </Reveal>
 
-        <Reveal delay={120}>
-        <Card className="border-border/50 overflow-hidden">
-          <CardContent className="p-8">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Get in Touch</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Whether you're looking for a data engineer, AI specialist, or just want to chat about 
-                    technology, I'm always open to new opportunities and conversations.
-                  </p>
-                </div>
+        <Reveal delay={100}>
+          <a
+            href={`mailto:${PERSONAL_INFO.email}`}
+            className="group mt-10 inline-flex items-center gap-2 text-2xl font-semibold tracking-tight sm:text-4xl md:text-5xl"
+          >
+            <span className="underline decoration-border decoration-2 underline-offset-8 transition-colors group-hover:decoration-foreground">
+              {PERSONAL_INFO.email}
+            </span>
+            <ArrowUpRight className="h-6 w-6 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:h-8 sm:w-8" />
+          </a>
+        </Reveal>
 
-                <div className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <MapPin className="h-5 w-5 text-highlight" />
-                    <span className="text-muted-foreground">{PERSONAL_INFO.location}</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Mail className="h-5 w-5 text-highlight" />
-                    <a href={`mailto:${PERSONAL_INFO.email}`} className="text-muted-foreground hover:text-foreground transition-colors">
-                      {PERSONAL_INFO.email}
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-semibold mb-4">Connect With Me</h3>
-                  <div className="space-y-3">
-                    <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href={`mailto:${PERSONAL_INFO.email}`}>
-                        <Mail className="h-5 w-5 mr-3" />
-                        Send Email
-                      </a>
-                    </Button>
-
-                    <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href={PERSONAL_INFO.linkedin} target="_blank" rel="noopener noreferrer">
-                        <Linkedin className="h-5 w-5 mr-3" />
-                        LinkedIn Profile
-                      </a>
-                    </Button>
-
-                    <Button variant="outline" className="w-full justify-start" asChild>
-                      <a href={PERSONAL_INFO.github} target="_blank" rel="noopener noreferrer">
-                        <Github className="h-5 w-5 mr-3" />
-                        GitHub Profile
-                      </a>
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="pt-4">
-                  <Button size="lg" className="w-full bg-highlight text-highlight-foreground hover:bg-highlight/90" asChild>
-                    <a href={PERSONAL_INFO.topmateUrl} target="_blank" rel="noopener noreferrer">
-                      Schedule a Meeting
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <Reveal delay={180}>
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button size="lg" className="bg-highlight text-highlight-foreground hover:bg-highlight/90" asChild>
+              <a href={PERSONAL_INFO.topmateUrl} target="_blank" rel="noopener noreferrer">
+                <Calendar className="mr-2 h-5 w-5" />
+                Book 30 minutes
+              </a>
+            </Button>
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/resume">
+                <FileText className="mr-2 h-5 w-5" />
+                View resume
+              </Link>
+            </Button>
+          </div>
+          <p className="mt-8 inline-flex items-center gap-1.5 text-sm text-muted-foreground">
+            <MapPin className="h-4 w-4" />
+            {PERSONAL_INFO.location}
+          </p>
         </Reveal>
       </div>
     </section>

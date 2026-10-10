@@ -12,10 +12,11 @@ const Footer = () => {
     <footer className="border-t border-border/40 bg-background/80 backdrop-blur-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-muted-foreground">
-          <span>{PERSONAL_INFO.name}</span>
+          <span>© {new Date().getFullYear()} {PERSONAL_INFO.name}</span>
           <div className="flex items-center space-x-5">
             <a
               href={PERSONAL_INFO.github}
+              aria-label="GitHub"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors duration-200"
@@ -24,6 +25,7 @@ const Footer = () => {
             </a>
             <a
               href={PERSONAL_INFO.linkedin}
+              aria-label="LinkedIn"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors duration-200"
@@ -31,7 +33,8 @@ const Footer = () => {
               <Linkedin className="h-4 w-4" />
             </a>
             <a
-              href="https://x.com/xsujeeth"
+              href={PERSONAL_INFO.x}
+              aria-label="X (Twitter)"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-foreground transition-colors duration-200"
@@ -40,6 +43,7 @@ const Footer = () => {
             </a>
             <a
               href={`mailto:${PERSONAL_INFO.email}`}
+              aria-label="Email"
               className="hover:text-foreground transition-colors duration-200"
             >
               <Mail className="h-4 w-4" />

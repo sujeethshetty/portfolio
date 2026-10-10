@@ -125,7 +125,8 @@ openbell.ai (previously called TezNewz) is an AI-powered financial news and rese
 OBaI is an open-source multi-agent AI system for stock market research, powered by GPT and real-time custom MCP servers. GitHub: https://github.com/sixteen-dev/obai
 
 **What it does:**
-- 8 specialist MCP servers (fundamentals, market data, options, screening, portfolio, backtest, news, research) running in Docker
+- 11 custom MCP servers (fundamentals, market data, options, screening, portfolio, backtest, news, research, prediction markets via Polymarket, crypto via Coinbase, plus an opt-in options backtester) running in Docker
+- Hub dispatches to specialist agents including crypto and prediction-market (Polymarket) agents
 - Central Hub dispatches queries to multiple agents in parallel (agents-as-tools pattern via OpenAI Agent SDK)
 - Strategy Agent autonomously builds, backtests, and iterates on trading strategies using Polars + polars-talib with DuckDB storage
 - Research Agent performs deep qualitative analysis via Exa semantic search: company profiles, leadership, product sentiment, competitive landscape
@@ -155,7 +156,7 @@ Link: https://chatgpt.com/g/g-RR2IiNprf-globetrotterai
 **TomChat** [AI, ML]: Rust-based desktop app for local speech-to-text using Whisper AI.
 Link: https://github.com/sixteen-dev/tomchat
 
-**Fermix** [AI, Elixir]: "Your personal AI, everywhere you are." An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI. It ships scheduled jobs, bounded subagents, persistent memory, and a full tool suite, staying provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama.
+**Fermix** [AI, Elixir]: "Your personal AI, everywhere you are." An open-source (MIT) personal AI agent that runs as a local daemon on your own computer and reaches you in Telegram, WhatsApp, Slack, Discord, Signal, iMessage (Mac), or the CLI. It ships durable scheduled jobs, bounded subagents, searchable long-term memory (SQLite FTS5), signed plugins, MCP support, and a full tool suite. It works with OpenAI, Anthropic, xAI, Mistral, OpenRouter, Venice, or fully local models through Ollama; there is no Fermix cloud, and keys live in the OS keychain. Built as a single Elixir/OTP umbrella app with TLA+ specs for its trickiest concurrency paths, plus a signed macOS app with real-time voice.
 Link: https://github.com/tezra-io/fermix
 Project page: https://fermix.ai
 
@@ -176,7 +177,7 @@ For collaborations, consulting, or AI/data engineering projects, reach out direc
 ## Skills by Domain
 
 ### Data Engineering
-- Designs and deploys **real-time, petabyte-scale data pipelines** for analytics and ML systems
+- Designs and deploys **real-time, large-scale data pipelines** for analytics and ML systems
 - Proficient in **Spark**, **Snowflake**, **Kafka**, **AWS (ECS Fargate, DynamoDB, S3, Glue, Kinesis)**, and **Terraform**
 - Deep expertise in **ETL/ELT design**, **data modeling**, **DataOps**, and **streaming architectures**
 - Excels at turning raw data into production-grade pipelines that don't break at 3am

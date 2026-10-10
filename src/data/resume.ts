@@ -22,7 +22,6 @@ export interface Project {
   technologies: string[];
   link: string;
   githubLink?: string;
-  tags?: string[];
 }
 
 export interface Certification {
@@ -42,13 +41,13 @@ export const experience: Experience[] = [
   },
   {
     company: "SmartAsset",
-    position: "Senior Data Engineer L5",
+    position: "Senior Data Engineer",
     duration: "02/2023 - 08/2025",
     location: "Atlanta, United States",
     achievements: [
-      "Designed and developed a low-latency REST endpoint that captures Google Tag Manager click IDs on a Terraform-provisioned EKS stack; the service responds in under 100 milliseconds p95, boosts attribution accuracy by 22%.",
-      "Built batch ETL pipelines Python, dbt, SQL, Airflow, and Snowflake that power our recommendation engine, pushing high value client engagement to 90%, a 37 pp jump that unlocked $1M in added MRR.",
-      "Spearheaded the MySQL to Snowflake migration with DBT star-schemas and Airflow-driven ELT; lowered p95 query latency by 30%, cut batch loads by 40%, and added automated data-quality and freshness checks with alerting that held bad-record rates below 0.5%."
+      "Designed and developed a low-latency REST endpoint that captures Google Tag Manager click IDs on a Terraform-provisioned EKS stack; the service responds in under 100 milliseconds at p95 and boosted attribution accuracy by 22%.",
+      "Built batch ETL pipelines with Python, dbt, SQL, Airflow, and Snowflake that power the recommendation engine, pushing high-value client engagement to 90%, a 37 pp jump that unlocked $1M in added MRR.",
+      "Spearheaded the MySQL to Snowflake migration with dbt star schemas and Airflow-driven ELT; lowered p95 query latency by 30%, cut batch loads by 40%, and added automated data-quality and freshness checks with alerting that held bad-record rates below 0.5%."
     ]
   },
   {
@@ -59,7 +58,7 @@ export const experience: Experience[] = [
     achievements: [
       "Spearheaded a 100-terabyte migration from on-prem Hadoop to AWS Redshift; mentored a three-engineer team, reduced monthly infrastructure costs by 25 percent, and implemented KMS encryption with IAM-based row-level security.",
       "Engineered an end-to-end ML pipeline, including feature store, data transformation, orchestration, model registry, and real-time inference API, which supported business growth and contributed an additional $5M MRR.",
-      "Drove the optimization of the ML model API by high-performance Redis Feature Store, and integrating it with Python-based FastAPI services, achieving a sub-10-millisecond SLA."
+      "Optimized the ML model API with a high-performance Redis feature store integrated with Python FastAPI services, achieving a sub-10-millisecond SLA."
     ]
   },
   {
@@ -68,7 +67,7 @@ export const experience: Experience[] = [
     duration: "06/2020 - 05/2021",
     location: "Dallas, United States",
     achievements: [
-      "Designed and built multi-tenant data pipelines with Python, Spark, SQL, and NiFi, boosting data extraction speed 10× and produced curated feature tables that drove our vehicle-price prediction ML model.",
+      "Designed and built multi-tenant data pipelines with Python, Spark, SQL, and NiFi, boosting data extraction speed 10× and producing curated feature tables that drove our vehicle-price prediction ML model.",
       "Researched and implemented a scalable data lake from scratch on AWS EMR, after evaluating multiple architectures, boosting data-ingestion throughput 5x and unlocking advanced forecasting models.",
       "Achieved over 40% revenue growth by implementing KPIs and reporting dashboards for sales performance and inventory management using Apache Superset."
     ]
@@ -79,8 +78,8 @@ export const experience: Experience[] = [
     duration: "08/2015 - 07/2019",
     location: "Bangalore, India",
     achievements: [
-      "Led the architectural redesign of PeopleSoft FMS(4M+ LOC) to enhance UX and performance, implemented PeopleSoft Fluid UI tool for optimal results, and mentored team members, demonstrating strong technical leadership.",
-      "Implemented state-of-the-art Financial Snapshot Chatbot integration with PeopleSoft App, utilizing Oracle Cloud, REST APIs, PeopleCode, and SQL, resulting in a 90% improvement in efficiency."
+      "Led the architectural redesign of PeopleSoft FMS (4M+ LOC) to enhance UX and performance, implemented PeopleSoft Fluid UI tool for optimal results, and mentored team members, demonstrating strong technical leadership.",
+      "Implemented a Financial Snapshot chatbot integration with the PeopleSoft app, using Oracle Cloud, REST APIs, PeopleCode, and SQL, resulting in a 90% improvement in efficiency."
     ]
   },
   {
@@ -113,7 +112,7 @@ export const skills: Record<string, string[]> = {
   "Data Engineering": ["Apache Spark", "Apache Kafka", "Apache Airflow", "dbt", "Snowflake", "Redshift", "Databricks", "Hadoop", "HDFS"],
   "Cloud & DevOps": ["AWS", "Azure", "Terraform", "Kubernetes", "Docker", "EKS", "ECS", "EMR", "S3", "SQS", "CI/CD", "Git"],
   "Data Architecture": ["Data Modeling", "Data Lake", "Data Warehouse", "ETL", "ELT", "Star Schema", "Medallion Architecture", "Data Quality"],
-  "AI & ML": ["AI Agents", "Snowflake Cortex AI", "LLM", "MLOps", "Redis", "MCP", "OpenAI Agent SDK", "RAG", "Vector Databases"],
+  "AI & ML": ["LangChain", "Snowflake Cortex AI", "LLM", "MLOps", "Redis", "MCP", "OpenAI Agent SDK", "RAG", "Vector Databases"],
   "Visualization": ["Tableau", "Apache Superset"]
 };
 
@@ -126,20 +125,18 @@ export const certifications: Certification[] = [
 
 export const featuredProjects: Project[] = [
   {
-    name: "openbell.ai / OBaI",
-    description: "Real-time financial news platform that uses LLMs to score market impact of breaking news, serving curated insights to investors. Includes OBaI, a multi-agent AI system for stock market research powered by GPT and real-time custom MCP servers, with autonomous strategy backtesting and automated trading.",
-    technologies: ["AI Agents", "OpenAI Agent SDK", "FastMCP", "Python", "Docker", "Polars", "DuckDB"],
-    link: "https://openbell.ai",
-    githubLink: "https://github.com/sixteen-dev/obai",
-    tags: ["Personal", "AI", "Full Stack"]
+    name: "OBaI",
+    description: "A self-hosted, multi-agent research desk for stocks, crypto, and prediction markets. A central hub sends each question to the right specialists in parallel, each working through its own custom MCP server. A strategy agent backtests ideas with walk-forward validation and can paper trade them on Alpaca. Every run is traced end to end, with an eval suite that scores answers for faithfulness and completeness.",
+    technologies: ["AI Agents", "OpenAI Agents SDK", "FastMCP", "Python", "Polars", "DuckDB", "Opik", "Docker"],
+    link: "https://openbell.ai/obai/docs",
+    githubLink: "https://github.com/sixteen-dev/obai"
   },
   {
-    name: "fermix",
-    description: "Your personal AI, everywhere you are. An always-on, fully-local Elixir daemon that meets you in Telegram, WhatsApp, Slack, Discord, Signal, voice, or the CLI. It schedules jobs, dispatches subagents, and remembers what matters, all provider-agnostic across OpenAI, Claude, Grok, Mistral, and Ollama. Your assistant, your hardware.",
-    technologies: ["Elixir", "OTP", "Phoenix", "BEAM", "AI Agents", "MCP"],
+    name: "Fermix",
+    description: "Fermix is an open-source personal AI agent that lives on your own computer. It remembers what matters, works with the tools you connect, and gets things done without waiting for you to ask. It runs in the background, handles scheduled tasks, and reaches you through messaging apps or its desktop companion. You can use models from OpenAI, Anthropic, or run them locally with Ollama. Its memory, configuration, and logs stay on your machine, with permissions controlling what the agent can access.",
+    technologies: ["Elixir", "OTP", "Phoenix LiveView", "SQLite", "AI Agents", "MCP", "TLA+"],
     link: "https://fermix.ai",
-    githubLink: "https://github.com/tezra-io/fermix",
-    tags: ["Open Source", "AI", "Personal AI"]
+    githubLink: "https://github.com/tezra-io/fermix"
   }
 ];
 
@@ -163,7 +160,7 @@ export const professionalHighlights: ProfessionalHighlight[] = [
     title: "Revenue Attribution & Recommendation Platform",
     company: "SmartAsset",
     impact: "+$1M MRR",
-    description: "Real-time ETL pipelines powering the recommendation engine, pushing high-value client engagement to 90%, a 37pp jump.",
+    description: "Batch ETL pipelines powering the recommendation engine, pushing high-value client engagement to 90%, a 37pp jump.",
     technologies: ["Python", "dbt", "Airflow", "Snowflake"]
   },
   {
@@ -182,7 +179,7 @@ export const professionalHighlights: ProfessionalHighlight[] = [
   }
 ];
 
-export const professionalSummary = `Cloud Data Architect designing the backbone for enterprise data and AI. From architecting robust data models to deploying retrieval-augmented generation pipelines, I build platforms that turn real-time data into business value, slashing decision latency and directly driving seven-figure revenue growth.`;
+export const professionalSummary = `Data and AI engineer specializing in enterprise data platforms and production AI systems. I design scalable data architectures, real-time pipelines, and intelligent agents that turn complex systems into reliable products. My work spans cloud infrastructure, data engineering, and applied AI, with a focus on performance, simplicity, and measurable business impact.`;
 
 // Helper function to generate text summary for chatbot context
 export function generateExperienceSummary(): string {

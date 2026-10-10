@@ -121,13 +121,7 @@ const BlogPosts = () => {
     <section id="blog" className="py-16 md:py-20 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <Reveal className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Latest from the Blog
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Writing about AI, data engineering, and things I&apos;ve actually
-            shipped
-          </p>
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Writing</h2>
         </Reveal>
 
         {/* Mobile: vertical cards · Desktop: expanding hover accordion */}

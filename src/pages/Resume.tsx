@@ -24,6 +24,7 @@ import {
   certifications,
   featuredProjects,
   professionalHighlights,
+  professionalSummary,
 } from "@/data/resume";
 
 const Chatbot = lazy(() => import("@/components/Chatbot"));
@@ -37,13 +38,13 @@ const Resume = () => {
         {/* Profile Hero - Mobile: full-screen image with blue gradient */}
         <div className="md:hidden relative -mx-4 sm:-mx-6 -mt-20 sm:-mt-24 h-[100svh] mb-8">
           <img
-            src="/profile.jpg"
+            src="/profile.webp"
             alt={PERSONAL_INFO.name}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black via-black/60 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 p-6 pb-10">
-            <h1 className="text-3xl font-bold text-white mb-1">
+            <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
               {PERSONAL_INFO.name}
             </h1>
             <p className="text-lg font-medium text-white/80 mb-2">
@@ -94,16 +95,14 @@ const Resume = () => {
           </div>
         </div>
         <p className="md:hidden text-muted-foreground leading-relaxed mb-16">
-          Cloud Data Architect designing the backbone for enterprise AI. From architecting robust data models to
-deploying retrieval-augmented generation pipelines, I build platforms that turn real-time data into business
-value, slashing decision latency and directly driving seven-figure revenue growth.
+          {professionalSummary}
         </p>
 
         {/* Profile Hero - Desktop: side-by-side layout */}
         <section className="hidden md:flex items-start gap-8 mb-16">
           <div className="relative flex flex-col items-start flex-shrink-0 pb-3">
             <img
-              src="/profile.jpg"
+              src="/profile.webp"
               alt={PERSONAL_INFO.name}
               className="w-44 h-44 rounded-2xl object-cover border-2 border-border shadow-md"
             />
@@ -147,7 +146,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
             </div>
           </div>
           <div className="text-left flex-1">
-            <h1 className="text-4xl font-bold text-foreground mb-2">
+            <h1 className="text-4xl font-bold tracking-tight text-foreground mb-2">
               {PERSONAL_INFO.name}
             </h1>
             <p className="text-xl text-highlight font-medium mb-3">
@@ -158,22 +157,20 @@ value, slashing decision latency and directly driving seven-figure revenue growt
               {PERSONAL_INFO.location}
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              Cloud Data Architect designing the backbone for enterprise AI. From architecting robust data models to
-deploying retrieval-augmented generation pipelines, I build platforms that turn real-time data into business
-value, slashing decision latency and directly driving seven-figure revenue growth.
+              {professionalSummary}
             </p>
           </div>
         </section>
 
         {/* Project Spotlight */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2 mb-6">
             <Rocket className="h-5 w-5 text-highlight" />
             Project Spotlight
           </h2>
 
           {/* Personal Projects */}
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+          <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">
             Personal & Open Source
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
@@ -196,17 +193,6 @@ value, slashing decision latency and directly driving seven-figure revenue growt
                       <ExternalLink className="h-4 w-4" />
                     </a>
                   </div>
-                  <div className="flex flex-wrap gap-1.5 mb-3">
-                    {project.tags?.map((tag) => (
-                      <Badge
-                        key={tag}
-                        variant="secondary"
-                        className="text-xs"
-                      >
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
                   <p className="text-sm text-muted-foreground mb-3">
                     {project.description}
                   </p>
@@ -215,13 +201,13 @@ value, slashing decision latency and directly driving seven-figure revenue growt
                       <Badge
                         key={tech}
                         variant="outline"
-                        className="text-xs"
+                        className="font-mono font-normal"
                       >
                         {tech}
                       </Badge>
                     ))}
                     {project.technologies.length > 5 && (
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline" className="font-mono font-normal">
                         +{project.technologies.length - 5}
                       </Badge>
                     )}
@@ -232,7 +218,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
           </div>
 
           {/* Professional Highlights */}
-          <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+          <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">
             Professional Highlights
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -264,7 +250,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
                       <Badge
                         key={tech}
                         variant="outline"
-                        className="text-xs"
+                        className="font-mono font-normal"
                       >
                         {tech}
                       </Badge>
@@ -278,7 +264,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
 
         {/* Career Journey */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2 mb-6">
             <Briefcase className="h-5 w-5 text-highlight" />
             Career Journey
           </h2>
@@ -305,7 +291,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
 
         {/* Skills & Tools */}
         <section className="mb-16">
-          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2 mb-6">
             <Award className="h-5 w-5 text-highlight" />
             Skills & Tools
           </h2>
@@ -313,7 +299,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
             <CardContent className="p-5 space-y-4">
               {Object.entries(skills).map(([category, skillList]) => (
                 <div key={category}>
-                  <h4 className="text-sm font-medium text-muted-foreground mb-2">
+                  <h4 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-2">
                     {category}
                   </h4>
                   <div className="flex flex-wrap gap-2">
@@ -321,7 +307,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
                       <Badge
                         key={skill}
                         variant="outline"
-                        className="text-xs"
+                        className="font-mono font-normal"
                       >
                         {skill}
                       </Badge>
@@ -335,7 +321,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
 
         {/* Credentials */}
         <section>
-          <h2 className="text-xl font-bold text-foreground flex items-center gap-2 mb-6">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground flex items-center gap-2 mb-6">
             <GraduationCap className="h-5 w-5 text-highlight" />
             Credentials
           </h2>
@@ -343,7 +329,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
             {/* Certifications */}
             <Card className="border-border/50">
               <CardContent className="p-5">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">
                   Certifications
                 </h3>
                 <div className="space-y-3">
@@ -353,7 +339,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
                         <span className="text-sm font-medium text-foreground">
                           {cert.name}
                         </span>
-                        <Badge variant="outline" className="text-xs ml-2 flex-shrink-0">
+                        <Badge variant="outline" className="font-mono font-normal ml-2 flex-shrink-0">
                           {cert.issuer}
                         </Badge>
                       </div>
@@ -369,7 +355,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
             {/* Education */}
             <Card className="border-border/50">
               <CardContent className="p-5">
-                <h3 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
+                <h3 className="font-mono text-xs uppercase tracking-wider text-muted-foreground mb-4">
                   Education
                 </h3>
                 <div className="space-y-3">
@@ -380,7 +366,7 @@ value, slashing decision latency and directly driving seven-figure revenue growt
                       </p>
                       <p className="text-sm text-highlight">{edu.institution}</p>
                       {edu.duration && (
-                        <p className="text-xs text-muted-foreground">
+                        <p className="font-mono text-xs text-muted-foreground">
                           {edu.duration}
                         </p>
                       )}
