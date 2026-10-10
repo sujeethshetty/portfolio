@@ -26,6 +26,14 @@ jobs:
       - name: Build project
         run: npm run build
 
+      # PR branch names are author-controlled, so reduce them to a safe charset
+      # before they reach the deploy command.
+      - name: Resolve deploy branch
+        id: branch
+        env:
+          RAW_BRANCH: ${{ github.head_ref || github.ref_name }}
+        run: echo "name=$(printf '%s' "$RAW_BRANCH" | tr -c 'A-Za-z0-9._-' '-')" >> "$GITHUB_OUTPUT"
+
       # cloudflare/pages-action was removed from GitHub; wrangler-action is its replacement.
       # Run from the repo root so ./functions (the chat API) is bundled with dist.
       # --branch keeps the old behaviour: main = production, PR branches = previews.
@@ -35,7 +43,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '3'
-          command: pages deploy dist --project-name=sujeeth-portfolio --branch=${{ github.head_ref || github.ref_name }}
+          command: pages deploy dist --project-name=sujeeth-portfolio --branch=${{ steps.branch.outputs.name }}
 
       - name: Add deployment summary
         run: |
