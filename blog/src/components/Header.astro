@@ -10,14 +10,19 @@ const navLinks = [
 
 const currentPath = Astro.url.pathname;
 const portfolioUrl = import.meta.env.DEV ? 'http://localhost:8081' : 'https://sujeeth.io';
+
+// The wordmark's "ee" drawn as a ribbon bow; same drawing as LogoBow in the
+// portfolio's src/components/Header.tsx. Right half = an "e" written out from the
+// centre knot; the left half is its mirror.
+const BOW_HALF =
+  'M60 42 C72 40 95 32 100 18 C104 6 94 -3 83 0 C70 4 61 22 60 42 C59 54 70 64 87 64 C95 64 102 61 107 57';
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 border-b border-border/40 bg-background/80 backdrop-blur-lg">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
     <nav class="flex items-center justify-between">
-      <a href="/" class="text-2xl font-bold text-foreground hover:text-highlight transition-colors" style="font-family: 'Kaushan Script', cursive;">
-        Sujeeth
-      </a>
+      <!-- Kept on one line: Astro turns newlines between inline nodes into spaces. The zero-size "ee" keeps the text "Sujeeth". -->
+      <a href="/" aria-label="Sujeeth" class="text-2xl font-bold text-foreground hover:text-highlight transition-colors" style="font-family: 'Kaushan Script', cursive;">Suj<span class="inline-block h-0 w-0 overflow-hidden">ee</span><svg viewBox="0 0 120 80" aria-hidden="true" class="-mr-[0.16em] ml-[0.14em] inline-block h-[0.6em] w-[0.9em] overflow-visible align-[-0.12em]"><g transform="translate(60 0) skewX(-14) translate(-60 0)" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"><path d={BOW_HALF} /><path d={BOW_HALF} transform="translate(120 0) scale(-1 1)" /></g></svg>th</a>
 
       <!-- Desktop nav -->
       <div class="hidden sm:flex items-center space-x-8">
