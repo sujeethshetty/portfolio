@@ -1,0 +1,150 @@
+---
+title: "AI as an OS Capability, Not an App"
+description: "AIOS: a Linux-based system that treats AI interaction as an operating-system capability, not another assistant application layered on a conventional desktop."
+date: 2026-07-17
+tags: ["ai", "ai-agents", "linux", "security"]
+draft: false
+coverImage: "/aios-cover.jpg"
+# Originally published on Medium: https://medium.com/p/8ff289296b85
+---
+
+One of the stranger compatibility strategies in AI is teaching increasingly capable models to operate computers by imitating a person with a mouse. The model looks at a screen, guesses which rectangle is a button, moves a cursor, and hopes the interface has not changed.
+
+The mainstream desktop still presents the computer as a collection of applications many installed by default, most built around windows, menus, buttons, pointer input, and forms. This is the traditional way to use a computer. These interfaces were designed for direct human control. Asking a model to operate them indirectly through pixels and pointer input turns them into a compatibility problem.
+
+I have seen this up close while building [Fermix](https://fermix.ai): app-layer assistants can do real work across voice, files, browsing, and the shell. But even when they work, the experience still does not feel magical to me, not because the model is weak, but because I can feel the seams whenever task state, permissions, and artifacts cross an integration boundary. The model may understand what I am trying to do, but the desktop does not share that understanding.
+
+That is not a criticism of app-layer assistants. They have to meet existing software where it is. Cursor control can reach applications with no agent interface; APIs, shell commands, and MCP expose cleaner paths where they are available. All of that is useful compatibility.
+
+But compatibility is not the same thing as an AI-native interface. An assistant may build a shared world inside itself, but it does not make that world part of an OS-wide contract that other clients and applications can rely on.
+
+If we were designing a computer where agents were first-class participants, would we really make them reconstruct application state from pixels and reproduce human gestures? I would rather give the system stable objects, explicit capabilities, narrow permissions, and a record of what changed. I want an agent to ask for “the proposed diff in this project,” not infer it from whichever window happens to be visible.
+
+I do not know what the right interface is. It might build on CLI tools, MCP, native application APIs, skills, or something new. What I am increasingly sure of is that the primary interface should express intent and capability, not cursor position.
+
+That is the idea behind **AIOS**: a Linux-based system that treats AI interaction as an operating-system capability, not another assistant application layered on a conventional desktop.
+
+## What changes at the operating-system layer
+
+AIOS would be built on Linux. I am not proposing a new low-level kernel, new device drivers, or a replacement for the decades of Linux kernel and userspace work already handling processes, memory, filesystems, networking, graphics, audio, and hardware.
+
+Linux would remain the machine underneath it all.
+
+The goal is not to remove applications or visual interfaces. It is to stop making visual application UI the default route an agent must take. An OS-level substrate would give application developers a stable target for AI-facing capabilities instead of leaving many assistants to assemble their own mix of UI automation, shell access, MCP servers, APIs, and skills. Visual computer use would remain available as a compatibility path, not the foundation of the system.
+
+Above Linux, AIOS would add a userspace control plane. I have been calling it the **AIOS Kernel**, although the name needs an immediate qualification: it would be a semantic kernel, not the machine kernel and not a security boundary by itself.
+
+Its job would be to hold the state I currently have to move or reconstruct across app-layer assistants: what I am trying to do, which artifact I mean, what has changed, which model is working, what the system has permission to touch, and whether an action is still waiting for my approval.
+
+Linux can enforce whether a process may read a repository, consume resources, or open a network connection. AIOS would know that a bug report, browser sources, failing test, proposed patch, and draft reply belong to one task and that applying the patch and posting the reply require separate approvals.
+
+The name is not new: prior work uses AIOS for an agent-serving kernel.\[*aios-research*\] That work focuses on serving and coordinating agents. My question is different: how should a human-facing Linux system coordinate conversation, files, applications, permissions, memory, and safe execution?
+
+![Where AIOS fits in the operating system: the AIOS Kernel is a new userspace semantic control plane between interfaces, applications and agents above, and policy and execution services, Linux userspace, the Linux kernel, and hardware below.](/aios-architecture.png)
+*Layered AIOS operating-system architecture: interfaces, applications, and agents sit above the AIOS Kernel; policy and execution services connect it to Linux userspace, the Linux kernel and filesystems, and the underlying hardware*
+
+The position of AIOS in that stack matters. It would decide what a request means, which artifact it refers to, and which capability it needs. Trusted policy and execution services would turn that decision into a narrow grant. Linux userspace interfaces would reach existing software, and the Linux kernel would enforce low-level process, filesystem, network, resource, and device boundaries. AIOS adds semantics; Linux remains the hard boundary.
+
+That is less magical than saying an AI “controls the computer,” but it is also more believable.
+
+## What I want it to feel like
+
+The interface I imagine is a persistent conversation beside an active workspace.
+
+I could speak or type into the same thread. Spoken turns would remain visible as text. The workspace could open whatever the current task needs: a document, image, diff, terminal result, browser source, form, or approval request. I would not have to ask an assistant for instructions and then manually carry those instructions into another application.
+
+A more meaningful session might begin while I am reading a bug report:
+
+> **Me:** Reproduce this in the project, check the upstream documentation, prepare a fix and a reply, but do not change dependencies or post anything.
+>
+> **AIOS:** I attached the report to the selected project, opened a credential-free research browser, and started the tests in a project-scoped sandbox.
+>
+> **Me, by voice:** Stop. Keep the current lockfile. Fix it without upgrading the dependency.
+>
+> **AIOS:** Constraint added. The test is still running.
+>
+> **Me, by text:** Quote the exact failing assertion in the reply.
+>
+> **AIOS:** Ready to review: sources, terminal output, proposed patch, passing tests, and a draft reply. Applying the patch and posting the reply are separate approvals.
+
+The task should not restart when I switch from voice to text. The browser sources, running process, lockfile constraint, patch, and unsent reply should remain attached to the same task. I should be able to approve the local change and reject publication without rebuilding context or granting the agent my entire desktop account.
+
+The assistant should not read the browser sources, terminal output, or patch aloud. It should speak just enough to keep me oriented while leaving the exact content visible.
+
+The interaction principle is simple:
+
+> **Speak the control flow. Show the content. Act on the artifact.**
+
+Voice would be available without becoming the only interface. A local wake phrase or activation signal could begin a live session, while current real-time models can already support low-latency speech, interruption, turn detection, and multimodal input.\[*realtime*\] That does not mean every sound in the room should be uploaded. Microphone state, local activation, data transmission, and recording should be visible and under the user’s control.
+
+Text remains first-class. So do keyboard navigation, screen readers, magnification, switch devices, and other assistive inputs. Speech recognition can make computers more usable for people who cannot comfortably use a keyboard or mouse, but only when the surrounding interface is designed to be accessible.\[*accessibility*\] Voice-first cannot become an excuse to make everything else worse.
+
+## Authority is the real design problem
+
+The most interesting question is not whether a model can call a tool. It is who gives that tool authority, how narrowly that authority is defined, and what remains after the task ends.
+
+An AI process should not casually inherit my entire desktop account. It should not receive my browser cookies, SSH keys, password manager, private documents, and every project in my home directory simply because I asked it to investigate one bug.
+
+I would keep a low-privilege AIOS coordinator, then run actual work inside separate task sandboxes. A file-editing task might see one project and a temporary workspace. A research task might receive a clean browser session with no personal credentials. A background indexer might get a strict CPU and memory budget. Linux already provides many of the building blocks for this kind of isolation and resource control.\[*linux-controls*\]
+
+The model would request an action. It would not decide that the action is safe. Risk, approval, and scope would come from trusted capability definitions and policy.
+
+Privileged changes would follow a different path. Restarting one allowlisted service is not the same operation as receiving an unrestricted root shell. Installing software or updating the system is broader still; those actions can execute package scripts and may not be cleanly reversible. A credible AIOS would need to show the exact effect, authenticate the approval independently, and admit when “undo” is not available.
+
+Browsing makes this separation especially important. An AI operator could inspect redirects, summarize pages, isolate downloads, and require approval before credentials or forms leave the machine. But the web can attack the agent too. NIST calls this **agent hijacking**: malicious instructions embedded in or delivered through a website, email, or file can influence an agent that reads them.\[*agent-hijacking*\]
+
+The rule I would want at the center of AIOS is:
+
+> Web content is data, not authority.
+
+A page can provide information. It cannot grant permission to read another project, expose a secret, choose a payment recipient, or change the user’s task. That boundary cannot live only in a prompt. It has to be enforced outside the model.
+
+Audit also needs to be separated from memory. The system should keep a protected record of the request, the policy decision, the approval, the process that ran, and the artifact that changed. That record may support recovery, but a log does not make every action reversible. Sending a form, publishing a message, or making a payment cannot be treated like reverting a local text file.
+
+## The parts I have not solved
+
+Memory may be the hardest unresolved part.
+
+An assistant that forgets the active task is frustrating. A system that quietly turns everything it sees into permanent memory is dangerous. I do not yet know what deserves to persist, when a temporary observation becomes a user preference, or how a person should correct something the system has learned.
+
+Work such as MemGPT shows how operating-system ideas can help models move information between limited context and external storage.\[*memgpt*\] An OS-level assistant needs more than longer recall, though. It needs provenance, retention rules, project boundaries, deletion, and a clear difference between authoritative task state, optional long-term memory, and the audit record.
+
+The application interface is another open question. CLI tools, MCP servers, native APIs, desktop portals, and accessibility interfaces can all provide pieces of the answer. I suspect AIOS would begin as a policy and state layer over those existing interfaces. A new protocol should emerge only where the existing ones cannot express a stable object, scoped permission, approval, result, or error.
+
+Model routing is important, but it feels more like an implementation choice than the heart of the idea. AIOS should not hard-code a cloud-first or local-first architecture. Its model gateway should treat both as available endpoints: smaller local models could handle routine classification, retrieval, summarization, tool selection, and offline or privacy-sensitive work, while cloud models remain available for tasks that need more capability. The exact split can change as models and hardware improve. The critical decision happens before routing: what information is allowed to leave the device at all?
+
+## The smallest version worth building
+
+If I build AIOS, the first version should be much smaller than the vision.
+
+It could boot as a Linux VM or image with an AIOS Shell, a userspace control plane, a trusted policy service, per-task sandboxes, a model gateway, and a protected audit log. It would support only a few workflows:
+
+- Take one bug report from a credential-free browser into a project-scoped sandbox, survive voice and text corrections, and return the sources, test output, patch, and draft reply with separate approvals for changing the project and posting externally.
+- Research a topic in a clean browser session with visible sources, isolated downloads, and gated form submission.
+- Diagnose one allowlisted system service from its logs and status, propose a change, and require approval before editing configuration or restarting it without exposing a root shell.
+
+A full general-purpose operating system is not a realistic solo project. A Linux-based prototype of this layer is. Starting with Linux keeps the experiment focused on the part that is actually new instead of rebuilding hardware support, filesystems, networking, graphics, audio, suspend, power management, and application compatibility.
+
+## The test that would convince me
+
+I do not need AIOS to prove that an agent can edit a file. App-layer assistants already prove that they can do real work. The question is whether moving task state, capability policy, and audit into a shared system layer changes what it feels like to use the computer.
+
+Give AIOS one bug report, one project, a credential-free browser, and an allowlisted test command. Start the task by voice, redirect it by text while the tests run, then review one workspace containing the sources, terminal result, proposed patch, and draft reply. Approve the patch without approving publication. The system must preserve the constraints and touch none of my other projects, browser credentials, or root account.
+
+If I am still acting as a traffic controller copying context between tools, reconstructing state, repeating approvals, and watching the cursor then calling the layer an operating system adds nothing. If the task stays coherent while its authority remains narrow, visible, and inspectable, then this is more than another assistant.
+
+Today’s assistants show how far AI can go while remaining an application. AIOS is the experiment I want to run on what changes when the operating system participates too. The magic, if there is any, will not be the model clicking faster. It will be the seams disappearing.
+
+## References and technical notes
+
+\[*aios-research*\]: Kai Mei et al., [AIOS: LLM Agent Operating System](https://openreview.net/forum?id=L4HHkCDz2x), published at COLM 2025 after first appearing as a 2024 preprint. A related ICLR 2025 paper, [From Commands to Prompts: LLM-based Semantic File System for AIOS](https://openreview.net/forum?id=2G021ZqUEZ), explores prompt-driven semantic file operations.
+
+\[*realtime*\]: As of July 11, 2026, OpenAI’s [Realtime guide](https://developers.openai.com/api/docs/guides/realtime), [GPT-Realtime-2.1 model page](https://developers.openai.com/api/docs/models/gpt-realtime-2.1), and [Realtime API reference](https://developers.openai.com/api/reference/resources/realtime) describe low-latency speech-to-speech sessions, text and image input, turn detection, interruption, and configurable input noise reduction.
+
+\[*accessibility*\]: W3C Web Accessibility Initiative, [Speech Recognition](https://www.w3.org/WAI/perspective-videos/voice/). W3C explains how speech recognition can support people unable to use a keyboard or mouse and emphasizes that interfaces must be properly designed and coded.
+
+\[*linux-controls*\]: Linux kernel documentation for [cgroup v2](https://docs.kernel.org/admin-guide/cgroup-v2.html) and [Landlock](https://docs.kernel.org/userspace-api/landlock.html). cgroup v2 organizes processes and resources hierarchically. Landlock can add filesystem restrictions and, on kernels supporting the relevant ABI, selected port-based network restrictions. Neither is a complete sandbox by itself.
+
+\[*agent-hijacking*\]: NIST Center for AI Standards and Innovation, [Strengthening AI Agent Hijacking Evaluations](https://www.nist.gov/news-events/news/2025/01/technical-blog-strengthening-ai-agent-hijacking-evaluations), 2025.
+
+\[*memgpt*\]: Charles Packer et al., [MemGPT: Towards LLMs as Operating Systems](https://arxiv.org/abs/2310.08560), first posted to arXiv in 2023 and revised in 2024.
